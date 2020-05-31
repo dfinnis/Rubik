@@ -18,6 +18,14 @@ var r *rubik
 
 func initRubik() *rubik {
 	r = &rubik{}
+	var face uint8
+	for face = 0; face < 6; face++ {
+		for y := 0; y < 3; y++ {
+			for x := 0; x < 3; x++ {
+				r.cube[face].pieces[y][x] = face
+			}
+		}
+	}
 	return r
 }
 
@@ -28,7 +36,6 @@ func dumpCube(cube *[6]face) {
 		for y := 0; y < 3; y++ {
 			for x := 0; x < 3; x++ {
 				fmt.Printf("%d%d: %d\n", y, x, cube[face].pieces[y][x])
-				// fmt.Printf("{%v\x1B[0m ", goban[y][x].occupied)
 			}
 		}
 		fmt.Printf("\n")/////
