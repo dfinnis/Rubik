@@ -21,12 +21,14 @@ func initRubik() *rubik {
 	return r
 }
 
-func dumpRubik(rubik *[6]face) {
+func dumpCube(cube *[6]face) {
 	for face := 0; face < 6; face++ {
 		fmt.Printf("Face: %d\n", face)
+		fmt.Printf("%d\n", cube[face])
 		for y := 0; y < 3; y++ {
 			for x := 0; x < 3; x++ {
-				fmt.Printf("%d%d: \n", y, x)
+				fmt.Printf("%d%d: %d\n", y, x, cube[face].pieces[y][x])
+				// fmt.Printf("{%v\x1B[0m ", goban[y][x].occupied)
 			}
 		}
 		fmt.Printf("\n")/////
@@ -36,7 +38,7 @@ func dumpRubik(rubik *[6]face) {
 func main() {
 	fmt.Printf("oh hi!\n")/////////
 	r := initRubik()
-	dumpRubik(&r.cube)
+	dumpCube(&r.cube)
 	fmt.Printf("\nEND!!\n")//////////
 }
 
