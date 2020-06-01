@@ -155,6 +155,7 @@ func parseArg() string {
 }
 
 // func runMix(mix) {
+	//checkMixError(mix)
 
 // }
 
@@ -184,5 +185,5 @@ func main() {
 }
 
 // ## To run enter either command:
-// go run main.go
-// go build; ./Rubik
+// go run main.go "$(< mix/subject.txt)"
+// go build; ./Rubik "$(< mix/subject.txt)"
