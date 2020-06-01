@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	// "reflect"//
 )
 
 const Reset		= "\x1B[0m"
@@ -14,10 +15,10 @@ const Blue		= "\x1B[34m"
 const Orange	= "\x1B[38;2;255;165;0m"
 
 // const WhiteBG	= "\x1B[0m"
-// const RedBG		= "\x1B[31m"
-// const GreenBG	= "\x1B[32m"
-// const YellowBG	= "\x1B[33m"
-// const BlueBG	= "\x1B[34m"
+// const RedBG		= "\x1B[41m"
+// const GreenBG	= "\x1B[42m"
+// const YellowBG	= "\x1B[43m"
+// const BlueBG	= "\x1B[44m"
 // const OrangeBG	= "\x1B[48;2;255;165;0m"
 
 
@@ -78,22 +79,40 @@ func dumpCube(cube *[6]face) {
 	}
 }
 
-func parseArg(){
-	// moveList = []string
+func parseArg() string {
 	args := os.Args[1:]
 	if len(args) == 0 {
-		errorExit("Not enough arguments, No mix given")
+		errorExit("not enough arguments, no mix given")
 	} else if len(args) > 1 {
 		errorExit("too many arguments")
 	}
-	// return moveList
+	mix := args[0]
+	// fmt.Println(reflect.TypeOf(moveList))
+	return mix
 }
+
+// func runMix(mix) {
+
+// }
+
+// func solve(&r.cube) string {
+
+// }
+
+// func printSolution(solution) {
+
+// }
 
 func main() {
 	fmt.Printf("oh hi!\n")/////////
 	r := initRubik()
 	parseArg()
 	dumpCube(&r.cube)
+	mix := parseArg()
+	fmt.Printf("mix: %s", mix)
+	// runMix(mix)
+	// solution := solve(&r.cube)
+	// printSolution(solution)
 	fmt.Printf("\nEND!!\n")//////////
 }
 
