@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 const Reset		= "\x1B[0m"
@@ -32,6 +33,11 @@ type rubik struct {
 // rubik var r contains all information about current rubik state
 var r *rubik
 
+func errorExit(message string) {
+	fmt.Printf("Error: %s\n", message)
+	os.Exit(1)
+}
+
 func initRubik() *rubik {
 	r = &rubik{}
 	var face uint8
@@ -46,7 +52,6 @@ func initRubik() *rubik {
 }
 
 func dumpCube(cube *[6]face) {
-	// fmt.Printf(Orange)//////
 	for face := 0; face < 6; face++ {
 		fmt.Printf("Face: %d\n", face)
 		// fmt.Printf("%d\n", cube[face])
@@ -54,7 +59,7 @@ func dumpCube(cube *[6]face) {
 			for x := 0; x < 3; x++ {
 				// fmt.Printf("%d ", cube[face].pieces[y][x])
 				if cube[face].pieces[y][x] == 0 {
-					fmt.Printf("1 ")				
+					fmt.Printf("0 ")				
 				} else if cube[face].pieces[y][x] == 1 {
 					fmt.Printf("%v1%v ", Red, Reset)
 				} else if cube[face].pieces[y][x] == 2 {
@@ -73,9 +78,21 @@ func dumpCube(cube *[6]face) {
 	}
 }
 
+func parseArg(){
+	// moveList = []string
+	args := os.Args[1:]
+	if len(args) == 0 {
+		errorExit("Not enough arguments, No mix given")
+	} else if len(args) > 1 {
+		errorExit("too many arguments")
+	}
+	// return moveList
+}
+
 func main() {
 	fmt.Printf("oh hi!\n")/////////
 	r := initRubik()
+	parseArg()
 	dumpCube(&r.cube)
 	fmt.Printf("\nEND!!\n")//////////
 }
