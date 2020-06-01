@@ -52,15 +52,61 @@ func initRubik() *rubik {
 	return r
 }
 
-func dumpCube(cube *[6]face) {
-	for face := 0; face < 6; face++ {
-		fmt.Printf("Face: %d\n", face)
-		// fmt.Printf("%d\n", cube[face])
-		for y := 0; y < 3; y++ {
+// func dumpCube(cube *[6]face) {
+// 	for face := 0; face < 6; face++ {
+// 		fmt.Printf("Face: %d\n", face)
+// 		// fmt.Printf("%d\n", cube[face])
+// 		for y := 0; y < 3; y++ {
+// 			for x := 0; x < 3; x++ {
+// 				// fmt.Printf("%d ", cube[face].pieces[y][x])
+// 				if cube[face].pieces[y][x] == 0 {
+// 					fmt.Printf("0 ")				
+// 				} else if cube[face].pieces[y][x] == 1 {
+// 					fmt.Printf("%v1%v ", Orange, Reset)
+// 				} else if cube[face].pieces[y][x] == 2 {
+// 					fmt.Printf("%v2%v ", Green, Reset)
+// 				} else if cube[face].pieces[y][x] == 3 {
+// 					fmt.Printf("%v3%v ", Red, Reset)
+// 				} else if cube[face].pieces[y][x] == 4 {
+// 					fmt.Printf("%v4%v ", Blue, Reset)
+// 				} else if cube[face].pieces[y][x] == 5 {
+// 					fmt.Printf("%v5%v ", Yellow, Reset)
+// 				}
+// 			}
+// 			fmt.Printf("\n")/////
+// 		}
+// 		fmt.Printf("\n")/////
+// 	}
+// }
+
+func dumpCube2(cube *[6]face) {	
+	fmt.Printf("\n\n#### -- CUBE -- ####\n")/////
+	for y := 0; y < 3; y++ {
+		fmt.Printf("\n        ")
+		for x := 0; x < 3; x++ {
+			if cube[0].pieces[y][x] == 0 {
+				fmt.Printf("0 ")				
+			} else if cube[0].pieces[y][x] == 1 {
+				fmt.Printf("%v1%v ", Orange, Reset)
+			} else if cube[0].pieces[y][x] == 2 {
+				fmt.Printf("%v2%v ", Green, Reset)
+			} else if cube[0].pieces[y][x] == 3 {
+				fmt.Printf("%v3%v ", Red, Reset)
+			} else if cube[0].pieces[y][x] == 4 {
+				fmt.Printf("%v4%v ", Blue, Reset)
+			} else if cube[0].pieces[y][x] == 5 {
+				fmt.Printf("%v5%v ", Yellow, Reset)
+			}
+		}
+	}
+	// fmt.Printf("\n")/////
+	for y := 0; y < 3; y++ {
+		fmt.Printf("\n")
+		for face := 1; face < 5; face++ {
+			fmt.Printf(" ")
 			for x := 0; x < 3; x++ {
-				// fmt.Printf("%d ", cube[face].pieces[y][x])
 				if cube[face].pieces[y][x] == 0 {
-					fmt.Printf("0 ")				
+					fmt.Printf("0 ")
 				} else if cube[face].pieces[y][x] == 1 {
 					fmt.Printf("%v1%v ", Orange, Reset)
 				} else if cube[face].pieces[y][x] == 2 {
@@ -73,10 +119,27 @@ func dumpCube(cube *[6]face) {
 					fmt.Printf("%v5%v ", Yellow, Reset)
 				}
 			}
-			fmt.Printf("\n")/////
 		}
-		fmt.Printf("\n")/////
 	}
+	for y := 0; y < 3; y++ {
+		fmt.Printf("\n        ")
+		for x := 0; x < 3; x++ {
+			if cube[5].pieces[y][x] == 0 {
+				fmt.Printf("0 ")				
+			} else if cube[5].pieces[y][x] == 1 {
+				fmt.Printf("%v1%v ", Orange, Reset)
+			} else if cube[5].pieces[y][x] == 2 {
+				fmt.Printf("%v2%v ", Green, Reset)
+			} else if cube[5].pieces[y][x] == 3 {
+				fmt.Printf("%v3%v ", Red, Reset)
+			} else if cube[5].pieces[y][x] == 4 {
+				fmt.Printf("%v4%v ", Blue, Reset)
+			} else if cube[5].pieces[y][x] == 5 {
+				fmt.Printf("%v5%v ", Yellow, Reset)
+			}
+		}
+	}
+	fmt.Printf("\n")
 }
 
 func parseArg() string {
@@ -104,16 +167,19 @@ func parseArg() string {
 
 // }
 
+
 func main() {
 	fmt.Printf("oh hi!\n")/////////
 	r := initRubik()
 	parseArg()
-	dumpCube(&r.cube)
+	// dumpCube(&r.cube)
 	mix := parseArg()
 	fmt.Printf("mix: %s", mix)
 	// runMix(mix)
 	// solution := solve(&r.cube)
 	// printSolution(solution)
+	// rubik.runGraphic()
+	dumpCube2(&r.cube)
 	fmt.Printf("\nEND!!\n")//////////
 }
 
