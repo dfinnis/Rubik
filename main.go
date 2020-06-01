@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	// "reflect"//
+	"strings"
 )
 
 const Reset		= "\x1B[0m"
@@ -154,10 +155,55 @@ func parseArg() string {
 	return mix
 }
 
-// func runMix(mix) {
-	//checkMixError(mix)
-
-// }
+func spin(mix string) {
+	// checkSpinError(mix)
+	sequence := strings.Fields(mix)
+	fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
+	for spin := 0; spin < len(sequence); spin++ {
+		// fmt.Printf("\nspin: %v\n", spin) //
+		fmt.Printf("\nspin: %v\n", sequence[spin]) //
+		if sequence[spin] == "U" {
+			fmt.Printf("\nU!!!!\n") //
+		} else if sequence[spin] == "U'" {
+			fmt.Printf("\nU'\n") //
+		} else if sequence[spin] == "U2" {
+			fmt.Printf("\nU2\n") //
+		} else if sequence[spin] == "D" {
+			fmt.Printf("\nD\n") //
+		} else if sequence[spin] == "D'" {
+			fmt.Printf("\nD'\n") //
+		} else if sequence[spin] == "D2" {
+			fmt.Printf("\nD2\n") //
+		} else if sequence[spin] == "R" {
+			fmt.Printf("\nR!!!!\n") //
+		} else if sequence[spin] == "R'" {
+			fmt.Printf("\nR'\n") //
+		} else if sequence[spin] == "R2" {
+			fmt.Printf("\nR2\n") //
+		} else if sequence[spin] == "L" {
+			fmt.Printf("\nL\n") //
+		} else if sequence[spin] == "L'" {
+			fmt.Printf("\nL'\n") //
+		} else if sequence[spin] == "L2" {
+			fmt.Printf("\nL2\n") //
+		} else if sequence[spin] == "F" {
+			fmt.Printf("\nFFF!!!!\n") //
+		} else if sequence[spin] == "F'" {
+			fmt.Printf("\nF'\n") //
+		} else if sequence[spin] == "F2" {
+			fmt.Printf("\nF2\n") //
+		} else if sequence[spin] == "B" {
+			fmt.Printf("\nB\n") //
+		} else if sequence[spin] == "B'" {
+			fmt.Printf("\nB'\n") //
+		} else if sequence[spin] == "B2" {
+			fmt.Printf("\nB2\n") //
+		} else {
+			errorExit("bad input")
+		}
+	}
+	// fmt.Println(sequence, len(sequence)) //
+}
 
 // func solve(&r.cube) string {
 	
@@ -175,8 +221,8 @@ func main() {
 	parseArg()
 	// dumpCube(&r.cube)
 	mix := parseArg()
-	fmt.Printf("mix: %s", mix)
-	// runMix(mix)
+	fmt.Printf("mix: %s\n", mix)
+	spin(mix)
 	// solution := solve(&r.cube)
 	// printSolution(solution)
 	// rubik.runGraphic()
