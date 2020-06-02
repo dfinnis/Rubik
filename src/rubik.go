@@ -68,5 +68,5 @@ func RunRubik() {
 	// solution := solve(&r.cube)
 	// printSolution(solution)
 	// rubik.runGraphic()
-	dumpCube(&r.cube)////
+	// dumpCube(&r.cube)////
 }

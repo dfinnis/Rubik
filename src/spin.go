@@ -5,6 +5,19 @@ import (
 	"strings"
 )
 
+func spinFaceAnti(face *face) {
+	tmpCorner := face.pieces[0][0]
+	face.pieces[0][0] = face.pieces[0][2]
+	face.pieces[0][2] = face.pieces[2][2]
+	face.pieces[2][2] = face.pieces[2][0]
+	face.pieces[2][0] = tmpCorner
+
+	tmpMid := face.pieces[0][1]
+	face.pieces[0][1] = face.pieces[1][2]
+	face.pieces[1][2] = face.pieces[2][1]
+	face.pieces[2][1] = face.pieces[1][0]
+	face.pieces[1][0] = tmpMid
+}
 
 func spinFace(face *face) {
 	tmpCorner := face.pieces[0][0]
@@ -35,13 +48,37 @@ func spinF(cube *[6]face) {
 	cube[1].pieces[1][2] = cube[5].pieces[0][1]
 	cube[1].pieces[2][2] = cube[5].pieces[0][2]
 
-	cube[5].pieces[0][0] = cube[3].pieces[0][0]
+	cube[5].pieces[0][0] = cube[3].pieces[2][0]
 	cube[5].pieces[0][1] = cube[3].pieces[1][0]
-	cube[5].pieces[0][2] = cube[3].pieces[2][0]
+	cube[5].pieces[0][2] = cube[3].pieces[0][0]
 
 	cube[3].pieces[0][0] = tmp0
 	cube[3].pieces[1][0] = tmp1
 	cube[3].pieces[2][0] = tmp2
+}
+
+func spinFa(cube *[6]face) {
+	spinFaceAnti(&cube[2])
+	// spin edges
+	tmp0 := cube[0].pieces[2][0]
+	tmp1 := cube[0].pieces[2][1]
+	tmp2 := cube[0].pieces[2][2]
+
+	cube[0].pieces[2][0] = cube[3].pieces[0][0]
+	cube[0].pieces[2][1] = cube[3].pieces[1][0]
+	cube[0].pieces[2][2] = cube[3].pieces[2][0]
+
+	cube[3].pieces[0][0] = cube[5].pieces[0][2]
+	cube[3].pieces[1][0] = cube[5].pieces[0][1]
+	cube[3].pieces[2][0] = cube[5].pieces[0][0]
+
+	cube[5].pieces[0][0] = cube[1].pieces[0][2]
+	cube[5].pieces[0][1] = cube[1].pieces[1][2]
+	cube[5].pieces[0][2] = cube[1].pieces[2][2]
+
+	cube[1].pieces[0][2] = tmp2
+	cube[1].pieces[1][2] = tmp1
+	cube[1].pieces[2][2] = tmp0
 }
 
 func spinR(cube *[6]face) {
@@ -59,9 +96,9 @@ func spinR(cube *[6]face) {
 	cube[2].pieces[1][2] = cube[5].pieces[1][2]
 	cube[2].pieces[2][2] = cube[5].pieces[2][2]
 
-	cube[5].pieces[0][2] = cube[4].pieces[0][0]
+	cube[5].pieces[0][2] = cube[4].pieces[2][0]
 	cube[5].pieces[1][2] = cube[4].pieces[1][0]
-	cube[5].pieces[2][2] = cube[4].pieces[2][0]
+	cube[5].pieces[2][2] = cube[4].pieces[0][0]
 
 	cube[4].pieces[0][0] = tmp0
 	cube[4].pieces[1][0] = tmp1
@@ -102,9 +139,10 @@ func spin(mix string, r *rubik) {
 		} else if sequence[spin] == "F" {
 			spinF(&r.cube)
 		} else if sequence[spin] == "F'" {
-			fmt.Printf("\nF'\n") //
+			spinFa(&r.cube)
 		} else if sequence[spin] == "F2" {
-			fmt.Printf("\nF2\n") //
+			spinF(&r.cube)
+			spinF(&r.cube)
 		} else if sequence[spin] == "B" {
 			fmt.Printf("\nB\n") //
 		} else if sequence[spin] == "B'" {
@@ -114,6 +152,7 @@ func spin(mix string, r *rubik) {
 		} else {
 			errorExit("bad input")
 		}
+		dumpCube(&r.cube)////
 	}
 	// fmt.Println(sequence, len(sequence)) //
 }
