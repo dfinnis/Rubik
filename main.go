@@ -192,6 +192,30 @@ func spinF(cube *[6]face) {
 	cube[3].pieces[2][0] = tmp2
 }
 
+func spinR(cube *[6]face) {
+	spinFace(&cube[3])
+	// spin edges
+	tmp0 := cube[0].pieces[0][2]
+	tmp1 := cube[0].pieces[1][2]
+	tmp2 := cube[0].pieces[2][2]
+
+	cube[0].pieces[0][2] = cube[2].pieces[0][2]
+	cube[0].pieces[1][2] = cube[2].pieces[1][2]
+	cube[0].pieces[2][2] = cube[2].pieces[2][2]
+
+	cube[2].pieces[0][2] = cube[5].pieces[0][2]
+	cube[2].pieces[1][2] = cube[5].pieces[1][2]
+	cube[2].pieces[2][2] = cube[5].pieces[2][2]
+
+	cube[5].pieces[0][2] = cube[4].pieces[0][0]
+	cube[5].pieces[1][2] = cube[4].pieces[1][0]
+	cube[5].pieces[2][2] = cube[4].pieces[2][0]
+
+	cube[4].pieces[0][0] = tmp0
+	cube[4].pieces[1][0] = tmp1
+	cube[4].pieces[2][0] = tmp2
+}
+
 func spin(mix string, r *rubik) {
 	// checkSpinError(mix)
 	sequence := strings.Fields(mix)
@@ -212,7 +236,7 @@ func spin(mix string, r *rubik) {
 		} else if sequence[spin] == "D2" {
 			fmt.Printf("\nD2\n") //
 		} else if sequence[spin] == "R" {
-			fmt.Printf("\nR!!!!\n") //
+			spinR(&r.cube)
 		} else if sequence[spin] == "R'" {
 			fmt.Printf("\nR'\n") //
 		} else if sequence[spin] == "R2" {
@@ -224,7 +248,6 @@ func spin(mix string, r *rubik) {
 		} else if sequence[spin] == "L2" {
 			fmt.Printf("\nL2\n") //
 		} else if sequence[spin] == "F" {
-			fmt.Printf("\nFFF!!!!\n") //
 			spinF(&r.cube)
 		} else if sequence[spin] == "F'" {
 			fmt.Printf("\nF'\n") //
