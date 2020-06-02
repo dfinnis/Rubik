@@ -5,6 +5,20 @@ import (
 	"strings"
 )
 
+func spinFace(face *face) {
+	tmpCorner := face.pieces[0][0]
+	face.pieces[0][0] = face.pieces[2][0]
+	face.pieces[2][0] = face.pieces[2][2]
+	face.pieces[2][2] = face.pieces[0][2]
+	face.pieces[0][2] = tmpCorner
+	
+	tmpMid := face.pieces[0][1]
+	face.pieces[0][1] = face.pieces[1][0]
+	face.pieces[1][0] = face.pieces[2][1]
+	face.pieces[2][1] = face.pieces[1][2]
+	face.pieces[1][2] = tmpMid
+}
+
 func spinFaceAnti(face *face) {
 	tmpCorner := face.pieces[0][0]
 	face.pieces[0][0] = face.pieces[0][2]
@@ -17,20 +31,6 @@ func spinFaceAnti(face *face) {
 	face.pieces[1][2] = face.pieces[2][1]
 	face.pieces[2][1] = face.pieces[1][0]
 	face.pieces[1][0] = tmpMid
-}
-
-func spinFace(face *face) {
-	tmpCorner := face.pieces[0][0]
-	face.pieces[0][0] = face.pieces[2][0]
-	face.pieces[2][0] = face.pieces[2][2]
-	face.pieces[2][2] = face.pieces[0][2]
-	face.pieces[0][2] = tmpCorner
-
-	tmpMid := face.pieces[0][1]
-	face.pieces[0][1] = face.pieces[1][0]
-	face.pieces[1][0] = face.pieces[2][1]
-	face.pieces[2][1] = face.pieces[1][2]
-	face.pieces[1][2] = tmpMid
 }
 
 func spinF(cube *[6]face) {
@@ -105,6 +105,30 @@ func spinR(cube *[6]face) {
 	cube[4].pieces[2][0] = tmp2
 }
 
+func spinRa(cube *[6]face) {
+	spinFace(&cube[3])
+	// spin edges
+	tmp0 := cube[0].pieces[0][2]
+	tmp1 := cube[0].pieces[1][2]
+	tmp2 := cube[0].pieces[2][2]
+
+	cube[0].pieces[0][2] = cube[4].pieces[2][0]
+	cube[0].pieces[1][2] = cube[4].pieces[1][0]
+	cube[0].pieces[2][2] = cube[4].pieces[0][0]
+
+	cube[4].pieces[0][0] = cube[5].pieces[0][2]
+	cube[4].pieces[1][0] = cube[5].pieces[1][2]
+	cube[4].pieces[2][0] = cube[5].pieces[2][2]
+
+	cube[5].pieces[0][2] = cube[2].pieces[0][2]
+	cube[5].pieces[1][2] = cube[2].pieces[1][2]
+	cube[5].pieces[2][2] = cube[2].pieces[2][2]
+
+	cube[2].pieces[0][2] = tmp0
+	cube[2].pieces[1][2] = tmp1
+	cube[2].pieces[2][2] = tmp2
+}
+
 func spin(mix string, r *rubik) {
 	// checkSpinError(mix)
 	sequence := strings.Fields(mix)
@@ -127,9 +151,10 @@ func spin(mix string, r *rubik) {
 		} else if sequence[spin] == "R" {
 			spinR(&r.cube)
 		} else if sequence[spin] == "R'" {
-			fmt.Printf("\nR'\n") //
+			spinRa(&r.cube)
 		} else if sequence[spin] == "R2" {
-			fmt.Printf("\nR2\n") //
+			spinR(&r.cube)
+			spinR(&r.cube)
 		} else if sequence[spin] == "L" {
 			fmt.Printf("\nL\n") //
 		} else if sequence[spin] == "L'" {
