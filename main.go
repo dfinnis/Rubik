@@ -22,7 +22,6 @@ const Yellow	= "\x1B[33m"				// 5 D
 // const BlueBG	= "\x1B[44m"
 // const OrangeBG	= "\x1B[48;2;255;165;0m"
 
-
 type face struct {
 	pieces	[3][3]uint8
 }
@@ -155,7 +154,45 @@ func parseArg() string {
 	return mix
 }
 
-func spin(mix string) {
+func spinFace(face *face) {
+	tmpCorner := face.pieces[0][0]
+	face.pieces[0][0] = face.pieces[2][0]
+	face.pieces[2][0] = face.pieces[2][2]
+	face.pieces[2][2] = face.pieces[0][2]
+	face.pieces[0][2] = tmpCorner
+
+	tmpMid := face.pieces[0][1]
+	face.pieces[0][1] = face.pieces[1][0]
+	face.pieces[1][0] = face.pieces[2][1]
+	face.pieces[2][1] = face.pieces[1][2]
+	face.pieces[1][2] = tmpMid
+}
+
+func spinF(cube *[6]face) {
+	spinFace(&cube[2])
+	// spin edges
+	tmp0 := cube[0].pieces[2][0]
+	tmp1 := cube[0].pieces[2][1]
+	tmp2 := cube[0].pieces[2][2]
+
+	cube[0].pieces[2][0] = cube[1].pieces[0][2]
+	cube[0].pieces[2][1] = cube[1].pieces[1][2]
+	cube[0].pieces[2][2] = cube[1].pieces[2][2]
+
+	cube[1].pieces[0][2] = cube[5].pieces[0][0]
+	cube[1].pieces[1][2] = cube[5].pieces[0][1]
+	cube[1].pieces[2][2] = cube[5].pieces[0][2]
+
+	cube[5].pieces[0][0] = cube[3].pieces[0][0]
+	cube[5].pieces[0][1] = cube[3].pieces[1][0]
+	cube[5].pieces[0][2] = cube[3].pieces[2][0]
+
+	cube[3].pieces[0][0] = tmp0
+	cube[3].pieces[1][0] = tmp1
+	cube[3].pieces[2][0] = tmp2
+}
+
+func spin(mix string, r *rubik) {
 	// checkSpinError(mix)
 	sequence := strings.Fields(mix)
 	fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
@@ -188,6 +225,7 @@ func spin(mix string) {
 			fmt.Printf("\nL2\n") //
 		} else if sequence[spin] == "F" {
 			fmt.Printf("\nFFF!!!!\n") //
+			spinF(&r.cube)
 		} else if sequence[spin] == "F'" {
 			fmt.Printf("\nF'\n") //
 		} else if sequence[spin] == "F2" {
@@ -222,11 +260,12 @@ func main() {
 	// dumpCube(&r.cube)
 	mix := parseArg()
 	fmt.Printf("mix: %s\n", mix)
-	spin(mix)
+	dumpCube2(&r.cube)////
+	spin(mix, r)
 	// solution := solve(&r.cube)
 	// printSolution(solution)
 	// rubik.runGraphic()
-	dumpCube2(&r.cube)
+	dumpCube2(&r.cube)////
 	fmt.Printf("\nEND!!\n")//////////
 }
 

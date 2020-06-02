@@ -1,0 +1,5 @@
+deal with file path
+	- not exit
+	- folder
+
+solved cubes
