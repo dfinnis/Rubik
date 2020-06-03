@@ -33,6 +33,102 @@ func spinFaceAnti(face *face) {
 	face.pieces[1][0] = tmpMid
 }
 
+func spinU(cube *[6]face) {
+	spinFace(&cube[0])
+	// spin edges
+	tmp0 := cube[1].pieces[0][0]
+	tmp1 := cube[1].pieces[0][1]
+	tmp2 := cube[1].pieces[0][2]
+
+	cube[1].pieces[0][0] = cube[2].pieces[0][0]
+	cube[1].pieces[0][1] = cube[2].pieces[0][1]
+	cube[1].pieces[0][2] = cube[2].pieces[0][2]
+
+	cube[2].pieces[0][0] = cube[3].pieces[0][0]
+	cube[2].pieces[0][1] = cube[3].pieces[0][1]
+	cube[2].pieces[0][2] = cube[3].pieces[0][2]
+	
+	cube[3].pieces[0][0] = cube[4].pieces[0][0]
+	cube[3].pieces[0][1] = cube[4].pieces[0][1]
+	cube[3].pieces[0][2] = cube[4].pieces[0][2]
+
+	cube[4].pieces[0][0] = tmp0
+	cube[4].pieces[0][1] = tmp1
+	cube[4].pieces[0][2] = tmp2
+}
+
+func spinUa(cube *[6]face) {
+	spinFaceAnti(&cube[0])
+	// spin edges
+	tmp0 := cube[1].pieces[0][0]
+	tmp1 := cube[1].pieces[0][1]
+	tmp2 := cube[1].pieces[0][2]
+
+	cube[1].pieces[0][0] = cube[4].pieces[0][0]
+	cube[1].pieces[0][1] = cube[4].pieces[0][1]
+	cube[1].pieces[0][2] = cube[4].pieces[0][2]
+
+	cube[4].pieces[0][0] = cube[3].pieces[0][0]
+	cube[4].pieces[0][1] = cube[3].pieces[0][1]
+	cube[4].pieces[0][2] = cube[3].pieces[0][2]
+	
+	cube[3].pieces[0][0] = cube[2].pieces[0][0]
+	cube[3].pieces[0][1] = cube[2].pieces[0][1]
+	cube[3].pieces[0][2] = cube[2].pieces[0][2]
+
+	cube[2].pieces[0][0] = tmp0
+	cube[2].pieces[0][1] = tmp1
+	cube[2].pieces[0][2] = tmp2
+}
+
+func spinD(cube *[6]face) {
+	spinFace(&cube[5])
+	// spin edges
+	tmp0 := cube[1].pieces[2][0]
+	tmp1 := cube[1].pieces[2][1]
+	tmp2 := cube[1].pieces[2][2]
+
+	cube[1].pieces[2][0] = cube[4].pieces[2][0]
+	cube[1].pieces[2][1] = cube[4].pieces[2][1]
+	cube[1].pieces[2][2] = cube[4].pieces[2][2]
+
+	cube[4].pieces[2][0] = cube[3].pieces[2][0]
+	cube[4].pieces[2][1] = cube[3].pieces[2][1]
+	cube[4].pieces[2][2] = cube[3].pieces[2][2]
+	
+	cube[3].pieces[2][0] = cube[2].pieces[2][0]
+	cube[3].pieces[2][1] = cube[2].pieces[2][1]
+	cube[3].pieces[2][2] = cube[2].pieces[2][2]
+
+	cube[2].pieces[2][0] = tmp0
+	cube[2].pieces[2][1] = tmp1
+	cube[2].pieces[2][2] = tmp2
+}
+
+func spinDa(cube *[6]face) {
+	spinFaceAnti(&cube[5])
+	// spin edges
+	tmp0 := cube[1].pieces[2][0]
+	tmp1 := cube[1].pieces[2][1]
+	tmp2 := cube[1].pieces[2][2]
+
+	cube[1].pieces[2][0] = cube[2].pieces[2][0]
+	cube[1].pieces[2][1] = cube[2].pieces[2][1]
+	cube[1].pieces[2][2] = cube[2].pieces[2][2]
+
+	cube[2].pieces[2][0] = cube[3].pieces[2][0]
+	cube[2].pieces[2][1] = cube[3].pieces[2][1]
+	cube[2].pieces[2][2] = cube[3].pieces[2][2]
+	
+	cube[3].pieces[2][0] = cube[4].pieces[2][0]
+	cube[3].pieces[2][1] = cube[4].pieces[2][1]
+	cube[3].pieces[2][2] = cube[4].pieces[2][2]
+
+	cube[4].pieces[2][0] = tmp0
+	cube[4].pieces[2][1] = tmp1
+	cube[4].pieces[2][2] = tmp2
+}
+
 func spinF(cube *[6]face) {
 	spinFace(&cube[2])
 	// spin edges
@@ -106,7 +202,7 @@ func spinR(cube *[6]face) {
 }
 
 func spinRa(cube *[6]face) {
-	spinFace(&cube[3])
+	spinFaceAnti(&cube[3])
 	// spin edges
 	tmp0 := cube[0].pieces[0][2]
 	tmp1 := cube[0].pieces[1][2]
@@ -129,6 +225,102 @@ func spinRa(cube *[6]face) {
 	cube[2].pieces[2][2] = tmp2
 }
 
+func spinL(cube *[6]face) {
+	spinFace(&cube[1])
+	// spin edges
+	tmp0 := cube[0].pieces[0][0]
+	tmp1 := cube[0].pieces[1][0]
+	tmp2 := cube[0].pieces[2][0]
+
+	cube[0].pieces[0][0] = cube[4].pieces[2][2]
+	cube[0].pieces[1][0] = cube[4].pieces[1][2]
+	cube[0].pieces[2][0] = cube[4].pieces[0][2]
+
+	cube[4].pieces[2][2] = cube[5].pieces[0][0]
+	cube[4].pieces[1][2] = cube[5].pieces[1][0]
+	cube[4].pieces[0][2] = cube[5].pieces[2][0]
+
+	cube[5].pieces[0][0] = cube[2].pieces[0][0]
+	cube[5].pieces[1][0] = cube[2].pieces[1][0]
+	cube[5].pieces[2][0] = cube[2].pieces[2][0]
+
+	cube[2].pieces[0][0] = tmp0
+	cube[2].pieces[1][0] = tmp1
+	cube[2].pieces[2][0] = tmp2
+}
+
+func spinLa(cube *[6]face) {
+	spinFaceAnti(&cube[1])
+	// spin edges
+	tmp0 := cube[0].pieces[0][0]
+	tmp1 := cube[0].pieces[1][0]
+	tmp2 := cube[0].pieces[2][0]
+
+	cube[0].pieces[0][0] = cube[2].pieces[0][0]
+	cube[0].pieces[1][0] = cube[2].pieces[1][0]
+	cube[0].pieces[2][0] = cube[2].pieces[2][0]
+
+	cube[2].pieces[0][0] = cube[5].pieces[0][0]
+	cube[2].pieces[1][0] = cube[5].pieces[1][0]
+	cube[2].pieces[2][0] = cube[5].pieces[2][0]
+
+	cube[5].pieces[0][0] = cube[4].pieces[2][2]
+	cube[5].pieces[1][0] = cube[4].pieces[1][2]
+	cube[5].pieces[2][0] = cube[4].pieces[0][2]
+
+	cube[4].pieces[2][2] = tmp0
+	cube[4].pieces[1][2] = tmp1
+	cube[4].pieces[0][2] = tmp2
+}
+
+func spinB(cube *[6]face) {
+	spinFace(&cube[4])
+	// spin edges
+	tmp0 := cube[0].pieces[0][0]
+	tmp1 := cube[0].pieces[0][1]
+	tmp2 := cube[0].pieces[0][2]
+
+	cube[0].pieces[0][0] = cube[3].pieces[0][2]
+	cube[0].pieces[0][1] = cube[3].pieces[1][2]
+	cube[0].pieces[0][2] = cube[3].pieces[2][2]
+
+	cube[3].pieces[0][2] = cube[5].pieces[2][2]
+	cube[3].pieces[1][2] = cube[5].pieces[2][1]
+	cube[3].pieces[2][2] = cube[5].pieces[2][0]
+
+	cube[5].pieces[2][2] = cube[1].pieces[2][0]
+	cube[5].pieces[2][1] = cube[1].pieces[1][0]
+	cube[5].pieces[2][0] = cube[1].pieces[0][0]
+
+	cube[1].pieces[2][0] = tmp0
+	cube[1].pieces[1][0] = tmp1
+	cube[1].pieces[0][0] = tmp2
+}
+
+func spinBa(cube *[6]face) {
+	spinFaceAnti(&cube[4])
+	// spin edges
+	tmp0 := cube[0].pieces[0][0]
+	tmp1 := cube[0].pieces[0][1]
+	tmp2 := cube[0].pieces[0][2]
+
+	cube[0].pieces[0][0] = cube[1].pieces[2][0]
+	cube[0].pieces[0][1] = cube[1].pieces[1][0]
+	cube[0].pieces[0][2] = cube[1].pieces[0][0]
+
+	cube[1].pieces[2][0] = cube[5].pieces[2][2]
+	cube[1].pieces[1][0] = cube[5].pieces[2][1]
+	cube[1].pieces[0][0] = cube[5].pieces[2][0]
+
+	cube[5].pieces[2][2] = cube[3].pieces[0][2]
+	cube[5].pieces[2][1] = cube[3].pieces[1][2]
+	cube[5].pieces[2][0] = cube[3].pieces[2][2]
+
+	cube[3].pieces[0][2] = tmp0
+	cube[3].pieces[1][2] = tmp1
+	cube[3].pieces[2][2] = tmp2
+}
+
 func spin(mix string, r *rubik) {
 	// checkSpinError(mix)
 	sequence := strings.Fields(mix)
@@ -137,17 +329,19 @@ func spin(mix string, r *rubik) {
 		// fmt.Printf("\nspin: %v\n", spin) //
 		fmt.Printf("\nspin: %v\n", sequence[spin]) //
 		if sequence[spin] == "U" {
-			fmt.Printf("\nU!!!!\n") //
+			spinU(&r.cube)
 		} else if sequence[spin] == "U'" {
-			fmt.Printf("\nU'\n") //
+			spinUa(&r.cube)
 		} else if sequence[spin] == "U2" {
-			fmt.Printf("\nU2\n") //
+			spinU(&r.cube)
+			spinU(&r.cube)
 		} else if sequence[spin] == "D" {
-			fmt.Printf("\nD\n") //
+			spinD(&r.cube)
 		} else if sequence[spin] == "D'" {
-			fmt.Printf("\nD'\n") //
+			spinDa(&r.cube)
 		} else if sequence[spin] == "D2" {
-			fmt.Printf("\nD2\n") //
+			spinD(&r.cube)
+			spinD(&r.cube)
 		} else if sequence[spin] == "R" {
 			spinR(&r.cube)
 		} else if sequence[spin] == "R'" {
@@ -156,11 +350,12 @@ func spin(mix string, r *rubik) {
 			spinR(&r.cube)
 			spinR(&r.cube)
 		} else if sequence[spin] == "L" {
-			fmt.Printf("\nL\n") //
+			spinL(&r.cube)
 		} else if sequence[spin] == "L'" {
-			fmt.Printf("\nL'\n") //
+			spinLa(&r.cube)
 		} else if sequence[spin] == "L2" {
-			fmt.Printf("\nL2\n") //
+			spinL(&r.cube)
+			spinL(&r.cube)
 		} else if sequence[spin] == "F" {
 			spinF(&r.cube)
 		} else if sequence[spin] == "F'" {
@@ -169,11 +364,12 @@ func spin(mix string, r *rubik) {
 			spinF(&r.cube)
 			spinF(&r.cube)
 		} else if sequence[spin] == "B" {
-			fmt.Printf("\nB\n") //
+			spinB(&r.cube)
 		} else if sequence[spin] == "B'" {
-			fmt.Printf("\nB'\n") //
+			spinBa(&r.cube)
 		} else if sequence[spin] == "B2" {
-			fmt.Printf("\nB2\n") //
+			spinB(&r.cube)
+			spinB(&r.cube)
 		} else {
 			errorExit("bad input")
 		}
