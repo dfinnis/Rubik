@@ -1,1 +1,11 @@
 solved cubes
+human solver
+
+
+better than 23.8 seconds
+This will also be acceptable: 23.196 seconds
+
+#### BONUS ####
+1. random mix generator
+2. visualizer?
+3. human solver algo?
