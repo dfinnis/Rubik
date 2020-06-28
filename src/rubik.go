@@ -59,6 +59,7 @@ func parseArg() string {
 
 // }
 
+// randomMix returns a random 20 to 40 spin long mix
 func randomMix() string {
 	var mix string
 	spin := []string{
