@@ -8,7 +8,7 @@ import (
 func main() {
 	fmt.Printf("oh hi!\n")/////////
 	rubik.RunRubik()
-	rubik.RunRubikDeprecated()////////
+	// rubik.RunRubikDeprecated()////////
 	fmt.Printf("\nEND!!\n")//////////
 }
 
