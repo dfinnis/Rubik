@@ -6,11 +6,12 @@ import (
 	"math/rand"
 	"math/bits"
 	"time"
+	// "strconv"//
 )
 
 // rubik struct contains all information about current rubik state
 type rubik struct {
-	cube	[6]uint64
+	cube	[6]uint32
 }
 
 // rubik var r contains all information about current rubik state
@@ -23,14 +24,11 @@ func errorExit(message string) {
 
 func initRubik() *rubik {
 	r = &rubik{}
-	// var face uint8
-	// for face = 0; face < 6; face++ {
-	// 	for y := 0; y < 3; y++ {
-	// 		for x := 0; x < 3; x++ {
-	// 			r.cube[face].pieces[y][x] = face
-	// 		}
-	// 	}
-	// }
+	r.cube[1] = 286331153//		0001
+	r.cube[2] = 572662306//		0010
+	r.cube[3] = 858993459//		0011
+	r.cube[4] = 1145324612//	0100
+	r.cube[5] = 1431655765//	0101
 	return r
 }
 
@@ -92,28 +90,36 @@ func randomMix() string {
 
 func test() {//////
 	fmt.Printf("test!\n")/////////
-	var face uint64
+	var face uint32
 	face = 1
 	fmt.Printf("\nint before: %v\n", face)/////////
-	face = bits.RotateLeft64(face, 2)
+	face = bits.RotateLeft32(face, 2)
 	fmt.Printf("\nint after: %v\n\n", face)/////////
-	face = bits.RotateLeft64(face, -1)
+	face = bits.RotateLeft32(face, -3)
 	fmt.Printf("\nint after: %v\n\n", face)/////////
 	fmt.Printf("test end!\n")/////////
 }
 
-// func dumpCube(cube *[6]face) {	
+func dumpCube(cube *[6]uint32) {
+	fmt.Printf("r: %b\n", cube)
+	fmt.Printf("face 0: %.32b\n", cube[0])
+	fmt.Printf("face 1: %.32b\n", cube[1])
+	fmt.Printf("face 2: %.32b\n", cube[2])
+	fmt.Printf("face 3: %.32b\n", cube[3])
+	fmt.Printf("face 4: %.32b\n", cube[4])
+	fmt.Printf("face 5: %.32b\n", cube[5])
+	
+}
 
 func RunRubik() {
-	test()//////
+	// test()//////
 
 	mix := parseArg()
-	random := randomMix()//// make option, flag -r?
-	fmt.Printf("random: %s\n", random)//
+	// random := randomMix()//// make option, flag -r?
+	// fmt.Printf("random: %s\n", random)//
 	fmt.Printf("mix: %s\n", mix)//
 	r := initRubik()
-	fmt.Printf("r: %v", r)
-	// dumpCube(&r.cube)////
+	dumpCube(&r.cube)////
 	// spin(mix, r)
 	// solution := solve(&r.cube)
 	// printSolution(solution)
