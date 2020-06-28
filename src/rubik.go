@@ -5,6 +5,7 @@ import (
 	"os"
 	// "reflect"//
 	"math/rand"
+	"math/bits"
 	"time"
 )
 
@@ -93,15 +94,29 @@ func randomMix() string {
 	return mix
 }
 
+func test() {
+	fmt.Printf("test!\n")/////////
+	var face uint64
+	face = 1
+	fmt.Printf("\nint before: %v\n", face)/////////
+	face = bits.RotateLeft64(face, 2)
+	fmt.Printf("\nint after: %v\n\n", face)/////////
+	face = bits.RotateLeft64(face, -1)
+	fmt.Printf("\nint after: %v\n\n", face)/////////
+	fmt.Printf("test end!\n")/////////
+}
+
 func RunRubik() {
-	r := initRubik()
-	// parseArg()
-	// dumpCube(&r.cube)
+	test()
+}
+
+func RunRubikDeprecated() {
 	mix := parseArg()
 	// mix := randomMix()
-	random := randomMix()
+	random := randomMix()//// make option, flag -r?
 	fmt.Printf("random: %s\n", random)//
 	fmt.Printf("mix: %s\n", mix)//
+	r := initRubik()
 	dumpCube(&r.cube)////
 	spin(mix, r)
 	// spin(random, r)
