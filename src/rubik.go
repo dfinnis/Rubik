@@ -23,12 +23,12 @@ func errorExit(message string) {
 }
 
 func initRubik() *rubik {
-	r = &rubik{}
-	r.cube[1] = 286331153//		0001
-	r.cube[2] = 572662306//		0010
-	r.cube[3] = 858993459//		0011
-	r.cube[4] = 1145324612//	0100
-	r.cube[5] = 1431655765//	0101
+	r = &rubik{}			//	0000
+	r.cube[1] = 286331153	//	0001
+	r.cube[2] = 572662306	//	0010
+	r.cube[3] = 858993459	//	0011
+	r.cube[4] = 1145324612	//	0100
+	r.cube[5] = 1431655765	//	0101
 	return r
 }
 
@@ -98,17 +98,6 @@ func test() {//////
 	face = bits.RotateLeft32(face, -3)
 	fmt.Printf("\nint after: %v\n\n", face)/////////
 	fmt.Printf("test end!\n")/////////
-}
-
-func dumpCube(cube *[6]uint32) {
-	fmt.Printf("r: %b\n", cube)
-	fmt.Printf("face 0: %.32b\n", cube[0])
-	fmt.Printf("face 1: %.32b\n", cube[1])
-	fmt.Printf("face 2: %.32b\n", cube[2])
-	fmt.Printf("face 3: %.32b\n", cube[3])
-	fmt.Printf("face 4: %.32b\n", cube[4])
-	fmt.Printf("face 5: %.32b\n", cube[5])
-	
 }
 
 func RunRubik() {
