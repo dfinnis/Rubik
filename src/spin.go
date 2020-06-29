@@ -2,70 +2,38 @@ package rubik
 
 import (
 	"fmt" //
-	// "math/bits"
+	"math/bits"
 	"strings"
 )
 
-// func test() {//////
-// 	fmt.Printf("test!\n")/////////
-// 	var face uint32
-// 	face = 1
-// 	fmt.Printf("\nint before: %v\n", face)/////////
-// 	face = bits.RotateLeft32(face, 2)
-// 	fmt.Printf("\nint after: %v\n\n", face)/////////
-// 	face = bits.RotateLeft32(face, -3)
-// 	fmt.Printf("\nint after: %v\n\n", face)/////////
-// 	fmt.Printf("test end!\n")/////////
-// }
-
-// func spinFace(face *face) {
-// 	tmpCorner := face.pieces[0][0]
-// 	face.pieces[0][0] = face.pieces[2][0]
-// 	face.pieces[2][0] = face.pieces[2][2]
-// 	face.pieces[2][2] = face.pieces[0][2]
-// 	face.pieces[0][2] = tmpCorner
-	
-// 	tmpMid := face.pieces[0][1]
-// 	face.pieces[0][1] = face.pieces[1][0]
-// 	face.pieces[1][0] = face.pieces[2][1]
-// 	face.pieces[2][1] = face.pieces[1][2]
-// 	face.pieces[1][2] = tmpMid
-// }
-
-// func spinFaceAnti(face *face) {
-// 	tmpCorner := face.pieces[0][0]
-// 	face.pieces[0][0] = face.pieces[0][2]
-// 	face.pieces[0][2] = face.pieces[2][2]
-// 	face.pieces[2][2] = face.pieces[2][0]
-// 	face.pieces[2][0] = tmpCorner
-
-// 	tmpMid := face.pieces[0][1]
-// 	face.pieces[0][1] = face.pieces[1][2]
-// 	face.pieces[1][2] = face.pieces[2][1]
-// 	face.pieces[2][1] = face.pieces[1][0]
-// 	face.pieces[1][0] = tmpMid
-// }
+func spinFace(cube *[6]uint32, face uint8) {
+	// cube[0] |= 0x1 // !@!!!!!!!!!!!
+	cube[face] = bits.RotateLeft32(cube[face], -8)
+}
 
 func spinU(cube *[6]uint32) {
-	// spinFace(&cube[0])
+	spinFace(cube, 0)
 	// spin edges
 	tmp0 := cube[1]
-	fmt.Printf("\ntmp0			:= %032b\n", tmp0)
-	//// a & 196	query a value for its set bits
-	// &=		selectively clearing bits of an integer value to zero
-	// |=		set arbitrary bits for a given integer value
+	tmp0 &= 0x77700000
 
-	fmt.Printf("cube[1] before	:= %032b\n", cube[1])
-	// &=		selectively clear bits of an int to zero
-	cube[1] &= 0x77777
-	fmt.Printf("cube[1] after	:= %032b\n\n", cube[1])
 	tmp1 := cube[2]
-	fmt.Printf("tmp1 			:= %032b\n\n", tmp1)
 	tmp1 &= 0x77700000
-	fmt.Printf("tmp1			:= %032b\n\n", tmp1)
-	cube[1] |= tmp1	// |=		set arbitrary bits for a given integer value
-	fmt.Printf("cube[1] again	:= %032b\n\n", cube[1])
+	cube[1] &= 0x77777
+	cube[1] |= tmp1
+	
+	tmp1 = cube[3]
+	tmp1 &= 0x77700000
+	cube[2] &= 0x77777
+	cube[2] |= tmp1
 
+	tmp1 = cube[4]
+	tmp1 &= 0x77700000
+	cube[3] &= 0x77777
+	cube[3] |= tmp1
+
+	cube[4] &= 0x77777
+	cube[4] |= tmp0
 }
 
 func spin(mix string, cube *[6]uint32) {
