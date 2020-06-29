@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"os"
 	"math/rand"
-	"math/bits"
 	"time"
-	// "strconv"//
 )
 
 // rubik struct contains all information about current rubik state
@@ -88,29 +86,15 @@ func randomMix() string {
 	return mix
 }
 
-
-func test() {//////
-	fmt.Printf("test!\n")/////////
-	var face uint32
-	face = 1
-	fmt.Printf("\nint before: %v\n", face)/////////
-	face = bits.RotateLeft32(face, 2)
-	fmt.Printf("\nint after: %v\n\n", face)/////////
-	face = bits.RotateLeft32(face, -3)
-	fmt.Printf("\nint after: %v\n\n", face)/////////
-	fmt.Printf("test end!\n")/////////
-}
-
 func RunRubik() {
-	// test()//////
-
 	mix := parseArg()
 	// random := randomMix()//// make option, flag -r?
 	// fmt.Printf("random: %s\n", random)//
 	fmt.Printf("mix: %s\n", mix)//
 	r := initRubik()
 	dumpCube(&r.cube)////
-	// spin(mix, r)
+	spin(mix, &r.cube)
+	// dumpCube(&r.cube)////
 	// solution := solve(&r.cube)
 	// printSolution(solution)
 	// runGraphic()

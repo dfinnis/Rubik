@@ -154,9 +154,9 @@ func dumpBottom(cube *[6]uint32, face uint8) {
 }
 
 func dumpFace(cube *[6]uint32, face uint8) {
-	//	A B C
-	//  H @ D
-	//	G F E
+	//	A B C	//	top
+	//  H @ D	//	middle
+	//	G F E	//	bottom
 	fmt.Printf("\n        ")
 	dumpTop(cube, face)
 	fmt.Printf("\n        ")
