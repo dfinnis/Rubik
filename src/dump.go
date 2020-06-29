@@ -12,7 +12,154 @@ const Red		= "\x1B[31m"				// 3 R
 const Blue		= "\x1B[34m"				// 4 B
 const Yellow	= "\x1B[33m"				// 5 D
 
+func dumpFace(cube *[6]uint32, face uint8) {
+	//	A B C
+	//  H @ D
+	//	G F E
+
+	fmt.Printf("\n        ")
+	// A	// top left corner
+	if cube[face]&0x50000000 == 0x50000000 {			// 0101 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x40000000 == 0x40000000 {		// 0100 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x30000000 == 0x30000000 {		// 0011 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x20000000 == 0x20000000 {		// 0010 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x10000000 == 0x10000000 {		// 0001 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// B	// top edge
+	if cube[face]&0x05000000 == 0x05000000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x04000000 == 0x04000000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x03000000 == 0x03000000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x02000000 == 0x02000000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x01000000 == 0x01000000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// C	// top right corner
+	if cube[face]&0x00500000 == 0x00500000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x00400000 == 0x00400000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x00300000 == 0x00300000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x00200000 == 0x00200000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x00100000 == 0x00100000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	fmt.Printf("\n        ")
+	// H	// left edge
+	if cube[face]&0x00000005 == 0x00000005 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x00000004 == 0x00000004 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x00000003 == 0x00000003 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x00000002 == 0x00000002 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x00000001 == 0x00000001 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// Center
+	// fmt.Printf("%v ", face)
+	if face == 5 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if face == 4 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if face == 3 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if face == 2 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if face == 1 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// D	// right edge
+	if cube[face]&0x00050000 == 0x00050000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x00040000 == 0x00040000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x00030000 == 0x00030000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x00020000 == 0x00020000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x00010000 == 0x00010000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	fmt.Printf("\n        ")
+	// G	// bottom left corner
+	if cube[face]&0x00000050 == 0x00000050 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x00000040 == 0x00000040 { 
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x00000030 == 0x00000030 { 
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x00000020 == 0x00000020 { 
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x00000010 == 0x00000010 { 
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// F	// bottom edge
+	if cube[face]&0x00000500 == 0x00000500 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x00000400 == 0x00000400 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x00000300 == 0x00000300 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x00000200 == 0x00000200 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x00000100 == 0x00000100 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// E	// bottom right corner
+	if cube[face]&0x00005000 == 0x00005000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[face]&0x00004000 == 0x00004000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[face]&0x00003000 == 0x00003000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[face]&0x00002000 == 0x00002000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[face]&0x00001000 == 0x00001000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+}
+
 func dumpCube(cube *[6]uint32) {
+	fmt.Printf("\n\n#### -- CUBE -- ####\n")/////
+
 	fmt.Printf("r: %032b\n\n", cube)
 	fmt.Printf("face 0:\t%032b\n", cube[0])
 	fmt.Printf("face 1:\t%032b\n", cube[1])
@@ -22,134 +169,139 @@ func dumpCube(cube *[6]uint32) {
 	fmt.Printf("face 5:\t%032b\n", cube[5])
 	fmt.Printf("\n")//
 
-	//	A B C
-	//  H @ D
-	//	G F E
+	// fmt.Printf("\n        ")
+	// // A	// top left corner
+	// if cube[0]&0x50000000 == 0x50000000 {				// 0101 0000 0000 0000 0000 0000 0000 0000
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x40000000 == 0x40000000 {		// 0100 0000 0000 0000 0000 0000 0000 0000
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x30000000 == 0x30000000 {		// 0011 0000 0000 0000 0000 0000 0000 0000
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x20000000 == 0x20000000 {		// 0010 0000 0000 0000 0000 0000 0000 0000
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x10000000 == 0x10000000 {		// 0001 0000 0000 0000 0000 0000 0000 0000
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	fmt.Printf("\n        ")
-	// A	// top left corner
-	if cube[0]&0x50000000 == 0x50000000 {				// 0101 0000 0000 0000 0000 0000 0000 0000
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x40000000 == 0x40000000 {		// 0100 0000 0000 0000 0000 0000 0000 0000
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x30000000 == 0x30000000 {		// 0011 0000 0000 0000 0000 0000 0000 0000
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x20000000 == 0x20000000 {		// 0010 0000 0000 0000 0000 0000 0000 0000
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x10000000 == 0x10000000 {		// 0001 0000 0000 0000 0000 0000 0000 0000
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// // B	// top edge
+	// if cube[0]&0x05000000 == 0x05000000 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x04000000 == 0x04000000 {
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x03000000 == 0x03000000 {
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x02000000 == 0x02000000 {
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x01000000 == 0x01000000 {
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	// B	// top edge
-	if cube[0]&0x05000000 == 0x05000000 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x04000000 == 0x04000000 {
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x03000000 == 0x03000000 {
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x02000000 == 0x02000000 {
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x01000000 == 0x01000000 {
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// // C	// top right corner
+	// if cube[0]&0x00500000 == 0x00500000 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x00400000 == 0x00400000 {
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x00300000 == 0x00300000 {
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x00200000 == 0x00200000 {
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x00100000 == 0x00100000 {
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	// C	// top right corner
-	if cube[0]&0x00500000 == 0x00500000 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x00400000 == 0x00400000 {
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x00300000 == 0x00300000 {
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x00200000 == 0x00200000 {
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x00100000 == 0x00100000 {
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// fmt.Printf("\n        ")
+	// // H	// left edge
+	// if cube[0]&0x00000005 == 0x00000005 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x00000004 == 0x00000004 {
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x00000003 == 0x00000003 {
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x00000002 == 0x00000002 {
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x00000001 == 0x00000001 {
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	fmt.Printf("\n        ")
-	// H	// left edge
-	if cube[0]&0x00000005 == 0x00000005 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x00000004 == 0x00000004 {
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x00000003 == 0x00000003 {
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x00000002 == 0x00000002 {
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x00000001 == 0x00000001 {
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// // Center
+	// fmt.Printf("0 ")
 
-	// Center
-	fmt.Printf("0 ")
+	// // D	// right edge
+	// if cube[0]&0x00050000 == 0x00050000 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x00040000 == 0x00040000 {
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x00030000 == 0x00030000 {
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x00020000 == 0x00020000 {
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x00010000 == 0x00010000 {
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	// D	// right edge
-	if cube[0]&0x00050000 == 0x00050000 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x00040000 == 0x00040000 {
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x00030000 == 0x00030000 {
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x00020000 == 0x00020000 {
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x00010000 == 0x00010000 {
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// fmt.Printf("\n        ")
+	// // G	// bottom left corner
+	// if cube[0]&0x00000050 == 0x00000050 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x00000040 == 0x00000040 { 
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x00000030 == 0x00000030 { 
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x00000020 == 0x00000020 { 
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x00000010 == 0x00000010 { 
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	fmt.Printf("\n        ")
-	// G	// bottom left corner
-	if cube[0]&0x00000050 == 0x00000050 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x00000040 == 0x00000040 { 
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x00000030 == 0x00000030 { 
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x00000020 == 0x00000020 { 
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x00000010 == 0x00000010 { 
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// // F	// bottom edge
+	// if cube[0]&0x00000500 == 0x00000500 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x00000400 == 0x00000400 {
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x00000300 == 0x00000300 {
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x00000200 == 0x00000200 {
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x00000100 == 0x00000100 {
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	// F	// bottom edge
-	if cube[0]&0x00000500 == 0x00000500 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x00000400 == 0x00000400 {
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x00000300 == 0x00000300 {
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x00000200 == 0x00000200 {
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x00000100 == 0x00000100 {
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
-	}
+	// // E	// bottom right corner
+	// if cube[0]&0x00005000 == 0x00005000 {
+	// 	fmt.Printf("%v5%v ", Yellow, Reset)
+	// } else if cube[0]&0x00004000 == 0x00004000 {
+	// 	fmt.Printf("%v4%v ", Blue, Reset)
+	// } else if cube[0]&0x00003000 == 0x00003000 {
+	// 	fmt.Printf("%v3%v ", Red, Reset)
+	// } else if cube[0]&0x00002000 == 0x00002000 {
+	// 	fmt.Printf("%v2%v ", Green, Reset)
+	// } else if cube[0]&0x00001000 == 0x00001000 {
+	// 	fmt.Printf("%v1%v ", Orange, Reset)
+	// } else {
+	// 	fmt.Printf("0 ")
+	// }
 
-	// E	// bottom right corner
-	if cube[0]&0x00005000 == 0x00005000 {
-		fmt.Printf("%v5%v ", Yellow, Reset)
-	} else if cube[0]&0x00004000 == 0x00004000 {
-		fmt.Printf("%v4%v ", Blue, Reset)
-	} else if cube[0]&0x00003000 == 0x00003000 {
-		fmt.Printf("%v3%v ", Red, Reset)
-	} else if cube[0]&0x00002000 == 0x00002000 {
-		fmt.Printf("%v2%v ", Green, Reset)
-	} else if cube[0]&0x00001000 == 0x00001000 {
-		fmt.Printf("%v1%v ", Orange, Reset)
-	} else {
-		fmt.Printf("0 ")
+	// var face uint8
+	// face = 0
+	dumpFace(cube, 0)
+
+	for face := 1; face < 5; face++ {
+		fmt.Printf("\nFACE!")/////////
+		fmt.Printf(" ")
 	}
 
 	fmt.Printf("\n")
