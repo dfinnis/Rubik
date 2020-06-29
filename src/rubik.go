@@ -115,3 +115,8 @@ func RunRubik() {
 	// printSolution(solution)
 	// runGraphic()
 }
+
+
+// a & 196	query a value for its set bits
+// &=		selectively clearing bits of an integer value to zero
+// |=		set arbitrary bits for a given integer value
