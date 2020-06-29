@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+const Reset		= "\x1B[0m"
+const White		= "\x1B[0m"					// 0 U
+const Orange	= "\x1B[38;2;255;165;0m"	// 1 L
+const Green		= "\x1B[32m"				// 2 F
+const Red		= "\x1B[31m"				// 3 R
+const Blue		= "\x1B[34m"				// 4 B
+const Yellow	= "\x1B[33m"				// 5 D
+
 func dumpCube(cube *[6]uint32) {
 	fmt.Printf("r: %032b\n\n", cube)
 	fmt.Printf("face 0:\t%032b\n", cube[0])
@@ -82,7 +90,34 @@ func dumpCube(cube *[6]uint32) {
 		fmt.Printf("oh hello %v\n", face)
 		fmt.Printf("\n")//	
 	}
+
+	fmt.Printf("V: %v\n", cube[5]&1342177280)
+	if cube[5]&1342177280 == 1342177280 {
+		fmt.Printf("0 ")
+	}	
+
+	fmt.Printf("\n        ")
+	if cube[0]&0x50000000 == 0x50000000 {				// 0101 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x40000000 == 0x40000000 {		// 0100 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x30000000 == 0x30000000 {		// 0011 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x20000000 == 0x20000000 {		// 0010 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x10000000 == 0x10000000 {		// 0001 0000 0000 0000 0000 0000 0000 0000
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	fmt.Printf("\n")
 }
+
+//	
+//	A B C
+//  H @ D
+//	G F E
 
 // a & 196	query a value for its set bits
 // &=		selectively clearing bits of an integer value to zero
