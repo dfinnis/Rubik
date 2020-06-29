@@ -21,82 +21,13 @@ func dumpCube(cube *[6]uint32) {
 	fmt.Printf("face 4:\t%032b\n", cube[4])
 	fmt.Printf("face 5:\t%032b\n", cube[5])
 	fmt.Printf("\n")//
-	// bit := uint8(cube[1] >> 1)
-	// fmt.Printf("bit\t%032b\n", bit)
-	fmt.Printf("bite me 0: %v\n", cube[0]&1)
-	fmt.Printf("bite me 1: %v\n", cube[1]&1)
-	fmt.Printf("bite me 2: %v\n", cube[2]&1)
-	fmt.Printf("bite me 3: %v\n", cube[3]&1)
-	fmt.Printf("bite me 4: %v\n", cube[4]&1)
-	fmt.Printf("bite me 5: %v\n", cube[5]&1)
-	fmt.Printf("\n")//
 
-	fmt.Printf("bite me 0: %v\n", cube[0]&2)
-	fmt.Printf("bite me 1: %v\n", cube[1]&2)
-	fmt.Printf("bite me 2: %v\n", cube[2]&2)
-	fmt.Printf("bite me 3: %v\n", cube[3]&2)
-	fmt.Printf("bite me 4: %v\n", cube[4]&2)
-	fmt.Printf("bite me 5: %v\n", cube[5]&2)
-	fmt.Printf("\n")//
-
-	fmt.Printf("bite me 0: %v\n", cube[0]&3)
-	fmt.Printf("bite me 1: %v\n", cube[1]&3)
-	fmt.Printf("bite me 2: %v\n", cube[2]&3)
-	fmt.Printf("bite me 3: %v\n", cube[3]&3)
-	fmt.Printf("bite me 4: %v\n", cube[4]&3)
-	fmt.Printf("bite me 5: %v\n", cube[5]&3)
-	fmt.Printf("\n")//
-
-	fmt.Printf("bite me 0: %v\n", cube[0]&4)
-	fmt.Printf("bite me 1: %v\n", cube[1]&4)
-	fmt.Printf("bite me 2: %v\n", cube[2]&4)
-	fmt.Printf("bite me 3: %v\n", cube[3]&4)
-	fmt.Printf("bite me 4: %v\n", cube[4]&4)
-	fmt.Printf("bite me 5: %v\n", cube[5]&4)
-	fmt.Printf("\n")//
-
-	fmt.Printf("bite me 0: %v\n", cube[0]&5)
-	fmt.Printf("bite me 1: %v\n", cube[1]&5)
-	fmt.Printf("bite me 2: %v\n", cube[2]&5)
-	fmt.Printf("bite me 3: %v\n", cube[3]&5)
-	fmt.Printf("bite me 4: %v\n", cube[4]&5)
-	fmt.Printf("bite me 5: %v\n", cube[5]&5)
-	fmt.Printf("\n")//
-
-	fmt.Printf("bite me 0: %v\n", cube[0]&6)
-	fmt.Printf("bite me 1: %v\n", cube[1]&6)
-	fmt.Printf("bite me 2: %v\n", cube[2]&6)
-	fmt.Printf("bite me 3: %v\n", cube[3]&6)
-	fmt.Printf("bite me 4: %v\n", cube[4]&6)
-	fmt.Printf("bite me 5: %v\n", cube[5]&6)
-	fmt.Printf("\n")//
-
-	if cube[0]&5 == 5 {
-		fmt.Printf("face 5\n")//
-	} else if cube[0]&4 == 4 {
-		fmt.Printf("face 4\n")//
-	} else if cube[0]&3 == 3 {
-		fmt.Printf("face 3\n")//
-	} else if cube[0]&2 == 2 {
-		fmt.Printf("face 2\n")//
-	} else if cube[0]&1 == 1 {
-		fmt.Printf("face 1\n")//
-	} else { // is 0
-		fmt.Printf("face 0\n")//
-	}
-
-	fmt.Printf("\n")//	
-	for face := 0; face < 6; face++ {
-		fmt.Printf("oh hello %v\n", face)
-		fmt.Printf("\n")//	
-	}
-
-	fmt.Printf("V: %v\n", cube[5]&1342177280)
-	if cube[5]&1342177280 == 1342177280 {
-		fmt.Printf("0 ")
-	}	
+	//	A B C
+	//  H @ D
+	//	G F E
 
 	fmt.Printf("\n        ")
+	// A	// top left corner
 	if cube[0]&0x50000000 == 0x50000000 {				// 0101 0000 0000 0000 0000 0000 0000 0000
 		fmt.Printf("%v5%v ", Yellow, Reset)
 	} else if cube[0]&0x40000000 == 0x40000000 {		// 0100 0000 0000 0000 0000 0000 0000 0000
@@ -111,13 +42,121 @@ func dumpCube(cube *[6]uint32) {
 		fmt.Printf("0 ")
 	}
 
+	// B	// top edge
+	if cube[0]&0x05000000 == 0x05000000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x04000000 == 0x04000000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x03000000 == 0x03000000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x02000000 == 0x02000000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x01000000 == 0x01000000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// C	// top right corner
+	if cube[0]&0x00500000 == 0x00500000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x00400000 == 0x00400000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x00300000 == 0x00300000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x00200000 == 0x00200000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x00100000 == 0x00100000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	fmt.Printf("\n        ")
+	// H	// left edge
+	if cube[0]&0x00000005 == 0x00000005 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x00000004 == 0x00000004 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x00000003 == 0x00000003 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x00000002 == 0x00000002 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x00000001 == 0x00000001 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// Center
+	fmt.Printf("0 ")
+
+	// D	// right edge
+	if cube[0]&0x00050000 == 0x00050000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x00040000 == 0x00040000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x00030000 == 0x00030000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x00020000 == 0x00020000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x00010000 == 0x00010000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	fmt.Printf("\n        ")
+	// G	// bottom left corner
+	if cube[0]&0x00000050 == 0x00000050 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x00000040 == 0x00000040 { 
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x00000030 == 0x00000030 { 
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x00000020 == 0x00000020 { 
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x00000010 == 0x00000010 { 
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// F	// bottom edge
+	if cube[0]&0x00000500 == 0x00000500 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x00000400 == 0x00000400 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x00000300 == 0x00000300 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x00000200 == 0x00000200 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x00000100 == 0x00000100 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
+	// E	// bottom right corner
+	if cube[0]&0x00005000 == 0x00005000 {
+		fmt.Printf("%v5%v ", Yellow, Reset)
+	} else if cube[0]&0x00004000 == 0x00004000 {
+		fmt.Printf("%v4%v ", Blue, Reset)
+	} else if cube[0]&0x00003000 == 0x00003000 {
+		fmt.Printf("%v3%v ", Red, Reset)
+	} else if cube[0]&0x00002000 == 0x00002000 {
+		fmt.Printf("%v2%v ", Green, Reset)
+	} else if cube[0]&0x00001000 == 0x00001000 {
+		fmt.Printf("%v1%v ", Orange, Reset)
+	} else {
+		fmt.Printf("0 ")
+	}
+
 	fmt.Printf("\n")
 }
 
 //	
-//	A B C
-//  H @ D
-//	G F E
+
 
 // a & 196	query a value for its set bits
 // &=		selectively clearing bits of an integer value to zero
