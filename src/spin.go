@@ -182,76 +182,75 @@ func spinR(cube *[6]uint32) {
 	cube[2] &= 0x77000777
 	cube[2] |= tmp
 	
-	tmp0 := cube[4]
-	// tmp1 := cube[4]
-	// tmp2 := cube[4]	
-	tmp0 &= 0x00000070
-	fmt.Printf("tmp0: %032b\n", tmp0)//!!!!
-	tmp0 &= 0x00000070/////////////rotate
-	fmt.Printf("tmp0: %032b\n", tmp0)//!!!!
+	tmp = cube[4]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 16)
 	cube[5] &= 0x77000777
-	fmt.Printf("cube[5]: %032b\n", cube[5])//!!!!
+	cube[5] |= tmp
 
-	// cube[2] |= tmp
+	tmp = cube[0]
+	tmp &= 0x00777000
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[4] &= 0x07777700
+	cube[4] |= tmp
 
-	// tmp = cube[4]
-	// tmp &= 0x00007770
-	// cube[3] &= 0x77770007
-	// cube[3] |= tmp
-
-	// cube[4] &= 0x77770007
-	// cube[4] |= swap
+	cube[0] &= 0x77000777
+	cube[0] |= swap
 }
 
 func spinRa(cube *[6]uint32) {
 	spinFaceAnti(cube, 3)
 	// spin edges
-	// swap := cube[1]
-	// swap &= 0x00007770
+	swap := cube[2]
+	swap &= 0x00777000
 
-	// tmp := cube[4]
-	// tmp &= 0x00007770
-	// cube[1] &= 0x77770007
-	// cube[1] |= tmp
+	tmp := cube[0]
+	tmp &= 0x00777000
+	cube[2] &= 0x77000777
+	cube[2] |= tmp
 	
-	// tmp = cube[3]
-	// tmp &= 0x00007770
-	// cube[4] &= 0x77770007
-	// cube[4] |= tmp
+	tmp = cube[4]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[0] &= 0x77000777
+	cube[0] |= tmp
 
-	// tmp = cube[2]
-	// tmp &= 0x00007770
-	// cube[3] &= 0x77770007
-	// cube[3] |= tmp
+	tmp = cube[5]
+	tmp &= 0x00777000
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[4] &= 0x07777700
+	cube[4] |= tmp
 
-	// cube[2] &= 0x77770007
-	// cube[2] |= swap
+	cube[5] &= 0x77000777
+	cube[5] |= swap
 }
 
 func spinR2(cube *[6]uint32) {
 	spinFace2(cube, 3)
 	// spin edges
-	// swap := cube[1]
-	// swap &= 0x00007770
+	swap := cube[2]
+	swap &= 0x00777000
+	swap = bits.RotateLeft32(swap, 16)
 
-	// tmp := cube[3]
-	// tmp &= 0x00007770
-	// cube[1] &= 0x77770007
-	// cube[1] |= tmp
+	tmp := cube[4]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[2] &= 0x77000777
+	cube[2] |= tmp
 	
-	// cube[3] &= 0x77770007
-	// cube[3] |= swap
+	cube[4] &= 0x07777700
+	cube[4] |= swap
 
-	// swap = cube[2]
-	// swap &= 0x00007770
+	swap = cube[0]
+	swap &= 0x00777000
 
-	// tmp = cube[4]
-	// tmp &= 0x00007770
-	// cube[2] &= 0x77770007
-	// cube[2] |= tmp
+	tmp = cube[5]
+	tmp &= 0x00777000
+	cube[0] &= 0x77000777
+	cube[0] |= tmp
 	
-	// cube[4] &= 0x77770007
-	// cube[4] |= swap
+	cube[5] &= 0x77000777
+	cube[5] |= swap
 }
 
 func spin(mix string, cube *[6]uint32) {
