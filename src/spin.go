@@ -334,7 +334,6 @@ func spinL2(cube *[6]uint32) {
 	cube[5] |= swap
 }
 
-
 func spinF(cube *[6]uint32) {
 	spinFace(cube, 2)
 	// spin edges
@@ -423,6 +422,94 @@ func spinF2(cube *[6]uint32) {
 	cube[5] |= swap
 }
 
+func spinB(cube *[6]uint32) {
+	spinFace(cube, 4)
+	// spin edges
+	swap := cube[3]
+	swap &= 0x00777000
+	swap = bits.RotateLeft32(swap, 8)
+
+	tmp := cube[5]
+	tmp &= 0x00007770
+	tmp = bits.RotateLeft32(tmp, 8)
+	cube[3] &= 0x77000777
+	cube[3] |= tmp
+
+	tmp = cube[1]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 8)
+	cube[5] &= 0x77770007
+	cube[5] |= tmp
+
+	tmp = cube[0]
+	tmp &= 0x77700000
+	tmp = bits.RotateLeft32(tmp, 8)
+	cube[1] &= 0x07777700
+	cube[1] |= tmp
+
+	cube[0] &= 0x00077777
+	cube[0] |= swap
+}
+
+func spinBa(cube *[6]uint32) {
+	spinFaceAnti(cube, 4)
+	// spin edges
+	swap := cube[3]
+	swap &= 0x00777000
+	swap = bits.RotateLeft32(swap, -8)
+
+	tmp := cube[0]
+	tmp &= 0x77700000
+	tmp = bits.RotateLeft32(tmp, -8)
+	cube[3] &= 0x77000777
+	cube[3] |= tmp
+
+	tmp = cube[1]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, -8)
+	cube[0] &= 0x00077777
+	cube[0] |= tmp
+
+	tmp = cube[5]
+	tmp &= 0x00007770
+	tmp = bits.RotateLeft32(tmp, -8)
+	cube[1] &= 0x07777700
+	cube[1] |= tmp
+
+	cube[5] &= 0x77770007
+	cube[5] |= swap
+}
+
+func spinB2(cube *[6]uint32) {
+	spinFace2(cube, 4)
+	// spin edges
+	swap := cube[3]
+	swap &= 0x00777000
+	swap = bits.RotateLeft32(swap, 16)
+
+	tmp := cube[1]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[3] &= 0x77000777
+	cube[3] |= tmp
+
+	cube[1] &= 0x07777700
+	cube[1] |= swap
+
+	swap = cube[0]
+	swap &= 0x77700000
+	swap = bits.RotateLeft32(swap, 16)
+
+	tmp = cube[5]
+	tmp &= 0x00007770
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[0] &= 0x00077777
+	cube[0] |= tmp
+
+	cube[5] &= 0x77770007
+	cube[5] |= swap
+}
+
 func spin(mix string, cube *[6]uint32) {
 	sequence := strings.Fields(mix)
 	fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
@@ -458,16 +545,15 @@ func spin(mix string, cube *[6]uint32) {
 			spinFa(cube)
 		} else if sequence[spin] == "F2" {
 			spinF2(cube)
-	// 	} else if sequence[spin] == "B" {
-	// 		spinB(cube)
-	// 	} else if sequence[spin] == "B'" {
-	// 		spinBa(cube)
-	// 	} else if sequence[spin] == "B2" {
-	// 		spinB2(cube)
-	// 	} else {
-	// 		errorExit("bad input")
+		} else if sequence[spin] == "B" {
+			spinB(cube)
+		} else if sequence[spin] == "B'" {
+			spinBa(cube)
+		} else if sequence[spin] == "B2" {
+			spinB2(cube)
+		} else {
+			errorExit("bad input")
 		}
 		dumpCube(cube)////
 	}
-	// test()//////!!!!!
 }
