@@ -100,31 +100,6 @@ func spinD(cube *[6]uint32) {
 	swap := cube[1]
 	swap &= 0x00007770
 
-	tmp := cube[2]
-	tmp &= 0x00007770
-	cube[1] &= 0x77770007
-	cube[1] |= tmp
-	
-	tmp = cube[3]
-	tmp &= 0x00007770
-	cube[2] &= 0x77770007
-	cube[2] |= tmp
-
-	tmp = cube[4]
-	tmp &= 0x00007770
-	cube[3] &= 0x77770007
-	cube[3] |= tmp
-
-	cube[4] &= 0x77770007
-	cube[4] |= swap
-}
-
-func spinDa(cube *[6]uint32) {
-	spinFaceAnti(cube, 5)
-	// spin edges
-	swap := cube[1]
-	swap &= 0x00007770
-
 	tmp := cube[4]
 	tmp &= 0x00007770
 	cube[1] &= 0x77770007
@@ -142,6 +117,31 @@ func spinDa(cube *[6]uint32) {
 
 	cube[2] &= 0x77770007
 	cube[2] |= swap
+}
+
+func spinDa(cube *[6]uint32) {
+	spinFaceAnti(cube, 5)
+	// spin edges
+	swap := cube[1]
+	swap &= 0x00007770
+
+	tmp := cube[2]
+	tmp &= 0x00007770
+	cube[1] &= 0x77770007
+	cube[1] |= tmp
+	
+	tmp = cube[3]
+	tmp &= 0x00007770
+	cube[2] &= 0x77770007
+	cube[2] |= tmp
+
+	tmp = cube[4]
+	tmp &= 0x00007770
+	cube[3] &= 0x77770007
+	cube[3] |= tmp
+
+	cube[4] &= 0x77770007
+	cube[4] |= swap
 }
 
 func spinD2(cube *[6]uint32) {
