@@ -170,7 +170,6 @@ func spinD2(cube *[6]uint32) {
 	cube[4] |= swap
 }
 
-
 func spinR(cube *[6]uint32) {
 	spinFace(cube, 3)
 	// spin edges
@@ -253,6 +252,88 @@ func spinR2(cube *[6]uint32) {
 	cube[5] |= swap
 }
 
+func spinL(cube *[6]uint32) {
+	spinFace(cube, 1)
+	// spin edges
+	swap := cube[2]
+	swap &= 0x70000077
+
+	tmp := cube[0]
+	tmp &= 0x70000077
+	cube[2] &= 0x07777700
+	cube[2] |= tmp
+
+	tmp = cube[4]
+	tmp &= 0x00777000
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[0] &= 0x07777700
+	cube[0] |= tmp
+
+	tmp = cube[5]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[4] &= 0x77000777
+	cube[4] |= tmp
+
+	cube[5] &= 0x07777700
+	cube[5] |= swap
+}
+
+func spinLa(cube *[6]uint32) {
+	spinFaceAnti(cube, 1)
+	// spin edges
+	swap := cube[2]
+	swap &= 0x70000077
+
+	tmp := cube[5]
+	tmp &= 0x70000077
+	cube[2] &= 0x07777700
+	cube[2] |= tmp
+
+	tmp = cube[4]
+	tmp &= 0x00777000
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[5] &= 0x07777700
+	cube[5] |= tmp
+
+	tmp = cube[0]
+	tmp &= 0x70000077
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[4] &= 0x77000777
+	cube[4] |= tmp
+
+	cube[0] &= 0x07777700
+	cube[0] |= swap
+}
+
+func spinL2(cube *[6]uint32) {
+	spinFace2(cube, 1)
+	// spin edges
+	swap := cube[2]
+	swap &= 0x70000077
+	swap = bits.RotateLeft32(swap, 16)
+
+	tmp := cube[4]
+	tmp &= 0x00777000
+	tmp = bits.RotateLeft32(tmp, 16)
+	cube[2] &= 0x07777700
+	cube[2] |= tmp
+
+	cube[4] &= 0x77000777
+	cube[4] |= swap
+
+	swap = cube[0]
+	swap &= 0x70000077
+
+	tmp = cube[5]
+	tmp &= 0x70000077
+	cube[0] &= 0x07777700
+	cube[0] |= tmp
+
+	cube[5] &= 0x07777700
+	cube[5] |= swap
+}
+
 func spin(mix string, cube *[6]uint32) {
 	sequence := strings.Fields(mix)
 	fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
@@ -271,32 +352,29 @@ func spin(mix string, cube *[6]uint32) {
 		} else if sequence[spin] == "D2" {
 			spinD2(cube)
 		} else if sequence[spin] == "R" {
-			spinR(&r.cube)
+			spinR(cube)
 		} else if sequence[spin] == "R'" {
-			spinRa(&r.cube)
+			spinRa(cube)
 		} else if sequence[spin] == "R2" {
-			spinR2(&r.cube)
-	// 	} else if sequence[spin] == "L" {
-	// 		spinL(&r.cube)
-	// 	} else if sequence[spin] == "L'" {
-	// 		spinLa(&r.cube)
-	// 	} else if sequence[spin] == "L2" {
-	// 		spinL(&r.cube)
-	// 		spinL(&r.cube)
+			spinR2(cube)
+		} else if sequence[spin] == "L" {
+			spinL(cube)
+		} else if sequence[spin] == "L'" {
+			spinLa(cube)
+		} else if sequence[spin] == "L2" {
+			spinL2(cube)
 	// 	} else if sequence[spin] == "F" {
-	// 		spinF(&r.cube)
+	// 		spinF(cube)
 	// 	} else if sequence[spin] == "F'" {
-	// 		spinFa(&r.cube)
+	// 		spinFa(cube)
 	// 	} else if sequence[spin] == "F2" {
-	// 		spinF(&r.cube)
-	// 		spinF(&r.cube)
+	// 		spinF2(cube)
 	// 	} else if sequence[spin] == "B" {
-	// 		spinB(&r.cube)
+	// 		spinB(cube)
 	// 	} else if sequence[spin] == "B'" {
-	// 		spinBa(&r.cube)
+	// 		spinBa(cube)
 	// 	} else if sequence[spin] == "B2" {
-	// 		spinB(&r.cube)
-	// 		spinB(&r.cube)
+	// 		spinB2(cube)
 	// 	} else {
 	// 		errorExit("bad input")
 		}
