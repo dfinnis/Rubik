@@ -5,6 +5,7 @@ import (
 	"os"
 	"math/rand"
 	"time"
+	// "flag" //
 )
 
 // rubik struct contains all information about current rubik state
@@ -39,18 +40,17 @@ func parseArg() string {
 		errorExit("too many arguments")
 	}
 	mix := args[0]
+	// random := false
+	// if len(args) == 2 {
+	// 	if args[1] != "-r" {
+	// 		errorExit("make a proper usage func")//////!!!!!!!
+	// 	}
+	// 	// fmt.Printf("args[1]: %v\n\n", args[1])//
+	// 	random = true
+	// }
 	// fmt.Println(reflect.TypeOf(moveList))
 	return mix
 }
-
-// func solve(&r.cube) string {
-	
-	// return solution
-// }
-
-// func printSolution(solution) {
-
-// }
 
 // randomMix returns a random 20 to 40 spin long mix
 func randomMix() string {
@@ -86,20 +86,25 @@ func randomMix() string {
 	return mix
 }
 
+func printSolution(solution string) {
+	fmt.Printf("\nSolution: %v\n\n", solution)
+}
+
 func RunRubik() {
 	mix := parseArg()
-	// random := randomMix()//// make option, flag -r?
-	// fmt.Printf("random: %s\n", random)//
+	if mix == "-r" || mix == "--random" {
+		mix = randomMix()
+	}
 	fmt.Printf("mix: %s\n", mix)//
 	r := initRubik()
 	dumpCube(&r.cube)////
 	spin(mix, &r.cube)
 	// dumpCube(&r.cube)////
 	// solution := solve(&r.cube)
+	// solution := solveHuman(&r.cube)
 	// printSolution(solution)
 	// runGraphic()
 }
-
 
 // a & 196	query a value for its set bits
 // &=		selectively clearing bits of an integer value to zero
