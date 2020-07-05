@@ -31,27 +31,28 @@ func initRubik() *rubik {
 	return r
 }
 
-func parseArg() string {
+func parseArg() (string, bool) {
 	args := os.Args[1:]
 	if len(args) == 0 {
 		errorExit("not enough arguments, no mix given")
-	} else if len(args) > 1 {
+	} else if len(args) > 2 {
 		errorExit("too many arguments")
 	}
 	mix := args[0]
-	// random := false
-	// if len(args) == 2 {
-	// 	if args[1] != "-r" {
-	// 		errorExit("make a proper usage func")//////!!!!!!!
-	// 	}
-	// 	// fmt.Printf("args[1]: %v\n\n", args[1])//
-	// 	random = true
-	// }
+	visualizer := false
+	if len(args) == 2 {
+		if args[1] == "-v" || args[1] == "--visualizer" {
+			visualizer = true
+		} else {
+			errorExit("make a proper usage func")//////!!!!!!!
+		}
+		// fmt.Printf("args[1]: %v\n\n", args[1])//
+	}
 	// fmt.Println(reflect.TypeOf(moveList))
-	return mix
+	return mix, visualizer
 }
 
-// randomMix returns a random 20 to 24 spin long mix
+//F U U F B randomMix returns a random 20 to 24 spin long mix
 func randomMix() string {
 	var mix string
 	spin := []string{
@@ -90,7 +91,7 @@ func printSolution(solution string) {
 }
 
 func RunRubik() {
-	mix := parseArg()
+	mix, visualizer := parseArg()
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix()
 	}
@@ -102,10 +103,11 @@ func RunRubik() {
 	// dumpCube(&r.cube)////
 	tree(&r.cube)
 	// solution := solve(&r.cube)
-	// solution := solveHuman(&r.cube)
-	solution := "F U"
+	solution := "F U" /////rm!!!!!!
 	printSolution(solution)
-	runGraphic(mix, solution)
+	if visualizer {
+		runGraphic(mix, solution)
+	}
 }
 
 // a & 196	query a value for its set bits
