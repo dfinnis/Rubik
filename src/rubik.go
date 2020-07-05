@@ -5,9 +5,6 @@ import (
 	"os"
 	"math/rand"
 	"time"
-	"os/exec"
-	// "net/http"
-	"github.com/go-vgo/robotgo"
 )
 
 // rubik struct contains all information about current rubik state
@@ -90,43 +87,6 @@ func randomMix() string {
 
 func printSolution(solution string) {
 	fmt.Printf("\nSolution: %v\n\n", solution)
-}
-
-func formatNotation(spin string) string {
-	return spin
-}
-
-func runGraphic(mix string, solution string) {
-	exec.Command("open", "http://iamthecu.be/").Run()
-	// // Cmd + Option + J. // -jsconsole
-	robotgo.Sleep(1)
-	robotgo.KeyTap("enter")
-	robotgo.Sleep(5)
-	// robotgo.TypeStr("rdRDrdRDrdRDrdRDrdRDrdRD")
-	// robotgo.TypeStr("rdRD")
-
-	mixFormated := formatNotation(mix)
-	fmt.Printf("\nmix = %v\n", mixFormated)//
-	robotgo.TypeStr(mixFormated)
-
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-
-	robotgo.Sleep(2)
-	solutionFormated := formatNotation(solution)
-	fmt.Printf("\nsolution = %v\n", solutionFormated)//
-	robotgo.TypeStr(solutionFormated)
-
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")	
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("up")
-	robotgo.KeyTap("up")
-	robotgo.KeyTap("up")
-	robotgo.KeyTap("up")
 }
 
 func RunRubik() {
