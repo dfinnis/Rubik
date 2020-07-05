@@ -7,6 +7,7 @@ import (
 	"time"
 	"os/exec"
 	// "net/http"
+	"github.com/go-vgo/robotgo"
 )
 
 // rubik struct contains all information about current rubik state
@@ -92,7 +93,12 @@ func printSolution(solution string) {
 }
 
 func runGraphic(mix string, solution string) {
-    exec.Command("open", "http://iamthecu.be/").Run()
+	exec.Command("open", "http://iamthecu.be/").Run()
+	// // Cmd + Option + J. // -jsconsole
+	robotgo.Sleep(1)
+	robotgo.KeyTap("enter")
+	robotgo.Sleep(5)
+	robotgo.TypeStr("F")
 }
 
 func RunRubik() {
