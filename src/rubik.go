@@ -54,7 +54,7 @@ func parseArg() string {
 	return mix
 }
 
-// randomMix returns a random 20 to 40 spin long mix
+// randomMix returns a random 20 to 24 spin long mix
 func randomMix() string {
 	var mix string
 	spin := []string{
@@ -78,7 +78,7 @@ func randomMix() string {
 		"B2",
 	}
 	rand.Seed(time.Now().UnixNano())
-	n := rand.Intn(20) + 20
+	n := rand.Intn(4) + 20
 	for i := 0; i <= n; i++ {
 		mix += 	spin[rand.Intn(len(spin))]
 		if i != n {
@@ -92,13 +92,41 @@ func printSolution(solution string) {
 	fmt.Printf("\nSolution: %v\n\n", solution)
 }
 
+func formatNotation(spin string) string {
+	return spin
+}
+
 func runGraphic(mix string, solution string) {
 	exec.Command("open", "http://iamthecu.be/").Run()
 	// // Cmd + Option + J. // -jsconsole
 	robotgo.Sleep(1)
 	robotgo.KeyTap("enter")
 	robotgo.Sleep(5)
-	robotgo.TypeStr("F")
+	// robotgo.TypeStr("rdRDrdRDrdRDrdRDrdRDrdRD")
+	// robotgo.TypeStr("rdRD")
+
+	mixFormated := formatNotation(mix)
+	fmt.Printf("\nmix = %v\n", mixFormated)//
+	robotgo.TypeStr(mixFormated)
+
+	robotgo.KeyTap("right")
+	robotgo.KeyTap("right")
+	robotgo.KeyTap("right")
+	robotgo.KeyTap("right")
+
+	robotgo.Sleep(2)
+	solutionFormated := formatNotation(solution)
+	fmt.Printf("\nsolution = %v\n", solutionFormated)//
+	robotgo.TypeStr(solutionFormated)
+
+	robotgo.KeyTap("right")
+	robotgo.KeyTap("right")
+	robotgo.KeyTap("right")	
+	robotgo.KeyTap("right")
+	robotgo.KeyTap("up")
+	robotgo.KeyTap("up")
+	robotgo.KeyTap("up")
+	robotgo.KeyTap("up")
 }
 
 func RunRubik() {
