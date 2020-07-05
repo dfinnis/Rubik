@@ -2,10 +2,11 @@ package rubik
 
 import (
 	"os/exec"
-	"fmt"//
 	"github.com/go-vgo/robotgo"
 	"strings"
 )
+
+// formatNotation replaces 42 spin notation with iamthecu.be notation
 func formatNotation(spin string) string {
 	spin = strings.ReplaceAll(spin, "U'", "u")
 	spin = strings.ReplaceAll(spin, "U2", "U U")
@@ -22,6 +23,13 @@ func formatNotation(spin string) string {
 	return spin
 }
 
+// spinCube spins "up" "down" "right" or "left"
+func spinCube(direction string) {
+	for i := 0; i < 4; i++ {
+		robotgo.KeyTap(direction)
+	}
+}
+
 func runGraphic(mix string, solution string) {
 	exec.Command("open", "http://iamthecu.be/").Run()
 	// // Cmd + Option + J. // -jsconsole
@@ -34,25 +42,12 @@ func runGraphic(mix string, solution string) {
 	// robotgo.KeyTap("left")	// comment for demo
 
 	mixFormated := formatNotation(mix)
-	fmt.Printf("\nmixFormated = %v\n", mixFormated)//
 	robotgo.TypeStr(mixFormated)
 
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-	robotgo.KeyTap("right")
-
-	solution = "U U' U2 U2 D D' D2 D2 R R' R2 R2 L L' L2 L2 F F' F2 F2 B B' B2 B2" // test
+	spinCube("right")
 	solutionFormated := formatNotation(solution)
-	fmt.Printf("\nsolution = %v\n", solutionFormated)//
 	robotgo.TypeStr(solutionFormated)
 
-	// robotgo.KeyTap("right")
-	// robotgo.KeyTap("right")
-	// robotgo.KeyTap("right")	
-	// robotgo.KeyTap("right")
-	// robotgo.KeyTap("up")
-	// robotgo.KeyTap("up")
-	// robotgo.KeyTap("up")
-	// robotgo.KeyTap("up")
+	spinCube("right")
+	spinCube("up")
 }
