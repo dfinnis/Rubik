@@ -5,7 +5,8 @@ import (
 	"os"
 	"math/rand"
 	"time"
-	// "flag" //
+	"os/exec"
+	// "net/http"
 )
 
 // rubik struct contains all information about current rubik state
@@ -90,6 +91,10 @@ func printSolution(solution string) {
 	fmt.Printf("\nSolution: %v\n\n", solution)
 }
 
+func runGraphic(mix string, solution string) {
+    exec.Command("open", "http://iamthecu.be/").Run()
+}
+
 func RunRubik() {
 	mix := parseArg()
 	if mix == "-r" || mix == "--random" {
@@ -104,8 +109,9 @@ func RunRubik() {
 	tree(&r.cube)
 	// solution := solve(&r.cube)
 	// solution := solveHuman(&r.cube)
-	// printSolution(solution)
-	// runGraphic()
+	solution := "F U"
+	printSolution(solution)
+	runGraphic(mix, solution)
 }
 
 // a & 196	query a value for its set bits
