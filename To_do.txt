@@ -6,9 +6,6 @@ This will also be acceptable: 23.196 seconds
 
 #### BONUS ####
 1. random mix generator
-2. visualizer?
+2. visualizer
 3. human solver algo?
 4. example mixes inc. superflip
-
-### TO DO ###
-{} compare board states using bit masks
