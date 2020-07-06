@@ -2,14 +2,14 @@ package main
 
 import (
 	rubik "Rubik/src"
-	"fmt"//
+	// "fmt"//
 )
 
 func main() {
-	fmt.Printf("oh hi!\n")/////////
+	// fmt.Printf("oh hi!\n")/////////
 	rubik.RunRubik()
 	// rubik.RunRubikDeprecated()////////
-	fmt.Printf("\nEND!!\n")//////////
+	// fmt.Printf("\nEND!!\n")//////////
 }
 
 // ## To run enter either command:

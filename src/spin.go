@@ -1,7 +1,7 @@
 package rubik
 
 import (
-	"fmt" //
+	// "fmt" //
 	"math/bits"
 	"strings"
 )
@@ -512,9 +512,9 @@ func spinB2(cube *[6]uint32) {
 
 func spin(mix string, cube *[6]uint32) {
 	sequence := strings.Fields(mix)
-	fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
+	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
 	for spin := 0; spin < len(sequence); spin++ {
-		fmt.Printf("\nspin %v: %v\n", spin, sequence[spin]) //
+		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin]) //
 		if sequence[spin] == "U" {
 			spinU(cube)
 		} else if sequence[spin] == "U'" {
@@ -554,6 +554,6 @@ func spin(mix string, cube *[6]uint32) {
 		} else {
 			errorExit("bad input")
 		}
-		dumpCube(cube)////
+		// dumpCube(cube)////rm!!!!
 	}
 }
