@@ -23,31 +23,28 @@ func formatNotation(spin string) string {
 	return spin
 }
 
-// spinCube spins "up" "down" "right" or "left"
+// spinCube spins 360 "up" "down" "right" or "left"
 func spinCube(direction string) {
 	for i := 0; i < 4; i++ {
 		robotgo.KeyTap(direction)
 	}
 }
 
-func runGraphic(mix string, solution string) {
-	exec.Command("open", "http://iamthecu.be/").Run()
-	// // Cmd + Option + J. // -jsconsole
-	robotgo.Sleep(1)
-	robotgo.KeyTap("enter")
-	robotgo.Sleep(5)
+func runGraphic(mix string, solution string, visualizer bool) {
+	if visualizer {
+		exec.Command("open", "http://iamthecu.be/").Run()
+		// // Cmd + Option + J. // -jsconsole
+		robotgo.Sleep(1)
+		robotgo.KeyTap("enter")
+		robotgo.Sleep(5)
+		// // orientate cube to default. white up, green front
+		// robotgo.KeyTap("up")	// comment for demo
+		// robotgo.KeyTap("left")	// comment for demo
 
-	// // orientate cube to default. white up, green front
-	// robotgo.KeyTap("up")	// comment for demo
-	// robotgo.KeyTap("left")	// comment for demo
-
-	mixFormated := formatNotation(mix)
-	robotgo.TypeStr(mixFormated)
-
-	spinCube("right")
-	solutionFormated := formatNotation(solution)
-	robotgo.TypeStr(solutionFormated)
-
-	spinCube("right")
-	spinCube("up")
+		robotgo.TypeStr(formatNotation(mix))
+		spinCube("right")
+		robotgo.TypeStr(formatNotation(solution))
+		spinCube("right")
+		spinCube("up")
+	}
 }

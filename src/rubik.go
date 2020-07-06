@@ -21,7 +21,7 @@ func errorExit(message string) {
 }
 
 func printUsage() {
-	fmt.Printf("\nUsage:\t./Rubik \"mix\" [-v] [-h]\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-v] [-h]\n\n")
 	fmt.Printf("    mix should be valid sequence string e.g.\n")
 	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
 	fmt.Printf("    alternatively, mix \"-r\" or \"--random\" mixes randomly\n\n")
@@ -31,8 +31,7 @@ func printUsage() {
 }
 
 func initRubik() *rubik {
-	r = &rubik{}			//	0000 0000 0000 0000 0000 0000 0000 0000
-	// r.cube[0] = 0x44444444	//													rm!!!!!!!!!!!!!!!!!	
+	r = &rubik{}			//	0			//	0000 0000 0000 0000 0000 0000 0000 0000
 	r.cube[1] = 0x11111111	//	286331153	//	0001 0001 0001 0001 0001 0001 0001 0001
 	r.cube[2] = 0x22222222	//	572662306	//	0010 0010 0010 0010 0010 0010 0010 0010
 	r.cube[3] = 0x33333333	//	858993459	//	0011 0011 0011 0011 0011 0011 0011 0011
@@ -44,9 +43,11 @@ func initRubik() *rubik {
 func parseArg() (string, bool) {
 	args := os.Args[1:]
 	if len(args) == 0 {
-		errorExit("not enough arguments, no mix given")
+		fmt.Printf("Error: not enough arguments, no mix given\n")
+		printUsage()
 	} else if len(args) > 3 {
-		errorExit("too many arguments")
+		fmt.Printf("Error: too many arguments\n")
+		printUsage()
 	}
 	mix := args[0]
 	if mix == "-h" || mix == "--help" {
@@ -58,6 +59,7 @@ func parseArg() (string, bool) {
 			if args[i] == "-v" || args[i] == "--visualizer" {
 				visualizer = true
 			} else {
+				fmt.Printf("Error: bad argument\n")
 				printUsage()
 			}
 		}
@@ -96,30 +98,54 @@ func randomMix() string {
 			mix += " "
 		}
 	}
+	fmt.Printf("\nRandom Mix: %v\n\n", mix)
 	return mix
 }
 
-func printSolution(solution string) {
-	fmt.Printf("\nSolution: %v\n\n", solution)
+func isSolved(cube *[6]uint32) bool {
+	if cube[0]&0x77777777 == 0 &&
+	cube[1]&0x77777777 == 0x11111111 &&
+	cube[2]&0x77777777 == 0x22222222 && 
+	cube[3]&0x77777777 == 0x33333333 && 
+	cube[4]&0x77777777 == 0x44444444 && 
+	cube[5]&0x77777777 == 0x55555555 {
+		return true
+	}
+	return false
+}
+
+func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
+	fmt.Printf("\n%vSolution:%v %v\n", "\x1B[1m", "\x1B[0m", solution)
+	spin(solution, cube)
+	if isSolved(cube) {
+		fmt.Printf("Solution correct ;)\n")
+	} else {
+		fmt.Printf("Solution incorrect :(\n")
+	}
+	fmt.Printf("\nSolve time: %v\n\n", elapsed)
+}
+
+func solvePlaceHolder() string { /////rm!!!!!!
+	solution := "F U"
+	time.Sleep(100000000)//
+	return solution
 }
 
 func RunRubik() {
 	mix, visualizer := parseArg()
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix()
-		fmt.Printf("\nRandom Mix: %v\n\n", mix)
 	}
-	fmt.Printf("mix: %s\n", mix)//
 	r := initRubik()
-	dumpCube(&r.cube)////
+	// dumpCube(&r.cube)////
 	spin(mix, &r.cube)
 	// dumpCube(&r.cube)////
+	start := time.Now()
 	// solution := solve(&r.cube)
-	solution := "F U" /////rm!!!!!!
-	printSolution(solution)
-	if visualizer {
-		runGraphic(mix, solution)
-	}
+	solution := solvePlaceHolder()//rm!!!
+	elapsed := time.Since(start)
+	printSolution(solution, elapsed, &r.cube)
+	runGraphic(mix, solution, visualizer)
 }
 
 // a & 196	query a value for its set bits
