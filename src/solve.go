@@ -20,6 +20,10 @@ func newNode(id int, newCube *[6]uint32, parent *node) *node {
 	}
 }
 
+// G0 = U, D, L, R, F, B
+// G1 = U, D, L2, R2, F2, B2 
+// G2 = solved
+
 // generates a cube for each of the 18 possible moves
 func generateMoves(root *node) {
 	move := []string{
@@ -44,21 +48,14 @@ func generateMoves(root *node) {
 	}
 	for i:= 0; i < 18; i++ {
 		mix := move[i] // tested, works
-		// either init new cube and spin it, or copy root cube after spin
-		new := initRubik()
-		// fmt.Printf("\n\n## move %s ##\n", mix)
-		spin(mix, &new.cube)
-		newNode := newNode(i+1, &new.cube, root)
+		new := root.cube
+		spin(mix, &new)
+		newNode := newNode(i+1, &new, root)
 		root.children = append(root.children, newNode)
 	}
 }
 
-func tree(cube *[6]uint32) {
-
-	// start_cube := initRubik()
-	root := newNode(0, cube, nil)
-	generateMoves(root)
-
+func printTree(root *node) {
 	current := root
 	fmt.Printf("id = %v\n", current.id)
 	dumpCube(&current.cube)
@@ -67,6 +64,15 @@ func tree(cube *[6]uint32) {
 		fmt.Printf("\n------------\n")
 		fmt.Printf("parent = %v, id = %v\n", current.parent.id, current.id)
 		dumpCube(&current.cube)
-		
 	}
+	dumpCube(&root.cube)
+}
+
+func tree(cube *[6]uint32) {
+
+	root := newNode(0, cube, nil)
+	generateMoves(root)
+	printTree(root)
+
+
 }
