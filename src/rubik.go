@@ -24,7 +24,8 @@ func printUsage() {
 	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-v] [-h]\n\n")
 	fmt.Printf("    mix should be valid sequence string e.g.\n")
 	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
-	fmt.Printf("    alternatively, mix \"-r\" or \"--random\" mixes randomly\n\n")
+	fmt.Printf("    or mix \"$(< mix/superflip.txt)\" reads a file\n")
+	fmt.Printf("    or mix \"-r\" or \"--random\" mixes randomly\n\n")
 	fmt.Printf("    [-v] (--visualizer) show visual of mix and solution\n")
 	fmt.Printf("    [-h] (--help) show usage\n\n")
 	os.Exit(1)
@@ -54,10 +55,17 @@ func parseArg() (string, bool) {
 		printUsage()
 	}
 	visualizer := false
+	// debug := false
+	// binary := false
 	if len(args) > 1 {
 		for i := 1; i < len(args); i++ {
 			if args[i] == "-v" || args[i] == "--visualizer" {
 				visualizer = true
+			// } else if args[i] == "-d" || args[i] == "--debug" {
+			// 	debug = true
+			// } else if args[i] == "-b" || args[i] == "--binary" {
+			// 	debug = true
+			// 	binary = true
 			} else {
 				fmt.Printf("Error: bad argument\n")
 				printUsage()
@@ -98,7 +106,7 @@ func randomMix() string {
 			mix += " "
 		}
 	}
-	fmt.Printf("\nRandom Mix: %v\n\n", mix)
+	fmt.Printf("\nRandom Mix: %v\n", mix)
 	return mix
 }
 
@@ -115,14 +123,12 @@ func isSolved(cube *[6]uint32) bool {
 }
 
 func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
-	fmt.Printf("\n%vSolution:%v %v\n", "\x1B[1m", "\x1B[0m", solution)
+	fmt.Printf("\n%vSolution:%v %v\n\n", "\x1B[1m", "\x1B[0m", solution)
 	spin(solution, cube)
-	if isSolved(cube) {
-		fmt.Printf("Solution correct ;)\n")
-	} else {
-		fmt.Printf("Solution incorrect :(\n")
+	if isSolved(cube) == false {
+		fmt.Printf("Error: Solution incorrect :(\n\n")
 	}
-	fmt.Printf("\nSolve time: %v\n\n", elapsed)
+	fmt.Printf("Solve time: %v\n\n", elapsed)
 }
 
 func solvePlaceHolder() string { /////rm!!!!!!
@@ -137,7 +143,6 @@ func RunRubik() {
 		mix = randomMix()
 	}
 	r := initRubik()
-	// dumpCube(&r.cube)////
 	spin(mix, &r.cube)
 	// dumpCube(&r.cube)////
 	start := time.Now()
