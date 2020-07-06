@@ -512,9 +512,9 @@ func spinB2(cube *[6]uint32) {
 
 func spin(mix string, cube *[6]uint32) {
 	sequence := strings.Fields(mix)
-	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence)) //
+	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence))	//	debug tool
 	for spin := 0; spin < len(sequence); spin++ {
-		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin]) //
+		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin])	//	debug tool
 		if sequence[spin] == "U" {
 			spinU(cube)
 		} else if sequence[spin] == "U'" {
@@ -554,6 +554,6 @@ func spin(mix string, cube *[6]uint32) {
 		} else {
 			errorExit("bad input")
 		}
-		// dumpCube(cube)////rm!!!!
+		// dumpCube(cube)	//	debug tool
 	}
 }
