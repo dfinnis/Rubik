@@ -3,7 +3,6 @@ package rubik
 import (
 	"fmt"
 	"os"
-	"math/rand"
 	"time"
 )
 
@@ -75,41 +74,6 @@ func parseArg() (string, bool) {
 	return mix, visualizer
 }
 
-//randomMix returns a random 20 to 24 spin long mix
-func randomMix() string {
-	var mix string
-	spin := []string{
-		"U",
-		"U'",
-		"U2",
-		"D",
-		"D'",
-		"D2",
-		"R",
-		"R'",
-		"R2",
-		"L",
-		"L'",
-		"L2",
-		"F",
-		"F'",
-		"F2",
-		"B",
-		"B'",
-		"B2",
-	}
-	rand.Seed(time.Now().UnixNano())
-	n := rand.Intn(4) + 20
-	for i := 0; i <= n; i++ {
-		mix += 	spin[rand.Intn(len(spin))]
-		if i != n {
-			mix += " "
-		}
-	}
-	fmt.Printf("\nRandom Mix: %v\n", mix)
-	return mix
-}
-
 func isSolved(cube *[6]uint32) bool {
 	if cube[0]&0x77777777 == 0 &&
 	cube[1]&0x77777777 == 0x11111111 &&
@@ -156,3 +120,7 @@ func RunRubik() {
 // a & 196	query a value for its set bits
 // &=		selectively clearing bits of an integer value to zero
 // |=		set arbitrary bits for a given integer value
+
+
+// implementation of kociemba
+// how to find len(to G1)
