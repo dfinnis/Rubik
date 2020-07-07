@@ -187,6 +187,7 @@ func dumpLFRB(cube *[6]uint32) {
 
 func dumpBinary(cube *[6]uint32) {
 	// fmt.Printf("\ncube binary: %032b\n\n", cube)
+	fmt.Printf("cube %x\n", cube)
 	fmt.Printf("\n	A   B   C   D   E   F   G   H\n")
 	fmt.Printf("face 0:\t%032b\n", cube[0])
 	fmt.Printf("	A   B   C   D   E   F   G   H\n")
