@@ -9,3 +9,5 @@ This will also be acceptable: 23.196 seconds
 2. visualizer
 3. human solver algo?
 4. example mixes inc. superflip
+
+// web visualizer commented orientate to default debug (white up)
