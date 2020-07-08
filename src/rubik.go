@@ -87,17 +87,17 @@ func isSolved(cube *[6]uint32) bool {
 }
 
 func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
-	fmt.Printf("\n%vSolution:%v %v\n\n", "\x1B[1m", "\x1B[0m", solution)
 	spin(solution, cube)
 	if isSolved(cube) == false {
-		fmt.Printf("Error: Solution incorrect :(\n\n")
+		fmt.Printf("\nError: Solution incorrect :(\n")
 	}
-	fmt.Printf("Solve time: %v\n\n", elapsed)
+	fmt.Printf("\n%vSolution:\n%v%v\n\n", "\x1B[1m", "\x1B[0m", solution)
+	fmt.Printf("Solve time:\n%v\n\n", elapsed)
 }
 
 func solvePlaceHolder() string { /////rm!!!!!!
 	solution := "F U"
-	time.Sleep(100000000)//
+	// time.Sleep(1000000000)//
 	return solution
 }
 
