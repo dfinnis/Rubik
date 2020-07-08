@@ -96,7 +96,8 @@ func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
 }
 
 func solvePlaceHolder() string { /////rm!!!!!!
-	solution := "F U"
+	// solution := "F U"
+	solution := randomMix()
 	// time.Sleep(1000000000)//
 	return solution
 }
