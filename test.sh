@@ -194,8 +194,8 @@ fi
 
 #### -- END -- ####
 rm Rubik
-echo "\n\n\x1b[1mAll Rubik tests finished\x1b[0m" ##\nTotal runtime $SECONDS seconds"
-
+# echo "\n\n\x1b[1mAll Rubik tests finished\x1b[0m" ##\nTotal runtime $SECONDS seconds"
+echo
 if [ "$solved" == "$count" ]
 then
 	echo "\n\x1b[32mPassed $solved of $count total tests\x1b[0m\n"
@@ -207,7 +207,7 @@ else
 fi
 
 
-echo "Half-turn metric"
+echo "\x1b[1mHalf-turn metric\x1b[0m"
 mean_int=$(echo "scale = 0; $htm_cumulative / $count" | bc)
 mean_float=$(echo "scale = 2; $htm_cumulative / $count" | bc)
 if [ "$htm_best" -lt 30 ]
@@ -229,8 +229,27 @@ else
 	echo "\x1b[31mMean:\t      $mean_float\x1b[0m"
 fi
 
-echo "\nSolve time"
+echo "\n\x1b[1mSolve time\x1b[0m"
 time_mean=$(echo "scale = 9; $time_cumulative / $count" | bc)
-echo "Best:\t\t$time_best\x1b[0ms"
-echo "Worst:\t\t$time_worst\x1b[0ms"
-echo "Mean:\t\t$time_mean\x1b[0ms"
+best_cut=$(echo $time_best | cut -d "." -f 1)
+if [ "$best_cut" -lt 23 ]
+then
+	echo "\x1b[32mBest:\t      $time_best\x1b[32ms\x1b[0m"
+else
+	echo "\x1b[31mBest:\t      $time_best\x1b[31ms\x1b[0m"
+fi
+worst_cut=$(echo $time_worst | cut -d "." -f 1)
+if [ "$worst_cut" -lt 23 ]
+then
+	echo "\x1b[32mWorst:\t      $time_worst\x1b[32ms\x1b[0m"
+else
+	echo "\x1b[31mWorst:\t      $time_worst\x1b[31ms\x1b[0m"
+fi
+mean_cut=$(echo $time_mean | cut -d "." -f 1)
+if [ "$mean_cut" -lt 23 ]
+then
+	echo "\x1b[32mMean:\t      $time_mean\x1b[32ms\x1b[0m"
+else
+	echo "\x1b[31mMean:\t      $time_mean\x1b[31ms\x1b[0m"
+fi
+echo
