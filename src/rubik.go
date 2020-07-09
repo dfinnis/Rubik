@@ -97,6 +97,7 @@ func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
 
 func solvePlaceHolder() string { /////rm!!!!!!
 	// solution := "F U"
+	// solution := ""
 	solution := randomMix()
 	// time.Sleep(100000000)//
 	return solution
@@ -125,3 +126,13 @@ func RunRubik() {
 
 // implementation of kociemba
 // how to find len(to G1)
+
+
+// lookup table
+// 2187 (3^7) permutations
+
+// symetry table
+// 48 possible
+
+// translation table
+// ??
