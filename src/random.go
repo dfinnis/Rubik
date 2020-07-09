@@ -15,7 +15,7 @@ func stringInSlice(a string, list []string) bool {
     return false
 }
 
-//randomMixDry returns a random 18 to 30 spin long mix
+//randomMix returns a random don't repeat yourself 18 to 30 spin long mix
 func randomMix() string {
 	spin := []string{
 		"U",
