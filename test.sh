@@ -632,6 +632,625 @@ fi
 ((count+=1))
 
 #### -- test 8 -- ####
+cmd="./Rubik \"$(< mix/F1.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mF1:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mF1:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+#### -- test 9 -- ####
+cmd="./Rubik \"$(< mix/F2.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mF2:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mF2:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+
+#### -- test 10 -- ####
+cmd="./Rubik \"$(< mix/F3.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mF3:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mF3:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+
+#### -- test 11 -- ####
+cmd="./Rubik \"$(< mix/F4.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mF4:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mF4:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+
+#### -- test 12 -- ####
+cmd="./Rubik \"$(< mix/F5.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mF5:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mF5:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+#### -- test 13 -- ####
+cmd="./Rubik \"$(< mix/U_F.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mU_F:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mU_F:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+#### -- test 14 -- ####
+cmd="./Rubik \"$(< mix/empty.txt)\""
+output=$(eval "$cmd")
+incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+time=$(echo "$output" | tail -n 1)
+prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
+if [ "$prefix" = "m" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "µ" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+elif [ "$prefix" = "n" ]
+then
+	time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
+	time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+else
+	time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+fi
+htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+if [ "$htm" -gt "$htm_worst" ]
+then
+	htm_worst=$htm
+fi
+if [ "$htm" -lt "$htm_best" ]
+then
+	htm_best=$htm
+fi
+htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+if [ "$incorrect" == "Error: Solution incorrect :(" ]
+then
+	echo "\x1b[31mempty:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+else
+	echo "\x1b[32mempty:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	((solved+=1))
+fi
+((count+=1))
+
+#### -- test 15 -- ####
 cmd="./Rubik \"$(< mix/hard.txt)\""
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
@@ -719,7 +1338,7 @@ else
 fi
 ((count+=1))
 
-#### -- test 9 -- ####
+#### -- test 16 -- ####
 cmd="./Rubik \"$(< mix/superflip.txt)\""
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
