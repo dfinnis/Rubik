@@ -79,11 +79,33 @@ fi
 
 if [ "$count" != 0 ]
 then
-	mean=$(echo "scale = 9; $htm_cumulative / $count" | bc)
+	mean_int=$(echo "scale = 0; $htm_cumulative / $count" | bc)
+	mean_float=$(echo "scale = 2; $htm_cumulative / $count" | bc)
 else
-	mean="\x1b[31mFailed\x1b[0m"
+	mean_int="\x1b[31mFailed\x1b[0m"
+	mean_float="\x1b[31mFailed\x1b[0m"
 fi
 echo "Half-turn metric"
-echo "Best: $htm_best"
-echo "Mean:\t    $mean"
-echo "Worst:$htm_worst"
+if [ "$htm_best" -lt 30 ]
+then
+	echo "\x1b[32mBest:\t$htm_best\x1b[0m"
+else
+	echo "\x1b[31mBest:\t$htm_best\x1b[0m"
+fi
+
+if [ "$mean_int" -lt 30 ]
+then
+	echo "\x1b[32mMean:\t      $mean_float\x1b[0m"
+else
+	echo "\x1b[31mMean:\t      $mean_float\x1b[0m"
+fi
+
+if [ "$htm_worst" -lt 30 ]
+then
+	echo "\x1b[32mWorst:\t$htm_worst\x1b[0m"
+else
+	echo "\x1b[31mWorst:\t$htm_worst\x1b[0m"
+fi
+# echo "Best: $htm_best"
+# echo "Mean:$mean"
+# echo "Worst:$htm_worst\n"
