@@ -11,4 +11,11 @@ This will also be acceptable: 23.196 seconds
 4. example mixes inc. superflip
 
 ### TO DO ###
-{} compare board states using bit masks
+{x} create nodes
+{ } create iterative deepening algo, get it to advance 1 iteration and create 18 cubes
+{ } Kociemba's algorithm
+{ } lookup + pruning table
+{ } translation table
+
+### FIX / BUGS ###
+{ } swap D and D' spins

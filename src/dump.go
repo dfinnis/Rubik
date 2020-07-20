@@ -203,7 +203,7 @@ func dumpBinary(cube *[6]uint32) {
 
 func dumpCube(cube *[6]uint32) {
 	fmt.Printf("\n\n#### -- CUBE -- ####\n")
-	dumpBinary(cube)	//	binary debug
+	// dumpBinary(cube)	//	binary debug
 	dumpFace(cube, 0)
 	dumpLFRB(cube)
 	dumpFace(cube, 5)
