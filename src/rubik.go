@@ -92,9 +92,11 @@ func RunRubik() {
 	// fmt.Printf("random: %s\n", random)//
 	fmt.Printf("mix: %s\n", mix)//
 	r := initRubik()
-	dumpCube(&r.cube)////
-	spin(mix, &r.cube)
+
 	// dumpCube(&r.cube)////
+	// spin(mix, &r.cube)
+	// dumpCube(&r.cube)////
+	tree(&r.cube)
 	// solution := solve(&r.cube)
 	// printSolution(solution)
 	// runGraphic()

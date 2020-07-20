@@ -24,6 +24,44 @@ func newNode(id int, newCube *[6]uint32, parent *node) *node {
 // G1 = U, D, L2, R2, F2, B2 
 // G2 = solved
 
+func generateG0Moves(current *node) {
+	move := []string{
+		"U",
+		"D",
+		"R",
+		"L",
+		"F",
+		"B",
+	}
+	for i:= 0; i < 6; i++ {
+		mix := move[i] // tested, works
+		new := current.cube
+		spin(mix, &new)
+		newNode := newNode(i+1, &new, current)
+		current.children = append(current.children, newNode)
+	}
+}
+
+// G1 uses a set of the 18 possible moves that, regardless of order or number of moves, 
+// cannot change the orientation of edge and corner pieces
+func generateG1Moves(current *node) {
+	move := []string{
+		"U",
+		"D",
+		"R2",
+		"L2",
+		"F2",
+		"B2",
+	}
+	for i:= 0; i < 6; i++ {
+		mix := move[i] // tested, works
+		new := current.cube
+		spin(mix, &new)
+		newNode := newNode(i+1, &new, current)
+		current.children = append(current.children, newNode)
+	}
+}
+
 // generates a cube for each of the 18 possible moves
 func generateMoves(root *node) {
 	move := []string{
