@@ -10,16 +10,9 @@ This will also be acceptable: 23.196 seconds
 3. human solver algo?
 4. example mixes inc. superflip
 
-<<<<<<< HEAD
 ### TO DO ###
 {x} create nodes
 { } create iterative deepening algo, get it to advance 1 iteration and create 18 cubes
 { } Kociemba's algorithm
 { } lookup + pruning table
 { } translation table
-
-### FIX / BUGS ###
-{ } swap D and D' spins
-=======
-// web visualizer commented orientate to default debug (white up)
->>>>>>> feature/performance_test.sh getting started
