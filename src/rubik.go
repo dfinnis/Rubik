@@ -112,8 +112,8 @@ func RunRubik() {
 	spin(mix, &r.cube)
 	// dumpCube(&r.cube)////
 	start := time.Now()
-	// solution := solve(&r.cube)
-	solution := solvePlaceHolder()//rm!!!
+	solution := solve(&r.cube)
+	// solution := solvePlaceHolder()//rm!!!
 	elapsed := time.Since(start)
 	printSolution(solution, elapsed, &r.cube)
 	runGraphic(mix, solution, visualizer)
