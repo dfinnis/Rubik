@@ -51,7 +51,7 @@ func generateMovesG3(cube *[6]uint32) string {
 	var bestHeuristic uint8 = 255
 	var bestCube [6]uint32
 	var bestMove string
-	dumpCube(&root.cube)//
+	// dumpCube(&root.cube)//
 	for i:= 0; i < 6; i++ {
 		new := root.cube
 		spin(move[i], &new)
@@ -65,14 +65,24 @@ func generateMovesG3(cube *[6]uint32) string {
 		}
 		fmt.Printf("\nMove: %v\n", move[i])//
 		fmt.Printf("heuristic = %v\n", heuristic)///
-		dumpCube(&new)//
-		fmt.Printf("Best:")///
-		fmt.Printf("Best Move: %v\n", bestMove)///
-		dumpCube(&bestCube)//
-		fmt.Printf("#######################################")///
+		// dumpCube(&new)//
+		// fmt.Printf("Best:")///
+		// fmt.Printf("Best Move: %v\n", bestMove)///
+		// dumpCube(&bestCube)//
+		// fmt.Printf("#######################################\n")///
 		// newNode := newNode(i+1, &new, root)
 		// root.children = append(root.children, newNode)
 	}
+	fmt.Printf("Best Move: %v\n", bestMove)///
+	fmt.Printf("#######################################\n")///
+
+	if bestHeuristic != 0 {
+		// fmt.Printf("\nAAAAAAARRRRGGGGHHHHHH! not solved yet\n")//
+		recursive := generateMovesG3(&bestCube)
+		// fmt.Printf("\nrecursive solution: %v\n", recursive)//
+		bestMove += " " + recursive
+	}
+	// fmt.Printf("#######################################\n")///å
 	return bestMove
 }
 
