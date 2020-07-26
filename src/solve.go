@@ -48,19 +48,28 @@ func generateMovesG3(cube *[6]uint32) {
 		"F2",
 		"B2",
 	}
-	var best uint8 = 255
+	var bestHeuristic uint8 = 255
+	var bestCube [6]uint32
+	var bestMove string
 	dumpCube(&root.cube)//
 	for i:= 0; i < 6; i++ {
 		new := root.cube
 		spin(move[i], &new)
 		heuristic := heuristicG3(&new)
-		if heuristic < best {
-			best = heuristic
-			// fmt.Printf("\n\n---- best = %v ----", best)//
+		if heuristic < bestHeuristic {
+			bestHeuristic = heuristic
+			bestCube = new
+			bestMove = move[i]
+			fmt.Printf("\n\n---- best = %v ----", bestHeuristic)//
+
 		}
 		fmt.Printf("\nMove: %v\n", move[i])//
 		fmt.Printf("heuristic = %v\n", heuristic)///
 		dumpCube(&new)//
+		fmt.Printf("Best:")///
+		fmt.Printf("Best Move: %v\n", bestMove)///
+		dumpCube(&bestCube)//
+		fmt.Printf("#######################################")///
 		// newNode := newNode(i+1, &new, root)
 		// root.children = append(root.children, newNode)
 	}
