@@ -38,7 +38,7 @@ func heuristicG3(cube *[6]uint32) uint8 {
 }
 
 // generates a cube for each of the 6 possible moves
-func generateMovesG3(cube *[6]uint32) {
+func generateMovesG3(cube *[6]uint32) string {
 	root := newNode(/*0, */cube/*, nil*/)
 	move := []string{
 		"U2",
@@ -73,6 +73,7 @@ func generateMovesG3(cube *[6]uint32) {
 		// newNode := newNode(i+1, &new, root)
 		// root.children = append(root.children, newNode)
 	}
+	return bestMove
 }
 
 // func printTree(root *node) {
@@ -96,13 +97,17 @@ func generateMovesG3(cube *[6]uint32) {
 // }
 
 func solve(cube *[6]uint32) string {
+	if isSolved(cube) {
+		return ""
+	}
 	// g4 := heuristicG3(cube)
 	// fmt.Printf("G4: %v\n", g4)
 	// tree(cube)
 	// idaStar(cube)
 	// recursiveG3(cube)
-	generateMovesG3(cube)
-	solution := randomMix()/////////
+	solution := generateMovesG3(cube)
+	fmt.Printf("\n\nSOLUTION HERE : %v\n", solution)/////
+	// solution = randomMix()/////////
 	return solution
 }
 
