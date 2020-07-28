@@ -36,6 +36,21 @@ func solve(r *rubik) string {
 	return solution
 }
 
+func inPath(node *rubik, path []rubik) bool {
+	for i := range path {
+		if node.cube == path[i].cube {
+			return true
+		}
+	}
+	return false
+}
+
+func dumpPath(path []rubik) {
+	for i := range path {
+		dumpCube(&path[i].cube)
+	}
+}
+
 func idaStar(r *rubik) string {
 	var bound uint8 = heuristicG3(&r.cube)
 	fmt.Printf("bound: %v\n", bound)//
@@ -56,21 +71,6 @@ func idaStar(r *rubik) string {
 	// dumpCube(&path[0].cube)//
 }
 
-func inPath(node *rubik, path []rubik) bool {
-	for i := range path {
-		if node.cube == path[i].cube {
-			return true
-		}
-	}
-	return false
-}
-
-func dumpPath(path []rubik) {
-	for i := range path {
-		dumpCube(&path[i].cube)
-	}
-}
-
 func search(path []rubik, g uint8, bound uint8) uint8 {
 	node := path[len(path) - 1]
 	dumpCube(&node.cube)//
@@ -82,7 +82,6 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 	if isSolved(&node.cube) {
 		return 255 // FOUND
 	}
-	// var min uint8 = 255 // ∞
 	move := []string{
 		"U2",
 		"D2",
@@ -91,20 +90,25 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 		"F2",
 		"B2",
 	}
+	var min uint8 = 255 // ∞
 	for i:= 0; i < 6; i++ {
 		new := newNode(&node.cube)
 		spin(move[i], &new.cube)
 		// dumpCube(&new.cube)//
 		if inPath(new, path) == false {
 			path = append(path, *new)
-			// t := search(path, g + cost(node, succ), bound)
-			// if t = FOUND then return FOUND
-			// if t < min then min := t
-			path = path[1:len(path)] // pop
+			cost := search(path, g + heuristicG3(&new.cube), bound)
+			if cost == 255 {
+				return 255
+			}
+			if cost < min {
+				min = cost
+			}
+			path = path[1:] // pop
 		}
 		// heuristic := heuristicG3(&new.cube)
 	}
 	fmt.Printf("len(path): %v\n", len(path))//
 	dumpPath(path)//
-	return 42
+	return min
 }
