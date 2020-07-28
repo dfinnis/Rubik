@@ -19,7 +19,6 @@ func newNode(/*id int, */newCube *[6]uint32/*, parent *node*/) *node {
 	}
 }
 
-
 // 17 moves max
 func heuristicG3(cube *[6]uint32) uint8 {
 	var correct uint8
@@ -34,69 +33,56 @@ func heuristicG3(cube *[6]uint32) uint8 {
 			mask /= 16
 		}
 	}
-	return 48 - correct
+	return (48 - correct) / 4
 }
 
-// generates a cube for each of the 6 possible moves
-func generateMovesG3(cube *[6]uint32) string {
-	root := newNode(/*0, */cube/*, nil*/)
-	move := []string{
-		"U2",
-		"D2",
-		"R2",
-		"L2",
-		"F2",
-		"B2",
-	}
-	var bestHeuristic uint8 = 255
-	var bestCube [6]uint32
-	var bestMove string
-	// dumpCube(&root.cube)//
-	for i:= 0; i < 6; i++ {
-		new := root.cube
-		spin(move[i], &new)
-		heuristic := heuristicG3(&new)
-		if heuristic < bestHeuristic {
-			bestHeuristic = heuristic
-			bestCube = new
-			bestMove = move[i]
-			fmt.Printf("\n\n---- best = %v ----", bestHeuristic)//
-
-		}
-		fmt.Printf("\nMove: %v\n", move[i])//
-		fmt.Printf("heuristic = %v\n", heuristic)///
-		// dumpCube(&new)//
-		// fmt.Printf("Best:")///
-		// fmt.Printf("Best Move: %v\n", bestMove)///
-		// dumpCube(&bestCube)//
-		// fmt.Printf("#######################################\n")///
-		// newNode := newNode(i+1, &new, root)
-		// root.children = append(root.children, newNode)
-	}
-	fmt.Printf("Best Move: %v\n", bestMove)///
-	fmt.Printf("#######################################\n")///
-
-	if bestHeuristic != 0 {
-		// fmt.Printf("\nAAAAAAARRRRGGGGHHHHHH! not solved yet\n")//
-		recursive := generateMovesG3(&bestCube)
-		// fmt.Printf("\nrecursive solution: %v\n", recursive)//
-		bestMove += " " + recursive
-	}
-	// fmt.Printf("#######################################\n")///å
-	return bestMove
-}
-
-// func printTree(root *node) {
-// 	current := root
-// 	fmt.Printf("id = %v\n", current.id)
-// 	dumpCube(&current.cube)
-// 	for i := range root.children {
-// 		current := current.children[i]
-// 		fmt.Printf("\n------------\n")
-// 		fmt.Printf("parent = %v, id = %v\n", current.parent.id, current.id)
-// 		dumpCube(&current.cube)
+// // generates a cube for each of the 6 possible moves
+// func generateMovesG3(cube *[6]uint32) string {
+// 	root := newNode(/*0, */cube/*, nil*/)
+// 	move := []string{
+// 		"U2",
+// 		"D2",
+// 		"R2",
+// 		"L2",
+// 		"F2",
+// 		"B2",
 // 	}
+// 	var bestHeuristic uint8 = 255
+// 	var bestCube [6]uint32
+// 	var bestMove string
 // 	// dumpCube(&root.cube)//
+// 	for i:= 0; i < 6; i++ {
+// 		new := root.cube
+// 		spin(move[i], &new)
+// 		heuristic := heuristicG3(&new)
+// 		if heuristic < bestHeuristic {
+// 			bestHeuristic = heuristic
+// 			bestCube = new
+// 			bestMove = move[i]
+// 			fmt.Printf("\n\n---- best = %v ----", bestHeuristic)//
+
+// 		}
+// 		fmt.Printf("\nMove: %v\n", move[i])//
+// 		fmt.Printf("heuristic = %v\n", heuristic)///
+// 		// dumpCube(&new)//
+// 		// fmt.Printf("Best:")///
+// 		// fmt.Printf("Best Move: %v\n", bestMove)///
+// 		// dumpCube(&bestCube)//
+// 		// fmt.Printf("#######################################\n")///
+// 		// newNode := newNode(i+1, &new, root)
+// 		// root.children = append(root.children, newNode)
+// 	}
+// 	fmt.Printf("Best Move: %v\n", bestMove)///
+// 	fmt.Printf("#######################################\n")///
+
+// 	if bestHeuristic != 0 {
+// 		// fmt.Printf("\nAAAAAAARRRRGGGGHHHHHH! not solved yet\n")//
+// 		recursive := generateMovesG3(&bestCube)
+// 		// fmt.Printf("\nrecursive solution: %v\n", recursive)//
+// 		bestMove += " " + recursive
+// 	}
+// 	// fmt.Printf("#######################################\n")///å
+// 	return bestMove
 // }
 
 // func tree(cube *[6]uint32) {
@@ -106,105 +92,101 @@ func generateMovesG3(cube *[6]uint32) string {
 // 	fmt.Printf("Oh finished!\n")
 // }
 
-func solve(cube *[6]uint32) string {
-	if isSolved(cube) {
-		return ""
-	}
-	// g4 := heuristicG3(cube)
-	// fmt.Printf("G4: %v\n", g4)
-	// tree(cube)
-	// idaStar(cube)
-	// recursiveG3(cube)
-	solution := generateMovesG3(cube)
-	fmt.Printf("\n\nSOLUTION HERE : %v\n", solution)/////
-	// solution = randomMix()/////////
-	return solution
-}
-
-// func solve(r *rubik) string {
+// func solve(cube *[6]uint32) string {
+// 	if isSolved(cube) {
+// 		return ""
+// 	}
 // 	// g4 := heuristicG3(cube)
 // 	// fmt.Printf("G4: %v\n", g4)
 // 	// tree(cube)
-// 	// idaStar(cube)
-// 	recursiveG3(r)
+// 	idaStar(cube)
+// 	// recursiveG3(cube)
+// 	// solution := generateMovesG3(cube)
+// 	// fmt.Printf("\n\nSOLUTION HERE : %v\n", solution)/////
 // 	solution := randomMix()/////////
 // 	return solution
 // }
 
-// func recursiveG3(r *rubik) {
-// 	move := []string{
-// 		"U2",
-// 		"D2",
-// 		"R2",
-// 		"L2",
-// 		"F2",
-// 		"B2",
-// 	}
-// 	dumpCube(&r.cube)//
-// 	fmt.Printf("------------------------------------------------------------\n\n")//
-// 	for i:= 0; i < 6; i++ {
-// 		new := &r.cube
-// 		spin(move[i], new)
-// 		fmt.Printf("\n\nMove: %v\n", move[i])//
-// 		heuristic := heuristicG3(new)
-// 		fmt.Printf("heuristic = %v\n", heuristic)///
-// 		dumpCube(new)//
-// 		// newNode := newNode(i+1, &new, root)
-// 		// root.children = append(root.children, newNode)
-// 	}
-// }
+func solve(r *rubik) string {
+	if isSolved(&r.cube) {
+		return ""
+	}
+	idaStar(r)
+	solution := randomMix()/////////
+	return solution
+}
 
-
+func idaStar(r *rubik) {
+	var path []rubik
+	var bound uint8 = heuristicG3(&r.cube)
+	fmt.Printf("bound: %v\n", bound)//
+	path = append(path, *r)
+	// for {
+	// 	cost := search(path, 0, bound)
+	// 	// if t = FOUND then return (path, bound)
+	// 	// if t = ∞ then return NOT_FOUND
+	// 	bound = cost
+	// 	break//
+	// }
+	dumpCube(&path[0].cube)//
+}
 
 
 
 // func idaStar(root *[6]uint32) {
-// 	var bound uint8 = 255
-// 	path := root
+// 	// var solution []rubik
+// 	var path []rubik
+// 	// solution = append(solution, root)
+// 	var bound uint8 = heuristicG3(root)
+// 	fmt.Printf("bound: %v\n", bound)//
+// 	// path = append(path, root)
+// 		// var solution []rubik
 // 	// path = append(path, root)
 // 	for {
-// 		cost := search()
+// 		cost := search(path, 0, bound)
+// 		// if t = FOUND then return (path, bound)
+// 		// if t = ∞ then return NOT_FOUND
+// 		bound = cost
+// 		break//
 // 	}
-// 	// fmt.Println("Oh HIIII!!!s")//
 // 	dumpCube(path)
 // }
 
+// func search(path, g, bound) {
+// 	// node := path // last
+// 	// f := g + heuristicG3(node)
+// 	// if f > bound {
+// 	// 	return f
+// 	// }
+// 	// if isSolved(node) {
+// 	// 	return FOUND
+// 	// }
+// 	// min := 0x77777777
+// 	// root := newNode(/*0, */node/*, nil*/)
+// // 	move := []string{
+// // 		"U2",
+// // 		"D2",
+// // 		"R2",
+// // 		"L2",
+// // 		"F2",
+// // 		"B2",
+// // 	}
+// // 	for i:= 0; i < 6; i++ {
+// // 		new := root
+// // 		spin(move[i], &new)
+// // 		heuristic := heuristicG3(&new)
+// // 	}
+// }
 
-// path              current search path (acts like a stack)
-//  node              current node (last node in current path)
-//  g                 the cost to reach current node
-//  f                 estimated cost of the cheapest path (root..node..goal)
-//  h(node)           estimated cost of the cheapest path (node..goal)
-//  cost(node, succ)  step cost function
-//  is_goal(node)     goal test
-//  successors(node)  node expanding function, expand nodes ordered by g + h(node)
-//  ida_star(root)    return either NOT_FOUND or a pair with the best path and its cost
- 
-//  procedure ida_star(root)
-//    bound := h(root)
-//    path := [root]
-//    loop
-//      t := search(path, 0, bound)
-//      if t = FOUND then return (path, bound)
-//      if t = ∞ then return NOT_FOUND
-//      bound := t
-//    end loop
-//  end procedure
- 
-//  function search(path, g, bound)
-//    node := path.last
-//    f := g + h(node)
-//    if f > bound then return f
-//    if is_goal(node) then return FOUND
-//    min := ∞
-//    for succ in successors(node) do
-//      if succ not in path then
-//        path.push(succ)
-//        t := search(path, g + cost(node, succ), bound)
-//        if t = FOUND then return FOUND
-//        if t < min then min := t
-//        path.pop()
-//      end if
-//    end for
-//    return min
-//  end function
+// 	for succ in successors(node) do
+// 	if succ not in path then
+// 		path.push(succ)
+// 		t := search(path, g + cost(node, succ), bound)
+// 		if t = FOUND then return FOUND
+// 		if t < min then min := t
+// 		path.pop()
+// 	end if
+// 	end for
+// 	return min
+// 	end function
+// }
