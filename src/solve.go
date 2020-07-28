@@ -4,20 +4,20 @@ import (
 	"fmt"
 )
 
-type node struct {
-	// id			int
-	cube		[6]uint32
-	// parent 		*node
-	// children	[]*node
-}
+// type node struct {
+// 	// id			int
+// 	cube		[6]uint32
+// 	// parent 		*node
+// 	// children	[]*node
+// }
 
-func newNode(/*id int, */newCube *[6]uint32/*, parent *node*/) *node {
-	return &node{
-		// id:     id,
-		cube:   *newCube,
-		// parent: parent,
-	}
-}
+// func newNode(/*id int, */newCube *[6]uint32/*, parent *node*/) *node {
+// 	return &node{
+// 		// id:     id,
+// 		cube:   *newCube,
+// 		// parent: parent,
+// 	}
+// }
 
 // 17 moves max
 func heuristicG3(cube *[6]uint32) uint8 {
@@ -121,17 +121,43 @@ func idaStar(r *rubik) {
 	var bound uint8 = heuristicG3(&r.cube)
 	fmt.Printf("bound: %v\n", bound)//
 	path = append(path, *r)
-	// for {
-	// 	cost := search(path, 0, bound)
-	// 	// if t = FOUND then return (path, bound)
-	// 	// if t = ∞ then return NOT_FOUND
-	// 	bound = cost
-	// 	break//
-	// }
+	for {
+		cost := search(path, 0, bound)
+		// if t = FOUND then return (path, bound)
+		// if t = ∞ then return NOT_FOUND
+		bound = cost
+		fmt.Printf("bound 2: %v\n", bound)//
+		break//
+	}
 	dumpCube(&path[0].cube)//
 }
 
-
+func search(path []rubik, g uint8, bound uint8) uint8 {
+	return 42
+	// node := path // last
+	// f := g + heuristicG3(node)
+	// if f > bound {
+	// 	return f
+	// }
+	// if isSolved(node) {
+	// 	return FOUND
+	// }
+	// min := 0x77777777
+	// root := newNode(/*0, */node/*, nil*/)
+// 	move := []string{
+// 		"U2",
+// 		"D2",
+// 		"R2",
+// 		"L2",
+// 		"F2",
+// 		"B2",
+// 	}
+// 	for i:= 0; i < 6; i++ {
+// 		new := root
+// 		spin(move[i], &new)
+// 		heuristic := heuristicG3(&new)
+// 	}
+}
 
 // func idaStar(root *[6]uint32) {
 // 	// var solution []rubik
