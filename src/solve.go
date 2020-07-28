@@ -27,15 +27,6 @@ func heuristicG3(cube *[6]uint32) uint8 {
 	return (48 - correct) / 4
 }
 
-func solve(r *rubik) string {
-	if isSolved(&r.cube) {
-		return ""
-	}
-	idaStar(r)
-	solution := randomMix()/////////
-	return solution
-}
-
 func inPath(node *rubik, path []rubik) bool {
 	for i := range path {
 		if node.cube == path[i].cube {
@@ -65,9 +56,8 @@ func idaStar(r *rubik) string {
 		// if t = ∞ then return NOT_FOUND
 		bound = cost
 		fmt.Printf("bound 2: %v\n", bound)//
-		break//
 	}
-	return "Error"
+	return "Error"//
 	// dumpCube(&path[0].cube)//
 }
 
@@ -106,9 +96,18 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 			}
 			path = path[1:] // pop
 		}
-		// heuristic := heuristicG3(&new.cube)
 	}
 	fmt.Printf("len(path): %v\n", len(path))//
 	dumpPath(path)//
 	return min
+}
+
+func solve(r *rubik) string {
+	if isSolved(&r.cube) {
+		return ""
+	}
+	solution := idaStar(r)
+	fmt.Printf("solution: %v\n", solution)//
+	solution = randomMix()/////////
+	return solution
 }
