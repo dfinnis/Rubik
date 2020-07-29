@@ -46,6 +46,7 @@ func dumpPath(path []rubik) {
 }
 
 func idaStar(r *rubik) string {
+	// var solution *string
 	var bound uint8 = heuristicG3(&r.cube)
 	fmt.Printf("bound: %v\n", bound)//
 	var path []rubik
@@ -78,9 +79,13 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 	if isSolved(&node.cube) {
 		fmt.Printf("&&&&&&&&&&&& PATH &&&&&&&&&\n")//
 		// save path!!
+		var solved string
 		for i := range path {
-			fmt.Printf("Move: %v\n", path[i].move)
+			solved += path[i].move + " "
+			// fmt.Printf("Move: %v\n", path[i].move)//
 		}
+		fmt.Printf("solution: %v\n", solved)//
+		// solution = &solved
 		return 255 // FOUND
 	}
 	move := []string{
