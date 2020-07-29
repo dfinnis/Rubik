@@ -78,14 +78,10 @@ func search(path []rubik, g uint8, bound uint8) (uint8, string) {
 		return f, ""
 	}
 	if isSolved(&node.cube) {
-		// fmt.Printf("&&&&&&&&&&&& PATH &&&&&&&&&\n")//
-		// save path!!
 		var solved string
-		for i := range path {
+		for i := 1; i < len(path); i++ {
 			solved += path[i].move + " "
 		}
-		// fmt.Printf("solution: %v\n", solved)//
-		// solution = &solved
 		return 255, solved // FOUND
 	}
 	move := []string{
