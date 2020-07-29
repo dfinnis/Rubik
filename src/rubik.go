@@ -9,6 +9,8 @@ import (
 // rubik struct contains all information about current rubik state
 type rubik struct {
 	cube	[6]uint32
+	move	string
+	// depth	uint8
 }
 
 // rubik var r contains all information about current rubik state
