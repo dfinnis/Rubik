@@ -52,12 +52,13 @@ func idaStar(r *rubik) string {
 	var path []rubik
 	path = append(path, *r)
 	for {
-		cost := search(path, 0, bound)
+		cost, solution := search(path, 0, bound)
 		// if t = FOUND then return (path, bound)
 		if cost == 255 {
-			fmt.Printf("***************	END	********************\n")//
-			dumpPath(path)//
-			return "Found" /// replace with solution!!
+			// fmt.Printf("***************	END	********************\n")//
+			// dumpPath(path)//
+			// return "Found" /// replace with solution!!
+			return solution
 		}
 		// if t = ∞ then return NOT_FOUND
 		bound = cost
@@ -67,14 +68,14 @@ func idaStar(r *rubik) string {
 	// dumpCube(&path[0].cube)//
 }
 
-func search(path []rubik, g uint8, bound uint8) uint8 {
+func search(path []rubik, g uint8, bound uint8) (uint8, string) {
 	node := path[len(path) - 1]
 	// fmt.Printf("Move: %v\n", &path[i].move)//
 	// dumpCube(&node.cube)//
 	f := g + heuristicG3(&node.cube)
 	fmt.Printf("f: %v\n", f)
 	if f > bound {
-		return f
+		return f, ""
 	}
 	if isSolved(&node.cube) {
 		fmt.Printf("&&&&&&&&&&&& PATH &&&&&&&&&\n")//
@@ -82,11 +83,10 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 		var solved string
 		for i := range path {
 			solved += path[i].move + " "
-			// fmt.Printf("Move: %v\n", path[i].move)//
 		}
 		fmt.Printf("solution: %v\n", solved)//
 		// solution = &solved
-		return 255 // FOUND
+		return 255, solved // FOUND
 	}
 	move := []string{
 		"U2",
@@ -105,9 +105,9 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 		if inPath(new, path) == false {
 			path = append(path, *new)
 			dumpPath(path)//
-			cost := search(path, g + heuristicG3(&new.cube), bound)
+			cost, solution := search(path, g + heuristicG3(&new.cube), bound)
 			if cost == 255 {
-				return 255
+				return 255, solution
 			}
 			if cost < min {
 				min = cost
@@ -118,7 +118,7 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 	}
 	fmt.Printf("len(path): %v\n", len(path))//
 	dumpPath(path)//
-	return min
+	return min, ""
 }
 
 func solve(r *rubik) string {
@@ -127,6 +127,6 @@ func solve(r *rubik) string {
 	}
 	solution := idaStar(r)
 	fmt.Printf("solution: %v\n", solution)//
-	solution = randomMix()/////////
+	// solution = randomMix()/////////
 	return solution
 }
