@@ -91,9 +91,10 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 		new := newNode(&node.cube, move[i])
 		spin(move[i], &new.cube)
 		fmt.Printf("Move: %v\n", new.move)//
-		dumpCube(&new.cube)//
+		// dumpCube(&new.cube)//
 		if inPath(new, path) == false {
 			path = append(path, *new)
+			dumpPath(path)//
 			cost := search(path, g + heuristicG3(&new.cube), bound)
 			if cost == 255 {
 				return 255
@@ -101,7 +102,7 @@ func search(path []rubik, g uint8, bound uint8) uint8 {
 			if cost < min {
 				min = cost
 			}
-			path = path[1:] // pop
+			path = path[:len(path) - 1] // pop
 		}
 		fmt.Printf("##############################\n")//
 	}
