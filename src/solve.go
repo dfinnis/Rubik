@@ -1,7 +1,7 @@
 package rubik
 
 import (
-	// "fmt"
+	"fmt"
 )
 
 func newNode(newCube *[6]uint32, move string) *rubik {
@@ -9,6 +9,40 @@ func newNode(newCube *[6]uint32, move string) *rubik {
 		cube:   *newCube,
 		move:	move,
 	}
+}
+
+func oppositeFace(face uint32) uint32 {
+	if face == 0 {
+		return 5
+	} else if face == 1 {
+		return 3
+	} else if face == 2 {
+		return 4
+	} else if face == 3 {
+		return 1
+	} else if face == 4 {
+		return 2
+	} else {
+		return 0
+	}
+}
+
+// 15 moves max
+func heuristicG2(cube *[6]uint32) uint8 {
+	var color uint8
+	var face uint32
+	for face = 0; face < 6; face++ {
+		var cubie uint32
+		var mask uint32 = 0x10000000
+		for cubie = 0x70000000; cubie > 0; cubie /= 16 {
+			if cube[face]&cubie == mask * face || cube[face]&cubie == mask * oppositeFace(face) {
+				color++
+			}
+			mask /= 16
+		}
+	}
+	fmt.Printf("color: %v\n", color)//
+	return 42
 }
 
 // 17 moves max
@@ -136,6 +170,8 @@ func solve(r *rubik) string {
 	if isSolved(&r.cube) {
 		return ""
 	}
+	var bound uint8 = heuristicG2(&r.cube)
+	fmt.Printf("bound G2: %v\n", bound)//
 	solution := idaStar(r)
 	// fmt.Printf("solution: %v\n", solution)//
 	// solution = randomMix()/////////
