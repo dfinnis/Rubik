@@ -68,6 +68,28 @@ func idaStar(r *rubik) string {
 	// dumpCube(&path[0].cube)//
 }
 
+func listMoves(node *rubik) []string {
+	moves := []string{
+		"U2",
+		"D2",
+		"R2",
+		"L2",
+		"F2",
+		"B2",
+	}
+	// fmt.Printf("move: %v\n", node.move)//
+	if node.move != "" {
+		for i, move := range moves {
+			if move == node.move {
+				moves = append(moves[:i], moves[i+1:]...)
+				break
+			}
+		}
+	}
+	// fmt.Printf("moves: %v\n", moves)//
+	return moves
+}
+
 func search(path []rubik, g uint8, bound uint8) (uint8, string) {
 	node := path[len(path) - 1]
 	// fmt.Printf("Move: %v\n", &path[i].move)//
@@ -84,16 +106,9 @@ func search(path []rubik, g uint8, bound uint8) (uint8, string) {
 		}
 		return 255, solved // FOUND
 	}
-	move := []string{
-		"U2",
-		"D2",
-		"R2",
-		"L2",
-		"F2",
-		"B2",
-	}
+	move := listMoves(&node)
 	var min uint8 = 255 // ∞
-	for i:= 0; i < 6; i++ {
+	for i:= 0; i < len(move); i++ {
 		new := newNode(&node.cube, move[i])
 		spin(move[i], &new.cube)
 		// fmt.Printf("Move: %v\n", new.move)//
