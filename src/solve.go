@@ -2,7 +2,6 @@ package rubik
 
 import (
 	"fmt"
-	"math"
 )
 
 func newNode(newCube *[6]uint32, move string) *rubik {
@@ -48,13 +47,13 @@ func heuristicG2(cube *[6]uint32) uint8 {
 		// fmt.Printf("face: %v\n", face)//
 		// fmt.Printf("cube[face]&0x70000000: %x\n", cube[face]&0x70000000)//
 		// fmt.Printf("cube[face]&0x70000000 / uint32(math.Pow(16, 6): %x\n", cube[face]&0x70000000 / uint32(math.Pow(16, 6)))//
+		// fmt.Printf("cube[face]&0x70000000  >> 6: %x\n", cube[face]&0x70000000 >> 24)//
+
 		// fmt.Printf("cube[face]&0x70: %x\n", cube[face]&0x70)//
-		if cube[face]&0x70000000 / uint32(math.Pow(16, 6)) == cube[face]&0x70 {
-			// fmt.Printf("OH HIIII\n")//
+		if cube[face]&0x70000000 >> (6 * 4) == cube[face]&0x70 {
 			parity++
 		}
-		if cube[face]&0x700000 / uint32(math.Pow(16, 2)) == cube[face]&0x7000 {
-			// fmt.Printf("OH HIIII\n")//
+		if cube[face]&0x700000 >> (2 * 4) == cube[face]&0x7000 {
 			parity++
 		}
 	}
