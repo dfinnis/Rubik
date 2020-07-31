@@ -74,13 +74,13 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 		}
 		return 255, solvedPart // FOUND
 	}
-	if isSolved(&node.cube) {
-		var solved string
-		for i := 1; i < len(path); i++ {
-			solved += path[i].move + " "
-		}
-		return 255, solved // FOUND
-	}
+	// if isSolved(&node.cube) {
+	// 	var solved string
+	// 	for i := 1; i < len(path); i++ {
+	// 		solved += path[i].move + " "
+	// 	}
+	// 	return 255, solved // FOUND
+	// }
 	move := listMoves(&node, subgroup)
 	var min uint8 = 255 // ∞
 	for i:= 0; i < len(move); i++ {
