@@ -21,8 +21,11 @@ func inPath(node *rubik, path []rubik) bool {
 }
 
 func idaStar(r *rubik) string {
-	// var solution *string
-	var subgroup uint8 = 2 // 0!!! test heuristics to establish subgroup
+	// var subgroup uint8 = 1 // 0!!! test heuristics to establish subgroup
+	// if heuristicG1(&r.cube) == 0 {
+	// 	subgroup = 2
+	// } // nest else if ?? next line!!!!!!!
+	var subgroup uint8 = 2
 	if heuristicG2(&r.cube) == 0 {
 		subgroup = 3
 	}
@@ -108,9 +111,9 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 }
 
 func solve(r *rubik) string {
-	if isSolved(&r.cube) {
-		return ""
-	}
+	// if isSolved(&r.cube) {
+	// 	return ""
+	// }
 	// dumpCube(&r.cube)//
 	// var bound uint8 = heuristicG2(&r.cube)
 	// fmt.Printf("bound G2: %v\n", bound)//
