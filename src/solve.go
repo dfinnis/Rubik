@@ -2,6 +2,7 @@ package rubik
 
 import (
 	"fmt"
+	"math"
 )
 
 func newNode(newCube *[6]uint32, move string) *rubik {
@@ -30,6 +31,7 @@ func oppositeFace(face uint32) uint32 {
 // 15 moves max
 func heuristicG2(cube *[6]uint32) uint8 {
 	var color uint8
+	var parity uint8
 	var face uint32
 	for face = 0; face < 6; face++ {
 		var cubie uint32
@@ -42,7 +44,28 @@ func heuristicG2(cube *[6]uint32) uint8 {
 		}
 	}
 	fmt.Printf("color: %v\n", color)//
-	return 42
+	for _, face := range [4]uint8{0, 2, 4, 5} {
+		// fmt.Printf("face: %v\n", face)//
+		// fmt.Printf("cube[face]&0x70000000: %x\n", cube[face]&0x70000000)//
+		// fmt.Printf("cube[face]&0x70000000 / uint32(math.Pow(16, 6): %x\n", cube[face]&0x70000000 / uint32(math.Pow(16, 6)))//
+		// fmt.Printf("cube[face]&0x70: %x\n", cube[face]&0x70)//
+		if cube[face]&0x70000000 / uint32(math.Pow(16, 6)) == cube[face]&0x70 {
+			// fmt.Printf("OH HIIII\n")//
+			parity++
+		}
+		if cube[face]&0x700000 / uint32(math.Pow(16, 2)) == cube[face]&0x7000 {
+			// fmt.Printf("OH HIIII\n")//
+			parity++
+		}
+	}
+	fmt.Printf("parity: %v\n", parity)//
+	if parity == 0 {
+		parity = 8
+	}
+	if parity != 8 {
+		parity = 0
+	}
+	return (56 - (color + parity)) / 4
 }
 
 // 17 moves max
@@ -170,10 +193,12 @@ func solve(r *rubik) string {
 	if isSolved(&r.cube) {
 		return ""
 	}
+	dumpCube(&r.cube)//
 	var bound uint8 = heuristicG2(&r.cube)
 	fmt.Printf("bound G2: %v\n", bound)//
 	solution := idaStar(r)
 	// fmt.Printf("solution: %v\n", solution)//
 	// solution = randomMix()/////////
+	// solution = ""//
 	return solution
 }
