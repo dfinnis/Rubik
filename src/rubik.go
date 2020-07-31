@@ -89,7 +89,7 @@ func isSolved(cube *[6]uint32) bool {
 }
 
 func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
-	spin(solution, cube)
+	// spin(solution, cube)//
 	if isSolved(cube) == false {
 		fmt.Printf("\nError: Solution incorrect :(\n")
 	}
@@ -97,13 +97,13 @@ func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
 	fmt.Printf("Solve time:\n%v\n\n", elapsed)
 }
 
-func solvePlaceHolder() string { /////rm!!!!!!
-	// solution := "F U"
-	// solution := ""
-	solution := randomMix()
-	// time.Sleep(100000000)//
-	return solution
-}
+// func solvePlaceHolder() string { /////rm!!!!!!
+// 	// solution := "F U"
+// 	// solution := ""
+// 	solution := randomMix()
+// 	// time.Sleep(100000000)//
+// 	return solution
+// }
 
 func RunRubik() {
 	mix, visualizer := parseArg()

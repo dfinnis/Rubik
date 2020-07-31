@@ -22,13 +22,13 @@ func inPath(node *rubik, path []rubik) bool {
 
 func idaStar(r *rubik) string {
 	// var solution *string
-	var bound uint8 = heuristicG3(&r.cube)
-	// fmt.Printf("bound: %v\n", bound)//
 	var subgroup uint8 = 2 // 0!!! test heuristics to establish subgroup
 	if heuristicG2(&r.cube) == 0 {
 		subgroup = 3
 	}
-	// fmt.Printf("subgroup: %v\n", subgroup)//
+	fmt.Printf("subgroup: %v\n", subgroup)//
+	var bound uint8 = heuristic(&r.cube, subgroup)
+	fmt.Printf("bound: %v\n", bound)//
 
 	var path []rubik
 	path = append(path, *r)
@@ -52,20 +52,27 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 	// fmt.Printf("Move: %v\n", &path[i].move)//
 	// dumpCube(&node.cube)//
 	// heuristic := heuristic(&node.cube, subgroup)
-	if heuristic(&node.cube, subgroup) == 0 && subgroup < 3 {
-		fmt.Printf("subgroup: %v\n", subgroup)//
-		subgroup++
-		var solvedPart string//
-		for i := 1; i < len(path); i++ {//
-			solvedPart += path[i].move + " "//
-		}//
-		fmt.Printf("solvedPart: %v\n", solvedPart)//
-		// fmt.Printf("subgroup: %v\n", subgroup)//
-	}
+	// if heuristic(&node.cube, subgroup) == 0 && subgroup < 3 {
+	// 	fmt.Printf("subgroup: %v\n", subgroup)//
+	// 	subgroup++
+	// 	// var solvedPart string//
+	// 	// for i := 1; i < len(path); i++ {//
+	// 	// 	solvedPart += path[i].move + " "//
+	// 	// }//
+	// 	// fmt.Printf("solvedPart: %v\n", solvedPart)//
+	// 	// fmt.Printf("subgroup: %v\n", subgroup)//
+	// }
 	f := g + heuristic(&node.cube, subgroup)
 	// fmt.Printf("f: %v\n", f)
 	if f > bound {
 		return f, ""
+	}
+	if heuristic(&node.cube, subgroup) == 0 {
+		var solvedPart string
+		for i := 1; i < len(path); i++ {
+			solvedPart += path[i].move + " "
+		}
+		return 255, solvedPart // FOUND
 	}
 	if isSolved(&node.cube) {
 		var solved string
@@ -104,11 +111,23 @@ func solve(r *rubik) string {
 	if isSolved(&r.cube) {
 		return ""
 	}
-	dumpCube(&r.cube)//
-	var bound uint8 = heuristicG2(&r.cube)
-	fmt.Printf("bound G2: %v\n", bound)//
-	solution := idaStar(r)
-	// fmt.Printf("solution: %v\n", solution)//
+	// dumpCube(&r.cube)//
+	// var bound uint8 = heuristicG2(&r.cube)
+	// fmt.Printf("bound G2: %v\n", bound)//
+	// solution := idaStar(r)
+	var solution string
+	for isSolved(&r.cube) == false {
+		// dumpCube(&r.cube)//
+		solutionPart := idaStar(r)
+		// fmt.Printf("solutionPart: %v\n", solutionPart)//
+		spin(solutionPart, &r.cube)
+		solution += solutionPart
+		// fmt.Printf("Oh HII!!!\n")//
+	}
+	// dumpCube(&r.cube)//
+
+	// solution2 := idaStar(r)
+	// fmt.Printf("solution2: %v\n", solution2)//
 	// solution = randomMix()/////////
 	// solution = ""//
 	return solution
