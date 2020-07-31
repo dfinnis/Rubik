@@ -20,14 +20,6 @@ func inPath(node *rubik, path []rubik) bool {
 	return false
 }
 
-// func dumpPath(path []rubik) {
-// 	for i := range path {
-// 		fmt.Printf("------------------------------------\n")
-// 		fmt.Printf("Move: %v\n", path[i].move)
-// 		dumpCube(&path[i].cube)
-// 	}
-// }
-
 func idaStar(r *rubik) string {
 	// var solution *string
 	var bound uint8 = heuristicG3(&r.cube)
@@ -61,7 +53,14 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 	// dumpCube(&node.cube)//
 	// heuristic := heuristic(&node.cube, subgroup)
 	if heuristic(&node.cube, subgroup) == 0 && subgroup < 3 {
+		fmt.Printf("subgroup: %v\n", subgroup)//
 		subgroup++
+		var solvedPart string//
+		for i := 1; i < len(path); i++ {//
+			solvedPart += path[i].move + " "//
+		}//
+		fmt.Printf("solvedPart: %v\n", solvedPart)//
+		// fmt.Printf("subgroup: %v\n", subgroup)//
 	}
 	f := g + heuristic(&node.cube, subgroup)
 	// fmt.Printf("f: %v\n", f)

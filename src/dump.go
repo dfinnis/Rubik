@@ -209,3 +209,11 @@ func dumpCube(cube *[6]uint32) {
 	dumpLFRB(cube)
 	dumpFace(cube, 5)
 }
+
+func dumpPath(path []rubik) {
+	for i := range path {
+		fmt.Printf("------------------------------------\n")
+		fmt.Printf("Move: %v\n", path[i].move)
+		dumpCube(&path[i].cube)
+	}
+}
