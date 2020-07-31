@@ -89,7 +89,6 @@ func isSolved(cube *[6]uint32) bool {
 }
 
 func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
-	// spin(solution, cube)//
 	if isSolved(cube) == false {
 		fmt.Printf("\nError: Solution incorrect :(\n")
 	}

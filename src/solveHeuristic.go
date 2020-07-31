@@ -45,7 +45,7 @@ func listMoves(node *rubik, subgroup uint8) []string {
 				moves = append(moves[:i], moves[i+1:]...)
 				break
 			}
-		}// remove opposite face move?? i.e. avoid G0 R L R L????!!!
+		}// remove opposite face move, not just last move?? i.e. avoid G0 R L R L????!!!
 	}
 	// fmt.Printf("moves: %v\n", moves)//
 	return moves
@@ -103,12 +103,6 @@ func heuristicG2(cube *[6]uint32) uint8 {
 	}
 	// fmt.Printf("color: %v\n", color)//
 	for _, face := range [4]uint8{0, 2, 4, 5} {
-		// fmt.Printf("face: %v\n", face)//
-		// fmt.Printf("cube[face]&0x70000000: %x\n", cube[face]&0x70000000)//
-		// fmt.Printf("cube[face]&0x70000000 / uint32(math.Pow(16, 6): %x\n", cube[face]&0x70000000 / uint32(math.Pow(16, 6)))//
-		// fmt.Printf("cube[face]&0x70000000  >> 6: %x\n", cube[face]&0x70000000 >> 24)//
-
-		// fmt.Printf("cube[face]&0x70: %x\n", cube[face]&0x70)//
 		if cube[face]&0x70000000 >> (6 * 4) == cube[face]&0x70 {
 			parity++
 		}

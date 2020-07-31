@@ -44,9 +44,7 @@ func idaStar(r *rubik) string {
 		}
 		// if t = ∞ then return NOT_FOUND
 		bound = cost
-		// fmt.Printf("bound 2: %v\n", bound)//
 	}
-	// return "Error"//
 	// dumpCube(&path[0].cube)//
 }
 
@@ -75,7 +73,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 		for i := 1; i < len(path); i++ {
 			solvedPart += path[i].move + " "
 		}
-		return 255, solvedPart // FOUND
+		return 255, solvedPart
 	}
 	// if isSolved(&node.cube) {
 	// 	var solved string
@@ -111,13 +109,10 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 }
 
 func solve(r *rubik) string {
-	// if isSolved(&r.cube) {
-	// 	return ""
-	// }
 	// dumpCube(&r.cube)//
-	// var bound uint8 = heuristicG2(&r.cube)
-	// fmt.Printf("bound G2: %v\n", bound)//
-	// solution := idaStar(r)
+
+	//////establish subgroup first then give subgroup to idastar()!!!!!!!!
+
 	var solution string
 	for isSolved(&r.cube) == false {
 		// dumpCube(&r.cube)//
@@ -125,13 +120,6 @@ func solve(r *rubik) string {
 		// fmt.Printf("solutionPart: %v\n", solutionPart)//
 		spin(solutionPart, &r.cube)
 		solution += solutionPart
-		// fmt.Printf("Oh HII!!!\n")//
 	}
-	// dumpCube(&r.cube)//
-
-	// solution2 := idaStar(r)
-	// fmt.Printf("solution2: %v\n", solution2)//
-	// solution = randomMix()/////////
-	// solution = ""//
 	return solution
 }
