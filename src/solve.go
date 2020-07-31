@@ -105,10 +105,16 @@ func idaStar(r *rubik) string {
 	// var solution *string
 	var bound uint8 = heuristicG3(&r.cube)
 	// fmt.Printf("bound: %v\n", bound)//
+	var subgroup uint8 = 2 // 0!!! test heuristics to establish subgroup
+	if heuristicG2(&r.cube) == 0 {
+		subgroup = 3
+	}
+	fmt.Printf("subgroup: %v\n", subgroup)//
+
 	var path []rubik
 	path = append(path, *r)
 	for {
-		cost, solution := search(path, 0, bound)
+		cost, solution := search(path, 0, bound, &subgroup)
 		// if t = FOUND then return (path, bound)
 		if cost == 255 {
 			// fmt.Printf("***************	END	********************\n")//
@@ -146,7 +152,7 @@ func listMoves(node *rubik) []string {
 	return moves
 }
 
-func search(path []rubik, g uint8, bound uint8) (uint8, string) {
+func search(path []rubik, g uint8, bound uint8, subgroup *uint8) (uint8, string) {
 	node := path[len(path) - 1]
 	// fmt.Printf("Move: %v\n", &path[i].move)//
 	// dumpCube(&node.cube)//
@@ -172,7 +178,7 @@ func search(path []rubik, g uint8, bound uint8) (uint8, string) {
 		if inPath(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
-			cost, solution := search(path, g + heuristicG3(&new.cube), bound)
+			cost, solution := search(path, g + heuristicG3(&new.cube), bound, subgroup)
 			if cost == 255 {
 				return 255, solution
 			}
