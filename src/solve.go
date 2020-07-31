@@ -109,12 +109,12 @@ func idaStar(r *rubik) string {
 	if heuristicG2(&r.cube) == 0 {
 		subgroup = 3
 	}
-	fmt.Printf("subgroup: %v\n", subgroup)//
+	// fmt.Printf("subgroup: %v\n", subgroup)//
 
 	var path []rubik
 	path = append(path, *r)
 	for {
-		cost, solution := search(path, 0, bound, &subgroup)
+		cost, solution := search(path, 0, bound, subgroup)
 		// if t = FOUND then return (path, bound)
 		if cost == 255 {
 			// fmt.Printf("***************	END	********************\n")//
@@ -130,14 +130,46 @@ func idaStar(r *rubik) string {
 	// dumpCube(&path[0].cube)//
 }
 
-func listMoves(node *rubik) []string {
+func listMoves(node *rubik, subgroup uint8) []string {
+	// fmt.Printf("subgroup: %v\n", subgroup)//
 	moves := []string{
-		"U2",
-		"D2",
-		"R2",
-		"L2",
-		"F2",
-		"B2",
+		"U",
+		"D",
+		"R",
+		"L",
+		"F",
+		"B",
+	}
+	if subgroup == 1 {
+		moves = []string{
+			"U2",
+			"D2",
+			"R",
+			"L",
+			"F",
+			"B",
+		}
+		// fmt.Printf("Group 1!!!!!!!!!!!!\n")////
+	} else if subgroup == 2 {
+		moves = []string{
+			"U2",
+			"D2",
+			"R",
+			"L",
+			"F2",
+			"B2",
+		}
+		// fmt.Printf("Group 2!!!!!!!!!!!!\n")////
+	} else if subgroup == 3 {
+		moves = []string{
+			"U2",
+			"D2",
+			"R2",
+			"L2",
+			"F2",
+			"B2",
+		}
+		// fmt.Printf("Group 3!!!!!!!!!!!!\n")////
 	}
 	// fmt.Printf("move: %v\n", node.move)//
 	if node.move != "" {
@@ -152,7 +184,7 @@ func listMoves(node *rubik) []string {
 	return moves
 }
 
-func search(path []rubik, g uint8, bound uint8, subgroup *uint8) (uint8, string) {
+func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) {
 	node := path[len(path) - 1]
 	// fmt.Printf("Move: %v\n", &path[i].move)//
 	// dumpCube(&node.cube)//
@@ -168,7 +200,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup *uint8) (uint8, string)
 		}
 		return 255, solved // FOUND
 	}
-	move := listMoves(&node)
+	move := listMoves(&node, subgroup)
 	var min uint8 = 255 // ∞
 	for i:= 0; i < len(move); i++ {
 		new := newNode(&node.cube, move[i])
