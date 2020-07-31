@@ -27,6 +27,14 @@ func oppositeFace(face uint32) uint32 {
 	}
 }
 
+func heuristicG0(cube *[6]uint32) uint8 {
+	return 42
+}
+
+func heuristicG1(cube *[6]uint32) uint8 {
+	return 42
+}
+
 // 15 moves max
 func heuristicG2(cube *[6]uint32) uint8 {
 	var color uint8
@@ -42,7 +50,7 @@ func heuristicG2(cube *[6]uint32) uint8 {
 			mask /= 16
 		}
 	}
-	fmt.Printf("color: %v\n", color)//
+	// fmt.Printf("color: %v\n", color)//
 	for _, face := range [4]uint8{0, 2, 4, 5} {
 		// fmt.Printf("face: %v\n", face)//
 		// fmt.Printf("cube[face]&0x70000000: %x\n", cube[face]&0x70000000)//
@@ -57,7 +65,7 @@ func heuristicG2(cube *[6]uint32) uint8 {
 			parity++
 		}
 	}
-	fmt.Printf("parity: %v\n", parity)//
+	// fmt.Printf("parity: %v\n", parity)//
 	if parity == 0 {
 		parity = 8
 	}
@@ -82,6 +90,18 @@ func heuristicG3(cube *[6]uint32) uint8 {
 		}
 	}
 	return (48 - correct) / 4
+}
+
+func heuristic(cube *[6]uint32, subgroup uint8) uint8 {
+	if subgroup == 0 {
+		return heuristicG0(cube)
+	} else if subgroup == 1 {
+		return heuristicG1(cube)
+	} else if subgroup == 2 {
+		return heuristicG2(cube)
+	} else { // if subgroup == 3 {
+		return heuristicG3(cube)
+	}	
 }
 
 func inPath(node *rubik, path []rubik) bool {
@@ -188,7 +208,11 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 	node := path[len(path) - 1]
 	// fmt.Printf("Move: %v\n", &path[i].move)//
 	// dumpCube(&node.cube)//
-	f := g + heuristicG3(&node.cube)
+	// heuristic := heuristic(&node.cube, subgroup)
+	if heuristic(&node.cube, subgroup) == 0 && subgroup < 3 {
+		subgroup++
+	}
+	f := g + heuristic(&node.cube, subgroup)
 	// fmt.Printf("f: %v\n", f)
 	if f > bound {
 		return f, ""
@@ -210,7 +234,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 		if inPath(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
-			cost, solution := search(path, g + heuristicG3(&new.cube), bound, subgroup)
+			cost, solution := search(path, g + heuristic(&new.cube, subgroup), bound, subgroup)
 			if cost == 255 {
 				return 255, solution
 			}
