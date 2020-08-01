@@ -73,7 +73,7 @@ func oppositeFace(face uint32) uint32 {
 
 // Edge Flip
 func heuristicG0(cube *[6]uint32) uint8 {
-	dumpCube(cube)//
+	// dumpCube(cube)//
 	var edgeOriented uint8
 	var cubie uint32
 	for _, face := range [2]uint8{1, 3} {
