@@ -1,5 +1,9 @@
 package rubik
 
+import (
+	// "fmt"
+)
+
 func listMoves(node *rubik, subgroup uint8) []string {
 	moves := []string{}
 	if subgroup == 0 {
@@ -20,6 +24,7 @@ func listMoves(node *rubik, subgroup uint8) []string {
 			"F",
 			"B",
 		}
+		// fmt.Printf("Oh HIIII!!!!\n")//
 	} else if subgroup == 2 {
 		moves = []string{
 			"U2",
@@ -72,18 +77,24 @@ func heuristicG0(cube *[6]uint32) uint8 {
 }
 
 func heuristicG1(cube *[6]uint32) uint8 {
+	// fmt.Printf("OH HIII!!!\n")////
 	var color uint8
 	var cubie uint32
-	var mask uint32 = 0x10000000
 	for _, face := range [2]uint8{1, 3} {
+		// fmt.Printf("face: %v\n", face)//
+		var mask uint32 = 0x10000000
 		for cubie = 0x70000000; cubie > 0; cubie /= 16 {
+			// fmt.Printf("count\n")//
+			// fmt.Printf("mask: %v\n", mask)//
 			if cube[face]&cubie == mask || cube[face]&cubie == mask * 3 {
 				color++
+				// fmt.Printf("color++\n")//
 			}
 			mask /= 16
 		}
 	}
-	return 16 - color / 2
+	// fmt.Printf("color: %v\n\n", color)//
+	return (16 - color) / 2
 }
 
 // 15 moves max

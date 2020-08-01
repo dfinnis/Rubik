@@ -2,6 +2,7 @@ package rubik
 
 import (
 	"fmt"
+	// "os"//
 )
 
 func newNode(newCube *[6]uint32, move string) *rubik {
@@ -21,17 +22,18 @@ func inPath(node *rubik, path []rubik) bool {
 }
 
 func idaStar(r *rubik) string {
-	// var subgroup uint8 = 1 // 0!!! test heuristics to establish subgroup
-	// if heuristicG1(&r.cube) == 0 {
-	// 	subgroup = 2
-	// } // nest else if ?? next line!!!!!!!
-	var subgroup uint8 = 2
+	// var subgroup uint8 = 2
+	var subgroup uint8 = 1 // 0!!! test heuristics to establish subgroup
+	if heuristicG1(&r.cube) == 0 {
+		subgroup = 2
+	} // nest else if ?? next line!!!!!!!
 	if heuristicG2(&r.cube) == 0 {
 		subgroup = 3
 	}
-	fmt.Printf("subgroup: %v\n", subgroup)//
+	fmt.Printf("subgroup: %v\n", subgroup)////////
 	var bound uint8 = heuristic(&r.cube, subgroup)
-	fmt.Printf("bound: %v\n", bound)//
+	// fmt.Printf("bound: %v\n", bound)//
+	// dumpCube(&r.cube)////////
 
 	var path []rubik
 	path = append(path, *r)
@@ -44,6 +46,7 @@ func idaStar(r *rubik) string {
 		}
 		// if t = ∞ then return NOT_FOUND
 		bound = cost
+		// break/////
 	}
 	// dumpCube(&path[0].cube)//
 }
@@ -73,6 +76,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 		for i := 1; i < len(path); i++ {
 			solvedPart += path[i].move + " "
 		}
+		// fmt.Printf("solvedPart: %v\n", solvedPart)//
 		return 255, solvedPart
 	}
 	// if isSolved(&node.cube) {
@@ -89,6 +93,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 		spin(move[i], &new.cube)
 		// fmt.Printf("Move: %v\n", new.move)//
 		// dumpCube(&new.cube)//
+		// fmt.Printf("heursiticG1: %v\n", heuristicG1(&new.cube))
 		if inPath(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
@@ -105,6 +110,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8) (uint8, string) 
 	}
 	// fmt.Printf("len(path): %v\n", len(path))//
 	// dumpPath(path)//
+	// os.Exit(1)///
 	return min, ""
 }
 
