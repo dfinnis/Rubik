@@ -73,12 +73,11 @@ func oppositeFace(face uint32) uint32 {
 
 // Edge Flip
 func heuristicG0(cube *[6]uint32) uint8 {
-	// dumpCube(cube)//
 	var edgeOriented uint8
 	var cubie uint32
 	for _, face := range [2]uint8{1, 3} {
 		var mask uint32 = 0x1000000
-		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate edges
+		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate 4 edges
 			if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
 				edgeOriented++
 			}
@@ -94,31 +93,19 @@ func heuristicG0(cube *[6]uint32) uint8 {
 			mask /= 256
 		}
 	}
-	// up and bottom edges
 	for _, face := range [2]uint8{0, 5} {
-		// fmt.Printf("\nface: %v\n", face)//
 		var mask uint32 = 0x1000000
 		for cubie = 0x7000000; cubie > 0; cubie = cubie >> (4 * 4) { // top, bottom
-			// if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
-			// 	edgeOriented++
-			// }
 			if cube[face]&cubie != mask * 1 && cube[face]&cubie != mask * 3 {
 				edgeOriented++
 			}
-			// fmt.Printf("cubie: %x\n", cubie)//
-			// fmt.Printf("mask: %x\n", mask)//
 			mask = mask >> (4 * 4)
 		}
 		mask = 0x10000
 		for cubie = 0x70000; cubie > 0; cubie = cubie >> (4 * 4) { // right, left
-			// if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
-			// 	edgeOriented++
-			// }
 			if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
 				edgeOriented++
 			}
-			// fmt.Printf("cubie: %x\n", cubie)//
-			// fmt.Printf("mask: %x\n", mask)//
 			mask = mask >> (4 * 4)
 		}
 	}
