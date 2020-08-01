@@ -26,11 +26,11 @@ func idaStar(r *rubik) string {
 	var subgroup uint8 = 1 // 0!!! test heuristics to establish subgroup
 	if heuristicG1(&r.cube) == 0 {
 		subgroup = 2
-	} // nest else if ?? next line!!!!!!!
-	if heuristicG2(&r.cube) == 0 {
-		subgroup = 3
+		if heuristicG2(&r.cube) == 0 {
+			subgroup = 3
+		}
 	}
-	fmt.Printf("subgroup: %v\n", subgroup)////////
+	fmt.Printf("\nsubgroup: %v\n", subgroup)////////
 	var bound uint8 = heuristic(&r.cube, subgroup)
 	// fmt.Printf("bound: %v\n", bound)//
 	// dumpCube(&r.cube)////////
@@ -118,12 +118,13 @@ func solve(r *rubik) string {
 	// dumpCube(&r.cube)//
 
 	//////establish subgroup first then give subgroup to idastar()!!!!!!!!
+	heuristicG0(&r.cube)//
 
 	var solution string
 	for isSolved(&r.cube) == false {
-		// dumpCube(&r.cube)//
 		solutionPart := idaStar(r)
 		// fmt.Printf("solutionPart: %v\n", solutionPart)//
+		// dumpCube(&r.cube)//
 		spin(solutionPart, &r.cube)
 		solution += solutionPart
 	}

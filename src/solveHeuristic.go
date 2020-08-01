@@ -24,7 +24,6 @@ func listMoves(node *rubik, subgroup uint8) []string {
 			"F",
 			"B",
 		}
-		// fmt.Printf("Oh HIIII!!!!\n")//
 	} else if subgroup == 2 {
 		moves = []string{
 			"U2",
@@ -34,7 +33,7 @@ func listMoves(node *rubik, subgroup uint8) []string {
 			"F2",
 			"B2",
 		}
-	} else { //if subgroup == 3 {
+	} else { // subgroup = 3
 		moves = []string{
 			"U2",
 			"D2",
@@ -72,28 +71,74 @@ func oppositeFace(face uint32) uint32 {
 	}
 }
 
+// Edge Flip
 func heuristicG0(cube *[6]uint32) uint8 {
-	return 42
+	dumpCube(cube)//
+	var edgeOriented uint8
+	var cubie uint32
+	for _, face := range [2]uint8{1, 3} {
+		var mask uint32 = 0x1000000
+		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate edges
+			if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
+				edgeOriented++
+			}
+			mask /= 256
+		}
+	}
+	for _, face := range [2]uint8{2, 4} {
+		var mask uint32 = 0x1000000
+		for cubie = 0x7000000; cubie > 0; cubie /= 256 {
+			if cube[face]&cubie != mask * 1 && cube[face]&cubie != mask * 3 {
+				edgeOriented++
+			}
+			mask /= 256
+		}
+	}
+	// up and bottom edges
+	for _, face := range [2]uint8{0, 5} {
+		// fmt.Printf("\nface: %v\n", face)//
+		var mask uint32 = 0x1000000
+		for cubie = 0x7000000; cubie > 0; cubie = cubie >> (4 * 4) { // top, bottom
+			// if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
+			// 	edgeOriented++
+			// }
+			if cube[face]&cubie != mask * 1 && cube[face]&cubie != mask * 3 {
+				edgeOriented++
+			}
+			// fmt.Printf("cubie: %x\n", cubie)//
+			// fmt.Printf("mask: %x\n", mask)//
+			mask = mask >> (4 * 4)
+		}
+		mask = 0x10000
+		for cubie = 0x70000; cubie > 0; cubie = cubie >> (4 * 4) { // right, left
+			// if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
+			// 	edgeOriented++
+			// }
+			if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
+				edgeOriented++
+			}
+			// fmt.Printf("cubie: %x\n", cubie)//
+			// fmt.Printf("mask: %x\n", mask)//
+			mask = mask >> (4 * 4)
+		}
+	}
+	// fmt.Printf("edgeOriented: %v\n", edgeOriented)//
+	return (24 - edgeOriented) / 2
 }
 
+//  Corner Twist
 func heuristicG1(cube *[6]uint32) uint8 {
-	// fmt.Printf("OH HIII!!!\n")////
 	var color uint8
 	var cubie uint32
 	for _, face := range [2]uint8{1, 3} {
-		// fmt.Printf("face: %v\n", face)//
 		var mask uint32 = 0x10000000
 		for cubie = 0x70000000; cubie > 0; cubie /= 16 {
-			// fmt.Printf("count\n")//
-			// fmt.Printf("mask: %v\n", mask)//
 			if cube[face]&cubie == mask || cube[face]&cubie == mask * 3 {
 				color++
-				// fmt.Printf("color++\n")//
 			}
 			mask /= 16
 		}
 	}
-	// fmt.Printf("color: %v\n\n", color)//
 	return (16 - color) / 2
 }
 
@@ -155,7 +200,7 @@ func heuristic(cube *[6]uint32, subgroup uint8) uint8 {
 		return heuristicG1(cube)
 	} else if subgroup == 2 {
 		return heuristicG2(cube)
-	} else { // if subgroup == 3 {
+	} else { // subgroup = 3
 		return heuristicG3(cube)
 	}	
 }
