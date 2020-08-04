@@ -71,7 +71,7 @@ func oppositeFace(face uint32) uint32 {
 	}
 }
 
-// Edge Flip
+// Edge Flip - 7 moves max
 func heuristicG0(cube *[6]uint32) uint8 {
 	var edgeOriented uint8
 	var cubie uint32
@@ -110,10 +110,11 @@ func heuristicG0(cube *[6]uint32) uint8 {
 		}
 	}
 	// fmt.Printf("edgeOriented: %v\n", edgeOriented)//
-	return (24 - edgeOriented) / 2
+	// return (24 - edgeOriented) / 2
+	return 24 - edgeOriented
 }
 
-//  Corner Twist
+//  Corner Twist - 10 moves max
 func heuristicG1(cube *[6]uint32) uint8 {
 	var color uint8
 	var cubie uint32
@@ -129,7 +130,7 @@ func heuristicG1(cube *[6]uint32) uint8 {
 	return (16 - color) / 2
 }
 
-// 15 moves max
+// 13 moves max
 func heuristicG2(cube *[6]uint32) uint8 {
 	var color uint8
 	var parity uint8
@@ -163,7 +164,7 @@ func heuristicG2(cube *[6]uint32) uint8 {
 	return (56 - (color + parity)) / 4
 }
 
-// 17 moves max
+// 15 moves max
 func heuristicG3(cube *[6]uint32) uint8 {
 	var correct uint8
 	var face uint32
@@ -181,10 +182,32 @@ func heuristicG3(cube *[6]uint32) uint8 {
 }
 
 func heuristic(cube *[6]uint32, subgroup uint8) uint8 {
+	// if subgroup == 0 {
+	// 	return heuristicG0(cube)
+	// } else if subgroup == 1 {
+	// 	return heuristicG1(cube)
+	// } else if subgroup == 2 {
+	// 	return heuristicG2(cube)
+	// } else { // subgroup = 3
+	// 	return heuristicG3(cube)
+	// }	
+
+	// heuristic := heuristicG0(cube)
+	// if subgroup >= 1 {
+	// 	heuristic += heuristicG1(cube)
+	// }
+	// if subgroup >= 2 {
+	// 	heuristic += heuristicG2(cube)
+	// }
+	// if subgroup == 3 {
+	// 	heuristic += heuristicG3(cube)
+	// }
+	// return heuristic
+
 	if subgroup == 0 {
 		return heuristicG0(cube)
 	} else if subgroup == 1 {
-		return heuristicG1(cube)
+		return heuristicG1(cube) + heuristicG0(cube)
 	} else if subgroup == 2 {
 		return heuristicG2(cube)
 	} else { // subgroup = 3
