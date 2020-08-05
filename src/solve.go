@@ -119,6 +119,20 @@ func replaceMove(sequence []string, move string, i int) []string {
 	return trimed
 }
 
+// e.g. "U D U" => "U2 D"
+func replaceMove2(sequence []string, move string, i int) []string {
+	var trimed []string
+	trimed = sequence[:i]
+	if move != "" {
+		trimed = append(trimed, move)
+	}
+	trimed = append(trimed, sequence[i + 1])
+	if i + 3 < len(sequence) {
+		trimed = append(trimed, sequence[i+3:]...)
+	}
+	return trimed
+}
+
 func trimSequence(sequence string) string {
 	fmt.Printf("\nsequence: %v\n", sequence)
 	trimed := strings.Fields(sequence)
@@ -137,6 +151,15 @@ func trimSequence(sequence string) string {
 					trimed = replaceMove(trimed, "", i)
 				} else if trimed[i + 1] == "U2" {
 					trimed = replaceMove(trimed, "U'", i)
+				} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
+					fmt.Printf("trimed[i + 1][0]: %v\n", trimed[i + 1][0])//
+					if trimed[i + 2] == "U" {
+						trimed = replaceMove2(trimed, "U2", i)
+					} else if trimed[i + 2] == "U'" {
+						trimed = replaceMove2(trimed, "", i)
+					} else if trimed[i + 2] == "U2" {
+						trimed = replaceMove2(trimed, "U'", i)
+					}
 				}
 			} else if move == "U'" {
 				if trimed[i + 1] == "U" {
@@ -206,7 +229,7 @@ func solve(r *rubik) string {
 	// 	spin(solutionPart, &r.cube)
 	// 	solution += solutionPart
 	// }
-	test := trimSequence("R2 U' U2 R2")//
+	test := trimSequence("R2 U D2 U2 R2")//
 	fmt.Printf("test: %v\n----------------------------\n", test)//
 	solution = trimSequence(solution)
 	return solution
