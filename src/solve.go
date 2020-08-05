@@ -106,9 +106,18 @@ func halfTurnMetric(sequence string) int {
 	return len(strings.Fields(sequence))
 }
 
-// func replaceMove(trimed string) string {
-
-// }
+func replaceMove(sequence []string, move string, i int) []string {
+	var trimed []string
+	if move == "" {
+		trimed = sequence[:i]
+	} else {
+		trimed = append(sequence[:i], move)
+	}
+	if i + 2 < len(sequence) {
+		trimed = append(trimed, sequence[i+2:]...)
+	}
+	return trimed
+}
 
 func trimSequence(sequence string) string {
 	fmt.Printf("\nsequence: %v\n", sequence)
@@ -121,25 +130,12 @@ func trimSequence(sequence string) string {
 		if i + 1 < len(trimed) {
 			fmt.Printf("trimed[i + 1]: %v\n", trimed[i + 1])//
 			if move == "U2" {
-				// fmt.Printf("OH HIII\n")
 				if trimed[i + 1] == "U" {
-					tmp := append(trimed[:i], "U'")
-					if i + 2 < len(trimed) {
-						tmp = append(tmp, trimed[i+2:]...)
-					}
-					trimed = tmp
+					trimed = replaceMove(trimed, "U'", i)
 				} else if trimed[i + 1] == "U'" {
-					tmp := append(trimed[:i], "U")
-					if i + 2 < len(trimed) {
-						tmp = append(tmp, trimed[i+2:]...)
-					}
-					trimed = tmp
+					trimed = replaceMove(trimed, "U", i)
 				} else if trimed[i + 1] == "U2" {
-					tmp := append(trimed[:i])
-					if i + 2 < len(trimed) {
-						tmp = append(tmp, trimed[i+2:]...)
-					}
-					trimed = tmp
+					trimed = replaceMove(trimed, "", i)
 				}
 			}
 		}
