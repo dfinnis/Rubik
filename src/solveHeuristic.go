@@ -43,6 +43,7 @@ func listMoves(node *rubik, subgroup uint8) []string {
 			"B2",
 		}
 	}
+	// if subgroup != 0 {
 	// if node.move != "" {
 	// 	for i, move := range moves {
 	// 		if move == node.move {
@@ -75,39 +76,38 @@ func oppositeFace(face uint32) uint32 {
 func heuristicG0(cube *[6]uint32) uint8 {
 	var edgeOriented uint8
 	var cubie uint32
-	for _, face := range [2]uint8{1, 3} {
+	for _, face := range [2]uint8{1, 3} { // if face L or R, facelet not U or D
 		var mask uint32 = 0x1000000
 		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate 4 edges
-			if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
+			if cube[face]&cubie != 0 && cube[face]&cubie != mask * 5 {
 				edgeOriented++
 			}
 			mask /= 256
 		}
 	}
-	for _, face := range [2]uint8{2, 4} {
+	for _, face := range [2]uint8{0, 5} { // if face U or D, facelet not L or R
 		var mask uint32 = 0x1000000
-		for cubie = 0x7000000; cubie > 0; cubie /= 256 {
+		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate 4 edges
 			if cube[face]&cubie != mask * 1 && cube[face]&cubie != mask * 3 {
 				edgeOriented++
 			}
 			mask /= 256
 		}
 	}
-	for _, face := range [2]uint8{0, 5} {
+	for _, face := range [2]uint8{2, 4} { // if F or B
 		var mask uint32 = 0x1000000
-		for cubie = 0x7000000; cubie > 0; cubie = cubie >> (4 * 4) { // top, bottom
+		for cubie = 0x7000000; cubie > 0; cubie = cubie >> (4 * 4) { // for top and bottom edge, not L or R
 			if cube[face]&cubie != mask * 1 && cube[face]&cubie != mask * 3 {
 				edgeOriented++
 			}
 			mask = mask >> (4 * 4)
 		}
 		mask = 0x10000
-		for cubie = 0x70000; cubie > 0; cubie = cubie >> (4 * 4) { // right, left
-			if cube[face]&cubie != mask * 2 && cube[face]&cubie != mask * 4 {
+		for cubie = 0x70000; cubie > 0; cubie = cubie >> (4 * 4) {  // for right and left edge, not U or D
+			if cube[face]&cubie != 0 && cube[face]&cubie != mask * 5 {
 				edgeOriented++
 			}
 			mask = mask >> (4 * 4)
-			// break//
 		}
 	}
 	// fmt.Printf("edgeOriented: %v\n", edgeOriented)//
@@ -119,10 +119,10 @@ func heuristicG0(cube *[6]uint32) uint8 {
 func heuristicG1(cube *[6]uint32) uint8 {
 	var color uint8
 	var cubie uint32
-	for _, face := range [2]uint8{1, 3} {
+	for _, face := range [2]uint8{0, 5} { // face U and D, facelets U or D
 		var mask uint32 = 0x10000000
 		for cubie = 0x70000000; cubie > 0; cubie /= 16 {
-			if cube[face]&cubie == mask || cube[face]&cubie == mask * 3 {
+			if cube[face]&cubie == 0 || cube[face]&cubie == mask * 5 {
 				color++
 			}
 			mask /= 16
@@ -131,72 +131,6 @@ func heuristicG1(cube *[6]uint32) uint8 {
 	return 16 - color
 	// return (16 - color) / 2
 }
-
-//  Corner Twist - 10 moves max, SPLIT EDGES AND CORNERS
-func heuristicG1Edges(cube *[6]uint32) uint8 {
-	var edgePosition uint8
-	var cubie uint32
-	for _, face := range [2]uint8{1, 3} {
-		var mask uint32 = 0x1000000
-		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate 4 edges
-			if cube[face]&cubie == mask || cube[face]&cubie == mask * 3 {
-				edgePosition++
-			}
-			mask /= 256
-		}
-	}
-	return 8 - edgePosition
-}
-
-// //  Corner Twist - 10 moves max, SPLIT EDGES AND CORNERS
-// func heuristicG1Corners(cube *[6]uint32) uint8 {
-// 	var cornerPosition uint8
-// 	var cubie uint32
-// 	for _, face := range [2]uint8{1, 3} {
-// 		var mask uint32 = 0x10000000
-// 		for cubie = 0x70000000; cubie > 0; cubie /= 256 { // iterate 4 edges
-// 			if cube[face]&cubie == mask || cube[face]&cubie == mask * 3 {
-// 				cornerPosition++
-// 			}
-// 			mask /= 256
-// 		}
-// 	}
-// 	return 8 - cornerPosition
-// }
-
-// //  Corner Twist - 10 moves max
-// func heuristicG1(cube *[6]uint32) uint8 {
-// 	// number of wrong positioned edges
-// 	var wrong uint8
-// 	var cubie uint32
-// 	for _, face := range [4]uint8{0, 2, 4, 5} {
-// 		var mask uint32 = 0x1000000
-// 		for cubie = 0x7000000; cubie > 0; cubie = cubie >> (4 * 4) { // top, bottom
-// 			if cube[face]&cubie == mask * 1 || cube[face]&cubie == mask * 3 {
-// 				wrong++
-// 			}
-// 			mask = mask >> (4 * 4)
-// 		}
-// 	}
-// 	// fmt.Printf("Wrong: %v\n", wrong)//
-// 	// return wrong//
-// 	// number of wrong positioned corners
-// 	if wrong == 0 {
-// 		var correct uint8
-// 		for _, face := range [2]uint8{1, 3} {
-// 			var mask uint32 = 0x10000000
-// 			for cubie = 0x70000000; cubie > 0; cubie /= 256 { // iterate 4 corners
-// 				if cube[face]&cubie == mask || cube[face]&cubie == mask * 3 {
-// 					correct++
-// 				}
-// 				mask /= 256
-// 			}
-// 		}
-// 		wrong += 8 - correct
-// 	}
-// 	return wrong
-// }
-
 
 // 13 moves max
 func heuristicG2(cube *[6]uint32) uint8 {
@@ -214,7 +148,7 @@ func heuristicG2(cube *[6]uint32) uint8 {
 		}
 	}
 	// fmt.Printf("color: %v\n", color)//
-	for _, face := range [4]uint8{0, 2, 4, 5} {
+	for _, face := range [4]uint8{1, 2, 3, 4} {
 		if cube[face]&0x70000000 >> (6 * 4) == cube[face]&0x70 {
 			parity++
 		}
@@ -288,3 +222,4 @@ func heuristic(cube *[6]uint32, subgroup uint8) uint8 {
 		return heuristicG3(cube)
 	}	
 }
+
