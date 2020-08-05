@@ -106,6 +106,53 @@ func halfTurnMetric(sequence string) int {
 	return len(strings.Fields(sequence))
 }
 
+// func replaceMove(trimed string) string {
+
+// }
+
+func trimSequence(sequence string) string {
+	fmt.Printf("\nsequence: %v\n", sequence)
+	trimed := strings.Fields(sequence)
+	fmt.Printf("trimed before: %v\n", trimed)
+	fmt.Printf("len(trimed): %v\n", len(trimed))//
+	for i, move := range trimed {
+		fmt.Printf("\nmove: %v\n", move)//
+		// fmt.Printf("move[0]: %v\n", move[0])//
+		if i + 1 < len(trimed) {
+			fmt.Printf("trimed[i + 1]: %v\n", trimed[i + 1])//
+			if move == "U2" {
+				// fmt.Printf("OH HIII\n")
+				if trimed[i + 1] == "U" {
+					tmp := append(trimed[:i], "U'")
+					if i + 2 < len(trimed) {
+						tmp = append(tmp, trimed[i+2:]...)
+					}
+					trimed = tmp
+				} else if trimed[i + 1] == "U'" {
+					tmp := append(trimed[:i], "U")
+					if i + 2 < len(trimed) {
+						tmp = append(tmp, trimed[i+2:]...)
+					}
+					trimed = tmp
+				} else if trimed[i + 1] == "U2" {
+					tmp := append(trimed[:i])
+					if i + 2 < len(trimed) {
+						tmp = append(tmp, trimed[i+2:]...)
+					}
+					trimed = tmp
+				}
+			}
+		}
+	}
+	fmt.Printf("trimed after:  %v\n", trimed)
+	fmt.Printf("len(trimed): %v\n", len(trimed))//
+	var trimedString string
+	for i := 0; i < len(trimed); i++ {
+		trimedString += trimed[i] + " "
+	}
+	return trimedString
+}
+
 func solve(r *rubik) string {
 	// dumpCube(&r.cube)//
 	dumpCube(&r.cube)//
@@ -146,5 +193,8 @@ func solve(r *rubik) string {
 	// 	spin(solutionPart, &r.cube)
 	// 	solution += solutionPart
 	// }
+	test := trimSequence("R2 U2 U' R2")//
+	fmt.Printf("test: %v\n----------------------------\n", test)//
+	solution = trimSequence(solution)
 	return solution
 }
