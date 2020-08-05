@@ -40,11 +40,14 @@ func idaStar(r *rubik, subgroup uint8) string {
 func search(path []rubik, g uint8, bound uint8, subgroup uint8, depth uint8) (uint8, string) {
 	node := path[len(path) - 1]
 	f := g + heuristic(&node.cube, subgroup)
-	// fmt.Printf("f: %v\n", f)
+	// fmt.Printf("g: %v\n", g)//
+	// fmt.Printf("f: %v\n", f)//
+
 	if f > bound {
 		return f, ""
 	}
 	// fmt.Printf("g = %v\n", g)//
+	// fmt.Printf("subgroup = %v\n", subgroup)//
 	// fmt.Printf("depth = %v\n", depth)//
 	if heuristic(&node.cube, subgroup) == 0 {
 		var solvedPart string
@@ -70,7 +73,7 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8, depth uint8) (ui
 		if inPath(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
-			cost, solution := search(path, g + heuristic(&new.cube, subgroup) + 1/* + 1 */, bound, subgroup, depth + 1) // g + h + 1?
+			cost, solution := search(path, g + heuristic(&new.cube, subgroup)/* + 1 */, bound, subgroup, depth + 1) // g + h + 1?
 			if cost == 255 {
 				return 255, solution
 			}

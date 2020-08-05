@@ -92,6 +92,7 @@ func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
 	if isSolved(cube) == false {
 		fmt.Printf("\nError: Solution incorrect :(\n")
 	}
+	fmt.Printf("\nHalf Turn Metric: %v\n", halfTurnMetric(solution))
 	fmt.Printf("\n%vSolution:\n%v%v\n\n", "\x1B[1m", "\x1B[0m", solution)
 	fmt.Printf("Solve time:\n%v\n\n", elapsed)
 }
