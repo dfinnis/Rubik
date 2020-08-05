@@ -129,7 +129,24 @@ func trimSequence(sequence string) string {
 		// fmt.Printf("move[0]: %v\n", move[0])//
 		if i + 1 < len(trimed) {
 			fmt.Printf("trimed[i + 1]: %v\n", trimed[i + 1])//
-			if move == "U2" {
+
+			if move == "U" {
+				if trimed[i + 1] == "U" {
+					trimed = replaceMove(trimed, "U2", i)
+				} else if trimed[i + 1] == "U'" {
+					trimed = replaceMove(trimed, "", i)
+				} else if trimed[i + 1] == "U2" {
+					trimed = replaceMove(trimed, "U'", i)
+				}
+			} else if move == "U'" {
+				if trimed[i + 1] == "U" {
+					trimed = replaceMove(trimed, "", i)
+				} else if trimed[i + 1] == "U'" {
+					trimed = replaceMove(trimed, "U2", i)
+				} else if trimed[i + 1] == "U2" {
+					trimed = replaceMove(trimed, "U", i)
+				}
+			} else if move == "U2" {
 				if trimed[i + 1] == "U" {
 					trimed = replaceMove(trimed, "U'", i)
 				} else if trimed[i + 1] == "U'" {
@@ -189,7 +206,7 @@ func solve(r *rubik) string {
 	// 	spin(solutionPart, &r.cube)
 	// 	solution += solutionPart
 	// }
-	test := trimSequence("R2 U2 U' R2")//
+	test := trimSequence("R2 U' U2 R2")//
 	fmt.Printf("test: %v\n----------------------------\n", test)//
 	solution = trimSequence(solution)
 	return solution
