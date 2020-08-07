@@ -86,7 +86,7 @@ func trimSequence(sequence string) string {
 					trimed = replaceMove(trimed, "U", i)
 				} else if trimed[i + 1] == "U2" {
 					trimed = replaceMove(trimed, "", i)
-				} else if trimed[i + 1][0] == 'U' && i + 2 < len(trimed) {
+				} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
 					if trimed[i + 2] == "U" {
 						trimed = replaceMove2(trimed, "U'", i)
 					} else if trimed[i + 2] == "U'" {
