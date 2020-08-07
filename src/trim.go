@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// e.g. "U U" => "U2"
 func replaceMove(sequence []string, move string, i int) []string {
 	var trimed []string
 	if move == "" {
@@ -32,6 +33,9 @@ func replaceMove2(sequence []string, move string, i int) []string {
 	return trimed
 }
 
+
+
+// trimSequence concaternates redundant moves to minimize HTM, e.g. "U U" => "U2"
 func trimSequence(sequence string) string {
 	fmt.Printf("\nsequence: %v\n", sequence)
 	trimed := strings.Fields(sequence)
@@ -82,7 +86,7 @@ func trimSequence(sequence string) string {
 					trimed = replaceMove(trimed, "U", i)
 				} else if trimed[i + 1] == "U2" {
 					trimed = replaceMove(trimed, "", i)
-				} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
+				} else if trimed[i + 1][0] == 'U' && i + 2 < len(trimed) {
 					if trimed[i + 2] == "U" {
 						trimed = replaceMove2(trimed, "U'", i)
 					} else if trimed[i + 2] == "U'" {
@@ -91,6 +95,54 @@ func trimSequence(sequence string) string {
 						trimed = replaceMove2(trimed, "", i)
 					}
 				}
+			// } else if move == "D" {
+			// 	if trimed[i + 1] == "D" {
+			// 		trimed = replaceMove(trimed, "D2", i)
+			// 	} else if trimed[i + 1] == "D'" {
+			// 		trimed = replaceMove(trimed, "", i)
+			// 	} else if trimed[i + 1] == "D2" {
+			// 		trimed = replaceMove(trimed, "D'", i)
+			// 	} else if trimed[i + 1][0] == 'U' && i + 2 < len(trimed) {
+			// 		if trimed[i + 2] == "D" {
+			// 			trimed = replaceMove2(trimed, "D2", i)
+			// 		} else if trimed[i + 2] == "D'" {
+			// 			trimed = replaceMove2(trimed, "", i)
+			// 		} else if trimed[i + 2] == "D2" {
+			// 			trimed = replaceMove2(trimed, "D'", i)
+			// 		}
+			// 	}
+			// } else if move == "D'" {
+			// 	if trimed[i + 1] == "D" {
+			// 		trimed = replaceMove(trimed, "", i)
+			// 	} else if trimed[i + 1] == "D'" {
+			// 		trimed = replaceMove(trimed, "D2", i)
+			// 	} else if trimed[i + 1] == "D2" {
+			// 		trimed = replaceMove(trimed, "D", i)
+			// 	} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
+			// 		if trimed[i + 2] == "D" {
+			// 			trimed = replaceMove2(trimed, "", i)
+			// 		} else if trimed[i + 2] == "D'" {
+			// 			trimed = replaceMove2(trimed, "D2", i)
+			// 		} else if trimed[i + 2] == "D2" {
+			// 			trimed = replaceMove2(trimed, "D", i)
+			// 		}
+			// 	}
+			// } else if move == "D2" {
+			// 	if trimed[i + 1] == "D" {
+			// 		trimed = replaceMove(trimed, "D'", i)
+			// 	} else if trimed[i + 1] == "D'" {
+			// 		trimed = replaceMove(trimed, "D", i)
+			// 	} else if trimed[i + 1] == "D2" {
+			// 		trimed = replaceMove(trimed, "", i)
+			// 	} else if trimed[i + 1][0] == 'U' && i + 2 < len(trimed) {
+			// 		if trimed[i + 2] == "D" {
+			// 			trimed = replaceMove2(trimed, "D'", i)
+			// 		} else if trimed[i + 2] == "D'" {
+			// 			trimed = replaceMove2(trimed, "D", i)
+			// 		} else if trimed[i + 2] == "D2" {
+			// 			trimed = replaceMove2(trimed, "", i)
+			// 		}
+			// 	}
 			}
 		}
 	}
