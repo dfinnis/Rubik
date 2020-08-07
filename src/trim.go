@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// e.g. "U U" => "U2"
+// e.g. "U U" => half
 func replaceMove(sequence []string, move string, i int) []string {
 	var trimed []string
 	if move == "" {
@@ -33,9 +33,7 @@ func replaceMove2(sequence []string, move string, i int) []string {
 	return trimed
 }
 
-
-
-// trimSequence concaternates redundant moves to minimize HTM, e.g. "U U" => "U2"
+// trimSequence concaternates redundant moves to minimize HTM, e.g. "U U" => half
 func trimSequence(sequence string) string {
 	fmt.Printf("\nsequence: %v\n", sequence)
 	trimed := strings.Fields(sequence)
@@ -46,103 +44,90 @@ func trimSequence(sequence string) string {
 		// fmt.Printf("move[0]: %v\n", move[0])//
 		if i + 1 < len(trimed) {
 			fmt.Printf("trimed[i + 1]: %v\n", trimed[i + 1])//
+			var quarter string
+			var anti string
+			var half string
+			var opposite byte
+			if move[0] == 'U' {
+				quarter = "U"
+				anti = "U'"
+				half = "U2"
+				opposite = 'D'
+			} else if move[0] == 'D' {
+				quarter = "D"
+				anti = "D'"
+				half = "D2"
+				opposite = 'U'
+			} else if move[0] == 'R' {
+				quarter = "R"
+				anti = "R'"
+				half = "R2"
+				opposite = 'L'
+			} else if move[0] == 'L' {
+				quarter = "L"
+				anti = "L'"
+				half = "L2"
+				opposite = 'R'
+			} else if move[0] == 'F' {
+				quarter = "F"
+				anti = "F'"
+				half = "F2"
+				opposite = 'B'
+			} else if move[0] == 'B' {
+				quarter = "B"
+				anti = "B'"
+				half = "B2"
+				opposite = 'F'
+			}
 
-			if move == "U" {
-				if trimed[i + 1] == "U" {
-					trimed = replaceMove(trimed, "U2", i)
-				} else if trimed[i + 1] == "U'" {
+			if move == quarter {
+				if trimed[i + 1] == quarter {
+					trimed = replaceMove(trimed, half, i)
+				} else if trimed[i + 1] == anti {
 					trimed = replaceMove(trimed, "", i)
-				} else if trimed[i + 1] == "U2" {
-					trimed = replaceMove(trimed, "U'", i)
-				} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
-					if trimed[i + 2] == "U" {
-						trimed = replaceMove2(trimed, "U2", i)
-					} else if trimed[i + 2] == "U'" {
+				} else if trimed[i + 1] == half {
+					trimed = replaceMove(trimed, anti, i)
+				} else if trimed[i + 1][0] == opposite && i + 2 < len(trimed) {
+					if trimed[i + 2] == quarter {
+						trimed = replaceMove2(trimed, half, i)
+					} else if trimed[i + 2] == anti {
 						trimed = replaceMove2(trimed, "", i)
-					} else if trimed[i + 2] == "U2" {
-						trimed = replaceMove2(trimed, "U'", i)
+					} else if trimed[i + 2] == half {
+						trimed = replaceMove2(trimed, anti, i)
 					}
 				}
-			} else if move == "U'" {
-				if trimed[i + 1] == "U" {
+			} else if move == anti {
+				if trimed[i + 1] == quarter {
 					trimed = replaceMove(trimed, "", i)
-				} else if trimed[i + 1] == "U'" {
-					trimed = replaceMove(trimed, "U2", i)
-				} else if trimed[i + 1] == "U2" {
-					trimed = replaceMove(trimed, "U", i)
-				} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
-					if trimed[i + 2] == "U" {
+				} else if trimed[i + 1] == anti {
+					trimed = replaceMove(trimed, half, i)
+				} else if trimed[i + 1] == half {
+					trimed = replaceMove(trimed, quarter, i)
+				} else if trimed[i + 1][0] == opposite && i + 2 < len(trimed) {
+					if trimed[i + 2] == quarter {
 						trimed = replaceMove2(trimed, "", i)
-					} else if trimed[i + 2] == "U'" {
-						trimed = replaceMove2(trimed, "U2", i)
-					} else if trimed[i + 2] == "U2" {
-						trimed = replaceMove2(trimed, "U", i)
+					} else if trimed[i + 2] == anti {
+						trimed = replaceMove2(trimed, half, i)
+					} else if trimed[i + 2] == half {
+						trimed = replaceMove2(trimed, quarter, i)
 					}
 				}
-			} else if move == "U2" {
-				if trimed[i + 1] == "U" {
-					trimed = replaceMove(trimed, "U'", i)
-				} else if trimed[i + 1] == "U'" {
-					trimed = replaceMove(trimed, "U", i)
-				} else if trimed[i + 1] == "U2" {
+			} else if move == half {
+				if trimed[i + 1] == quarter {
+					trimed = replaceMove(trimed, anti, i)
+				} else if trimed[i + 1] == anti {
+					trimed = replaceMove(trimed, quarter, i)
+				} else if trimed[i + 1] == half {
 					trimed = replaceMove(trimed, "", i)
-				} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
-					if trimed[i + 2] == "U" {
-						trimed = replaceMove2(trimed, "U'", i)
-					} else if trimed[i + 2] == "U'" {
-						trimed = replaceMove2(trimed, "U", i)
-					} else if trimed[i + 2] == "U2" {
+				} else if trimed[i + 1][0] == opposite && i + 2 < len(trimed) {
+					if trimed[i + 2] == quarter {
+						trimed = replaceMove2(trimed, anti, i)
+					} else if trimed[i + 2] == anti {
+						trimed = replaceMove2(trimed, quarter, i)
+					} else if trimed[i + 2] == half {
 						trimed = replaceMove2(trimed, "", i)
 					}
 				}
-			// } else if move == "D" {
-			// 	if trimed[i + 1] == "D" {
-			// 		trimed = replaceMove(trimed, "D2", i)
-			// 	} else if trimed[i + 1] == "D'" {
-			// 		trimed = replaceMove(trimed, "", i)
-			// 	} else if trimed[i + 1] == "D2" {
-			// 		trimed = replaceMove(trimed, "D'", i)
-			// 	} else if trimed[i + 1][0] == 'U' && i + 2 < len(trimed) {
-			// 		if trimed[i + 2] == "D" {
-			// 			trimed = replaceMove2(trimed, "D2", i)
-			// 		} else if trimed[i + 2] == "D'" {
-			// 			trimed = replaceMove2(trimed, "", i)
-			// 		} else if trimed[i + 2] == "D2" {
-			// 			trimed = replaceMove2(trimed, "D'", i)
-			// 		}
-			// 	}
-			// } else if move == "D'" {
-			// 	if trimed[i + 1] == "D" {
-			// 		trimed = replaceMove(trimed, "", i)
-			// 	} else if trimed[i + 1] == "D'" {
-			// 		trimed = replaceMove(trimed, "D2", i)
-			// 	} else if trimed[i + 1] == "D2" {
-			// 		trimed = replaceMove(trimed, "D", i)
-			// 	} else if trimed[i + 1][0] == 'D' && i + 2 < len(trimed) {
-			// 		if trimed[i + 2] == "D" {
-			// 			trimed = replaceMove2(trimed, "", i)
-			// 		} else if trimed[i + 2] == "D'" {
-			// 			trimed = replaceMove2(trimed, "D2", i)
-			// 		} else if trimed[i + 2] == "D2" {
-			// 			trimed = replaceMove2(trimed, "D", i)
-			// 		}
-			// 	}
-			// } else if move == "D2" {
-			// 	if trimed[i + 1] == "D" {
-			// 		trimed = replaceMove(trimed, "D'", i)
-			// 	} else if trimed[i + 1] == "D'" {
-			// 		trimed = replaceMove(trimed, "D", i)
-			// 	} else if trimed[i + 1] == "D2" {
-			// 		trimed = replaceMove(trimed, "", i)
-			// 	} else if trimed[i + 1][0] == 'U' && i + 2 < len(trimed) {
-			// 		if trimed[i + 2] == "D" {
-			// 			trimed = replaceMove2(trimed, "D'", i)
-			// 		} else if trimed[i + 2] == "D'" {
-			// 			trimed = replaceMove2(trimed, "D", i)
-			// 		} else if trimed[i + 2] == "D2" {
-			// 			trimed = replaceMove2(trimed, "", i)
-			// 		}
-			// 	}
 			}
 		}
 	}
