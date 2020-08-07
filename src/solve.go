@@ -146,8 +146,7 @@ func solve(r *rubik) string {
 	// 	spin(solutionPart, &r.cube)
 	// 	solution += solutionPart
 	// }
-	test := trimSequence("R2 U2 D2 U' R2")//
-	fmt.Printf("test: %v\n----------------------------\n", test)//
-	solution = trimSequence(solution)
+
+	solution = trim(solution)
 	return solution
 }

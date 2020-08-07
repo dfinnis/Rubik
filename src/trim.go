@@ -32,47 +32,51 @@ func replaceMove2(sequence []string, move string, i int) []string {
 	return trimed
 }
 
-// trimSequence concaternates redundant moves to minimize HTM
+func assignMoves(move byte) (string, string, string, byte) {
+	var quarter string
+	var anti string
+	var half string
+	var opposite byte
+	if move == 'U' {
+		quarter = "U"
+		anti = "U'"
+		half = "U2"
+		opposite = 'D'
+	} else if move == 'D' {
+		quarter = "D"
+		anti = "D'"
+		half = "D2"
+		opposite = 'U'
+	} else if move == 'R' {
+		quarter = "R"
+		anti = "R'"
+		half = "R2"
+		opposite = 'L'
+	} else if move == 'L' {
+		quarter = "L"
+		anti = "L'"
+		half = "L2"
+		opposite = 'R'
+	} else if move == 'F' {
+		quarter = "F"
+		anti = "F'"
+		half = "F2"
+		opposite = 'B'
+	} else { // move = 'B'
+		quarter = "B"
+		anti = "B'"
+		half = "B2"
+		opposite = 'F'
+	}
+	return quarter, anti, half, opposite
+}
+
+// trimSequence concaternates redundant moves, e.g. "U U" => "U2"
 func trimSequence(sequence string) string {
 	trimed := strings.Fields(sequence)
 	for i, move := range trimed {
 		if i + 1 < len(trimed) {
-			var quarter string
-			var anti string
-			var half string
-			var opposite byte
-			if move[0] == 'U' {
-				quarter = "U"
-				anti = "U'"
-				half = "U2"
-				opposite = 'D'
-			} else if move[0] == 'D' {
-				quarter = "D"
-				anti = "D'"
-				half = "D2"
-				opposite = 'U'
-			} else if move[0] == 'R' {
-				quarter = "R"
-				anti = "R'"
-				half = "R2"
-				opposite = 'L'
-			} else if move[0] == 'L' {
-				quarter = "L"
-				anti = "L'"
-				half = "L2"
-				opposite = 'R'
-			} else if move[0] == 'F' {
-				quarter = "F"
-				anti = "F'"
-				half = "F2"
-				opposite = 'B'
-			} else if move[0] == 'B' {
-				quarter = "B"
-				anti = "B'"
-				half = "B2"
-				opposite = 'F'
-			}
-
+			quarter, anti, half, opposite := assignMoves(move[0])
 			if move == quarter {
 				if trimed[i + 1] == quarter {
 					trimed = replaceMove(trimed, half, i)
@@ -131,6 +135,7 @@ func trimSequence(sequence string) string {
 	return trimedString
 }
 
+// trim concaternates redundant moves to minimize HTM
 func trim(sequence string) string {
 	for trimSequence(sequence) != sequence {
 		sequence = trimSequence(sequence)
