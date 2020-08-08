@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// replaceMove concaternates 2 consecutive moves e.g. "U U" => half
+// replaceMove concaternates 2 consecutive moves e.g. "U U" => "U2"
 func replaceMove(sequence []string, move string, i int) []string {
 	var trimed []string
 	if move == "" {
@@ -135,7 +135,7 @@ func trimSequence(sequence string) string {
 	return trimedString
 }
 
-// trim concaternates redundant moves to minimize HTM
+// trim concaternates redundant moves to minimize Half Turn Metric
 func trim(sequence string) string {
 	for trimSequence(sequence) != sequence {
 		sequence = trimSequence(sequence)
