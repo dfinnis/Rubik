@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"strconv"
 )
 
 // rubik struct contains all information about current rubik state
@@ -18,11 +19,11 @@ var r *rubik
 
 func errorExit(message string) {
 	fmt.Printf("Error: %s\n", message)
-	os.Exit(1)
+	printUsage()
 }
 
 func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-v] [-h]\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-r [length]] [-v] [-h]\n\n")
 	fmt.Printf("    mix should be valid sequence string e.g.\n")
 	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
 	fmt.Printf("    or mix \"$(< mix/superflip.txt)\" reads a file\n")
@@ -42,14 +43,13 @@ func initRubik() *rubik {
 	return r
 }
 
-func parseArg() (string, bool) {
+func parseArg() (string, bool, int) {
 	args := os.Args[1:]
+	var random int = -1
 	if len(args) == 0 {
-		fmt.Printf("Error: not enough arguments, no mix given\n")
-		printUsage()
+		errorExit("not enough arguments, no mix given")
 	} else if len(args) > 3 {
-		fmt.Printf("Error: too many arguments\n")
-		printUsage()
+		errorExit("too many arguments")
 	}
 	mix := args[0]
 	if mix == "-h" || mix == "--help" {
@@ -60,7 +60,13 @@ func parseArg() (string, bool) {
 	// binary := false
 	if len(args) > 1 {
 		for i := 1; i < len(args); i++ {
-			if args[i] == "-v" || args[i] == "--visualizer" {
+			if (mix == "-r" || mix == "--random") && i == 1 {
+				length, err := strconv.Atoi(args[1])
+				if err != nil || length < 0 || length > 100 {
+					printUsage()
+				}
+				random = length
+			} else if args[i] == "-v" || args[i] == "--visualizer" {
 				visualizer = true
 			// } else if args[i] == "-d" || args[i] == "--debug" {
 			// 	debug = true
@@ -73,7 +79,7 @@ func parseArg() (string, bool) {
 			}
 		}
 	}
-	return mix, visualizer
+	return mix, visualizer, random
 }
 
 func isSolved(cube *[6]uint32) bool {
@@ -106,10 +112,11 @@ func printSolution(solution string, elapsed time.Duration, cube *[6]uint32) {
 // }
 
 func RunRubik() {
-	mix, visualizer := parseArg()
+	mix, visualizer, length := parseArg()
 	if mix == "-r" || mix == "--random" {
-		mix = randomMix()
+		mix = randomMix(length)
 	}
+	// fmt.Printf("random: %v\n", random)//
 	r := initRubik()
 	spin(mix, &r.cube)
 	// dumpCube(&r.cube)////

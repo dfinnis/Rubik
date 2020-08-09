@@ -16,7 +16,7 @@ func stringInSlice(a string, list []string) bool {
 }
 
 //randomMix returns a random don't repeat yourself 18 to 30 spin long mix
-func randomMix() string {
+func randomMix(length int) string {
 	spin := []string{
 		"U",
 		"U'",
@@ -40,8 +40,11 @@ func randomMix() string {
 	dry := spin
 	var mix string
 	rand.Seed(time.Now().UnixNano())
-	n := rand.Intn(12) + 18
-	for i := 0; i <= n; i++ {
+	n := length
+	if n == -1 {
+		n = rand.Intn(12) + 18
+	}
+	for i := 0; i < n; i++ {
 		move := dry[rand.Intn(len(dry))]
 		mix += move
 		if move == "U" || move == "U'" || move == "U2" {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 	"strings"
+	// "math/rand"
 )
 
 func newNode(newCube *[6]uint32, move string) *rubik {
@@ -28,10 +29,26 @@ func idaStar(r *rubik, subgroup uint8) string {
 	path = append(path, *r)
 	for {
 		cost, solution := search(path, 0, bound, subgroup, 0)
+		fmt.Printf("cost: %v\n", cost)///
 		if cost == 255 {
 			return solution
 		}
-		// if t = ∞ then return NOT_FOUND
+		// if cost >=55 {
+		// 	move := listMoves(r, subgroup)
+		// 	// for _, m := range move {
+		// 	// 	fmt.Printf("m: %v\n", m)
+		// 	// }
+		// 	i := rand.Intn(6)
+		// 	// fmt.Printf("i: %v\n", i)
+		// 	new := newNode(&r.cube, move[i])
+		// 	spin(move[i], &new.cube)
+		// 	path = append(path, *new)
+		// 	// 	// fmt.Printf("Move: %v\n", new.move)//
+		// 	// 	// dumpCube(&new.cube)//
+		// 	// 	if inPath(new, path) == false {
+		// 	// 		path = append(path, *new)
+		// }
+		// if cost = ∞ then return NOT_FOUND
 		bound = cost
 	}
 	// dumpCube(&path[0].cube)//
@@ -63,6 +80,12 @@ func search(path []rubik, g uint8, bound uint8, subgroup uint8, depth uint8) (ui
 		// fmt.Printf("depth = %v\n", depth)//
 		return 255, solvedPart
 	}
+	// if depth == 16 {//
+	// 	fmt.Printf("16!")//
+	// }//
+	// if depth == 15 {
+	// 	fmt.Printf("15!")
+	// }
 	move := listMoves(&node, subgroup)
 	var min uint8 = 255 // ∞
 	for i:= 0; i < len(move); i++ {
@@ -147,6 +170,8 @@ func solve(r *rubik) string {
 	// 	solution += solutionPart
 	// }
 
+	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
+	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
 	solution = trim(solution)
 	return solution
 }

@@ -7,8 +7,8 @@ This will also be acceptable: 23.196 seconds
 
 #### BONUS ####
 1. test.sh
-2. visualizer
-3. -r --random mix generator 
+2. -v --visualizer
+3. -r --random [length] mix generator
 4. example mixes inc. superflip - handle filepath??
 5. human solver algo?
 

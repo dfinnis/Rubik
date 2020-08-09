@@ -72,7 +72,7 @@ func oppositeFace(face uint32) uint32 {
 	}
 }
 
-// Edge Flip - 7 moves max
+// Edge Orientation - 7 moves max
 func heuristicG0(cube *[6]uint32) uint8 {
 	var edgeOriented uint8
 	var cubie uint32
@@ -85,6 +85,7 @@ func heuristicG0(cube *[6]uint32) uint8 {
 			mask /= 256
 		}
 	}
+	// fmt.Printf("edgeOriented L R: %v\n", edgeOriented)//
 	for _, face := range [2]uint8{0, 5} { // if face U or D, facelet not L or R
 		var mask uint32 = 0x1000000
 		for cubie = 0x7000000; cubie > 0; cubie /= 256 { // iterate 4 edges
@@ -94,6 +95,7 @@ func heuristicG0(cube *[6]uint32) uint8 {
 			mask /= 256
 		}
 	}
+	// fmt.Printf("edgeOriented U D: %v\n", edgeOriented)//
 	for _, face := range [2]uint8{2, 4} { // if F or B
 		var mask uint32 = 0x1000000
 		for cubie = 0x7000000; cubie > 0; cubie = cubie >> (4 * 4) { // for top and bottom edge, not L or R
@@ -102,6 +104,7 @@ func heuristicG0(cube *[6]uint32) uint8 {
 			}
 			mask = mask >> (4 * 4)
 		}
+		// fmt.Printf("edgeOriented F B (top bottom): %v\n", edgeOriented)//
 		mask = 0x10000
 		for cubie = 0x70000; cubie > 0; cubie = cubie >> (4 * 4) {  // for right and left edge, not U or D
 			if cube[face]&cubie != 0 && cube[face]&cubie != mask * 5 {
@@ -109,13 +112,15 @@ func heuristicG0(cube *[6]uint32) uint8 {
 			}
 			mask = mask >> (4 * 4)
 		}
+		// fmt.Printf("edgeOriented F B (right left): %v\n", edgeOriented)//
 	}
 	// fmt.Printf("edgeOriented: %v\n", edgeOriented)//
 	// return (24 - edgeOriented) / 2
-	return (24 - edgeOriented)// + heuristicG1Edges(cube)
+	// fmt.Printf("heuristicG0: %v\n", 24 - edgeOriented)///
+	return 24 - edgeOriented// + heuristicG1Edges(cube)
 }
 
-//  Corner Twist - 10 moves max, ORIGINAL
+//  Corner Twist, & middle edges in middle layer - 10 moves max
 func heuristicG1(cube *[6]uint32) uint8 {
 	var color uint8
 	var cubie uint32
@@ -128,11 +133,14 @@ func heuristicG1(cube *[6]uint32) uint8 {
 			mask /= 16
 		}
 	}
-	return 16 - color
+	// fmt.Printf("heuristicG1: %v\n", 16 - color)///
+	// return 16 - color
 	// return (16 - color) / 2
+	// fmt.Printf("heuristicG1: %v\n", 8 - color / 2)///
+	return 8 - color / 2
 }
 
-// 13 moves max
+// corners into their tetrads, edges into their slices, corner permutations into squares group - 13 moves max
 func heuristicG2(cube *[6]uint32) uint8 {
 	var color uint8
 	var parity uint8
