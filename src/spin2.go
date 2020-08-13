@@ -71,6 +71,26 @@ func spinCepoD(cube *cepo) {
 	cube.eO[cube.eP[9]] = (cube.eO[cube.eP[9]] + 1) % 2
 }
 
+func spinCepoF(cube *cepo) {
+	// corner permutation
+	tmp := cube.cP[4]
+	cube.cP[4] = cube.cP[1]
+	cube.cP[1] = cube.cP[6]
+	cube.cP[6] = cube.cP[3]
+	cube.cP[3] = tmp
+	// edge permutation
+	tmp = cube.eP[5]
+	cube.eP[5] = cube.eP[9]
+	cube.eP[9] = cube.eP[6]
+	cube.eP[6] = cube.eP[8]
+	cube.eP[8] = tmp
+	// corner orientation
+	cube.cO[cube.cP[1]] = modulo3(cube.cO[cube.cP[1]] + 1)
+	cube.cO[cube.cP[3]] = modulo3(cube.cO[cube.cP[3]] + 1)
+	cube.cO[cube.cP[4]] = modulo3(cube.cO[cube.cP[4]] - 1)
+	cube.cO[cube.cP[6]] = modulo3(cube.cO[cube.cP[6]] - 1)
+}
+
 func spinCepo(mix string, cube *cepo) {
 	sequence := strings.Fields(mix)
 	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence))	//	debug tool
@@ -106,12 +126,15 @@ func spinCepo(mix string, cube *cepo) {
 		// 	spinCepoLa(cepo)
 		// } else if sequence[spin] == "L2" {
 		// 	spinCepoL2(cepo)
-		// } else if sequence[spin] == "F" {
-		// 	spinCepoF(cepo)
-		// } else if sequence[spin] == "F'" {
-		// 	spinCepoFa(cepo)
-		// } else if sequence[spin] == "F2" {
-		// 	spinCepoF2(cepo)
+		} else if sequence[spin] == "F" {
+			spinCepoF(cube)
+		} else if sequence[spin] == "F'" {
+			spinCepoF(cube)
+			spinCepoF(cube)
+			spinCepoF(cube)
+		} else if sequence[spin] == "F2" {
+			spinCepoF(cube)
+			spinCepoF(cube)
 		// } else if sequence[spin] == "B" {
 		// 	spinCepoB(cepo)
 		// } else if sequence[spin] == "B'" {
