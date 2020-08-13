@@ -2,6 +2,7 @@ package rubik
 
 import (
 	"fmt"
+	"time"
 )
 
 // S =	cornerPermutation	edgePermutation
@@ -84,6 +85,42 @@ func dumpCepo(cepo *cepo) {
 	}
 }
 
+func isSolvedCepo(cube *cepo) bool {
+	for i := range cube.cP {
+		if cube.cP[i] != int8(i) {
+			return false
+		}
+	}
+	for i := range cube.cO {
+		if cube.cO[i] != 0 {
+			return false
+		}
+	}
+	for i := range cube.eP {
+		if cube.eP[i] != int8(i) {
+			return false
+		}
+	}
+	for i := range cube.eO {
+		if cube.eO[i] != 0 {
+			return false
+		}
+	}
+	return true
+}
+
+func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
+	fmt.Printf("\n########################################\n")
+	if isSolvedCepo(cube) == false {
+		fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
+	} else {//
+		fmt.Printf("%v\nSolution Correct, cube solved! :)\n%v", Green, Reset)//
+	}//
+	fmt.Printf("\nHalf Turn Metric: %v\n", halfTurnMetric(solution))
+	fmt.Printf("\n%vSolution:\n%v%v\n\n", "\x1B[1m", "\x1B[0m", solution)
+	fmt.Printf("Solve time:\n%v\n\n", elapsed)
+}
+
 func RunRubik2() {
 	mix, visualizer, length := parseArg()
 	if mix == "-r" || mix == "--random" {
@@ -95,10 +132,12 @@ func RunRubik2() {
 	spinCepo(mix, cube)
 	dumpCepo(cube)//
 
-	// start := time.Now()
+	start := time.Now()
 	// solution := solve(r)
-	solution := "F U"
-	// elapsed := time.Since(start)
-	// printSolution(solution, elapsed, &r.cube)
+	solution := "U U"//
+	elapsed := time.Since(start)
+	spinCepo(solution, cube)
+	dumpCepo(cube)//
+	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }
