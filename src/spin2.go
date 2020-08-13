@@ -46,6 +46,31 @@ func spinCepoU(cube *cepo) {
 	cube.eO[cube.eP[11]] = (cube.eO[cube.eP[11]] + 1) % 2
 }
 
+func spinCepoD(cube *cepo) {
+	// corner permutation
+	tmp := cube.cP[1]
+	cube.cP[1] = cube.cP[5]
+	cube.cP[5] = cube.cP[2]
+	cube.cP[2] = cube.cP[6]
+	cube.cP[6] = tmp
+	// edge permutation
+	tmp = cube.eP[1]
+	cube.eP[1] = cube.eP[10]
+	cube.eP[10] = cube.eP[2]
+	cube.eP[2] = cube.eP[9]
+	cube.eP[9] = tmp
+	// corner orientation
+	cube.cO[cube.cP[1]] = modulo3(cube.cO[cube.cP[1]] - 1)
+	cube.cO[cube.cP[2]] = modulo3(cube.cO[cube.cP[2]] - 1)
+	cube.cO[cube.cP[5]] = modulo3(cube.cO[cube.cP[5]] + 1)
+	cube.cO[cube.cP[6]] = modulo3(cube.cO[cube.cP[6]] + 1)
+	// edge orientation
+	cube.eO[cube.eP[1]] = (cube.eO[cube.eP[1]] + 1) % 2
+	cube.eO[cube.eP[10]] = (cube.eO[cube.eP[10]] + 1) % 2
+	cube.eO[cube.eP[2]] = (cube.eO[cube.eP[2]] + 1) % 2
+	cube.eO[cube.eP[9]] = (cube.eO[cube.eP[9]] + 1) % 2
+}
+
 func spinCepo(mix string, cube *cepo) {
 	sequence := strings.Fields(mix)
 	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence))	//	debug tool
@@ -53,16 +78,22 @@ func spinCepo(mix string, cube *cepo) {
 		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin])	//	debug tool
 		if sequence[spin] == "U" {
 			spinCepoU(cube)
-		// } else if sequence[spin] == "U'" {
-		// 	spinCepoUa(cepo)
-		// } else if sequence[spin] == "U2" {
-		// 	spinCepoU2(cepo)
-		// } else if sequence[spin] == "D" {
-		// 	spinCepoD(cepo)
-		// } else if sequence[spin] == "D'" {
-		// 	spinCepoDa(cepo)
-		// } else if sequence[spin] == "D2" {
-		// 	spinCepoD2(cepo)
+		} else if sequence[spin] == "U'" {
+			spinCepoU(cube)
+			spinCepoU(cube)
+			spinCepoU(cube)
+		} else if sequence[spin] == "U2" {
+			spinCepoU(cube)
+			spinCepoU(cube)
+		} else if sequence[spin] == "D" {
+			spinCepoD(cube)
+		} else if sequence[spin] == "D'" {
+			spinCepoD(cube)
+			spinCepoD(cube)
+			spinCepoD(cube)
+		} else if sequence[spin] == "D2" {
+			spinCepoD(cube)
+			spinCepoD(cube)
 		// } else if sequence[spin] == "R" {
 		// 	spinCepoR(cepo)
 		// } else if sequence[spin] == "R'" {

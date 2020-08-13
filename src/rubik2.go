@@ -13,8 +13,8 @@ import (
 
 
 type cepo struct {
-	cP [8]int8			// cornerPermutation	(0-7)
-	cO [8]int8			// cornerOrientation	(0-2)	0 = good, 1 = twisted clockwise, 2 = twisted anti-clockwise
+	cP [8]int8		// cornerPermutation	(0-7)
+	cO [8]int8		// cornerOrientation	(0-2)	0 = good, 1 = twisted clockwise, 2 = twisted anti-clockwise
 	eP [12]int8		// edgePermutation		(0-11)
 	eO [12]int8		// edgeOrientation		(0-1)	0 = good, 1 = bad // bool?
 }
@@ -136,8 +136,8 @@ func RunRubik2() {
 	// solution := solve(r)
 	solution := "U U"//
 	elapsed := time.Since(start)
-	spinCepo(solution, cube)
-	dumpCepo(cube)//
+	// spinCepo(solution, cube)
+	// dumpCepo(cube)//
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }
