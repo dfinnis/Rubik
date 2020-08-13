@@ -121,6 +121,7 @@ func RunRubik() {
 	spin(mix, &r.cube)
 	// dumpCube(&r.cube)////
 	start := time.Now()
+	// solution := bruteForce(r)
 	solution := solve(r)
 	// solution := solvePlaceHolder()//rm!!!
 	elapsed := time.Since(start)
