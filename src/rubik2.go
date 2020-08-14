@@ -127,6 +127,7 @@ func RunRubik2() {
 		mix = randomMix(length)
 	}
 	cube := initCepo()
+	tableGenerator()
 	dumpCepo(cube)//
 	// fmt.Printf(cepo)
 	spinCepo(mix, cube)
