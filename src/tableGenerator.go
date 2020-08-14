@@ -2,17 +2,26 @@ package rubik
 
 import (
 	"os"
-	"io/ioutil"
+	// "io/ioutil"
 	"fmt"
 )
 
 func tableGenerator() {
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
-		tableG0 := []byte{115, 111, 109, 101, 10}
-
-		err := ioutil.WriteFile("tables/G0.txt", tableG0, 0644)
+		var table [4096]uint8
+		table[1] = 1//
+		
+		f, err := os.Create("tables/G0.txt")
 		if err != nil {
-			fmt.Printf("Unable to write file: %v", err)
-		}	
+			fmt.Printf("error creating file: %v", err)
+			return
+		}
+		defer f.Close()
+		for i := 0; i < len(table); i++ {
+			_, err = f.WriteString(fmt.Sprintf("%d", table[i]))
+			if err != nil {
+				fmt.Printf("error writing to file: %v", err)
+			}
+		}
 	}
 }
