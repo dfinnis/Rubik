@@ -5,14 +5,6 @@ import (
 	// "fmt"
 )
 
-// func modulo2(n int8) int8 {
-// 	if n == -1 {
-// 		return 1
-// 	} else {
-// 		return n % 2
-// 	}
-// }
-
 func modulo3(n int8) int8 {
 	if n == -1 {
 		return 2
