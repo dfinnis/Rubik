@@ -49,15 +49,15 @@ func isSubgroup(cube *cepo) int8 {
 	if parity % 2 != 0 {
 		return 2
 	}
-	parity = 0
-	for i := range cube.eP { // edges parity odd -> 2
-		if cube.eP[i] == int8(i) {
-			parity++
-		}
-	}
-	if parity % 2 != 0 {
-		return 2
-	}
+	// parity = 0
+	// for i := range cube.eP { // edges parity odd -> 2
+	// 	if cube.eP[i] == int8(i) {
+	// 		parity++
+	// 	}
+	// }
+	// if parity % 2 != 0 {
+	// 	return 2
+	// }
 	if isSolvedCepo(cube) == false {
 		return 3
 	}
