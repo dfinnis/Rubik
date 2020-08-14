@@ -133,10 +133,10 @@ func RunRubik2() {
 	dumpCepo(cube)//
 
 	start := time.Now()
-	// solution := solve(r)
-	solution := "U U"//
+	solution := solveCepo(cube)
+	// solution := "U U"//
 	elapsed := time.Since(start)
-	// spinCepo(solution, cube)
+	spinCepo(solution, cube)
 	// dumpCepo(cube)//
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
