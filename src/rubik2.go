@@ -18,7 +18,7 @@ type cepo struct {
 	eP 		[12]int8	// edgePermutation		(0-11)
 	eO 		[12]int8	// edgeOrientation		(0-1)	0 = good, 1 = bad // bool?
 	move	string		// last move
-	// move2	string		// move before last
+	move2	string		// move before last
 }
 
 // var cepo *cepo
