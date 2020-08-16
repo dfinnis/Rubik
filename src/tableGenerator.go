@@ -93,33 +93,45 @@ func binaryToDecimal(binary [12]int8) int {
 func tableGenerator() {
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
 		var table [4096]uint8
-		parent := initCepo()
-		
-		for i, move := range listAllMoves() {
-			fmt.Printf("\nmove %v: %v\n", i, move)//
-			child := newNodeCepo(parent, "")
-			spinCepo(move, child)
-			// dumpCepo(child)//
-			index := binaryToDecimal(child.eO)
-			if index != 0 && table[index] == 0 {
-				table[index] = 1
+		var depth uint8
+		var parents []cepo
+		parents = append(parents, *initCepo())
+		var children []cepo
+
+		depth++
+		for _, parent := range parents {
+			for _, move := range listAllMoves() {
+				// fmt.Printf("\nmove %v: %v\n", i, move)//
+				child := newNodeCepo(&parent, "")
+				spinCepo(move, child)
+				// dumpCepo(child)//
+				index := binaryToDecimal(child.eO)
+				if index != 0 && table[index] == 0 {
+					table[index] = depth
+				}
+				children = append(children, *child)
+				// fmt.Printf("index: %v\n", index)//
 			}
-			fmt.Printf("index: %v\n", index)//
 		}
 		// fmt.Printf("listAllMoves: %v\n", listAllMoves())//
+		fmt.Printf("len(children): %v\n", len(children))//
+		// for i, child := range children {
+		// 	fmt.Printf("child %v\n", i)
+		// 	dumpCepo(&child)
+		// }
 		fmt.Printf("table: %v\n", table)//
 
-		f, err := os.Create("tables/G0.txt")
-		if err != nil {
-			fmt.Printf("error creating file: %v", err)
-			return
-		}
-		defer f.Close()
-		for i := 0; i < len(table); i++ {
-			_, err = f.WriteString(fmt.Sprintf("%d", table[i]))
-			if err != nil {
-				fmt.Printf("error writing to file: %v", err)
-			}
-		}
+		// f, err := os.Create("tables/G0.txt")
+		// if err != nil {
+		// 	fmt.Printf("error creating file: %v", err)
+		// 	return
+		// }
+		// defer f.Close()
+		// for i := 0; i < len(table); i++ {
+		// 	_, err = f.WriteString(fmt.Sprintf("%d", table[i]))
+		// 	if err != nil {
+		// 		fmt.Printf("error writing to file: %v", err)
+		// 	}
+		// }
 	}
 }
