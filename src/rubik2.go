@@ -124,24 +124,23 @@ func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
 }
 
 func RunRubik2() {
-	// mix, visualizer, length := parseArg()
-	// if mix == "-r" || mix == "--random" {
-	// 	mix = randomMix(length)
-	// }
+	mix, visualizer, length := parseArg()
+	if mix == "-r" || mix == "--random" {
+		mix = randomMix(length)
+	}
 	tableG0 := tableGenerator()
-	fmt.Printf("tableG0: %v\n", tableG0)//
-	// cube := initCepo()
+	// fmt.Printf("tableG0: %v\n", tableG0)//
+	cube := initCepo()
 	// dumpCepo(cube)//
-	// // fmt.Printf(cepo)
-	// spinCepo(mix, cube)
+	spinCepo(mix, cube)
 	// dumpCepo(cube)//
 
-	// start := time.Now()
-	// solution := solveCepo(cube)
-	// // solution := "U U"//
-	// elapsed := time.Since(start)
-	// spinCepo(solution, cube)
-	// // dumpCepo(cube)//
-	// printSolution2(solution, elapsed, cube)
-	// runGraphic(mix, solution, visualizer)
+	start := time.Now()
+	solution := solveCepo(cube, tableG0)
+	// solution := "U U"//
+	elapsed := time.Since(start)
+	spinCepo(solution, cube)
+	// dumpCepo(cube)//
+	printSolution2(solution, elapsed, cube)
+	runGraphic(mix, solution, visualizer)
 }

@@ -4,6 +4,60 @@ import (
 	// "fmt"
 )
 
+func listMovesCepo(cube *cepo, subgroup uint8) []string {
+	moves := []string{}
+	if subgroup == 0 {
+		moves = []string{
+			"U",
+			"D",
+			// "U'",
+			// "D'",
+			"R",
+			"L",
+			"F",
+			"B",
+		}
+	} else if subgroup == 1 {
+		moves = []string{
+			"U2",
+			"D2",
+			"R",
+			"L",
+			"F",
+			"B",
+		}
+	} else if subgroup == 2 {
+		moves = []string{
+			"U2",
+			"D2",
+			"R",
+			"L",
+			"F2",
+			"B2",
+		}
+	} else { // subgroup = 3
+		moves = []string{
+			"U2",
+			"D2",
+			"R2",
+			"L2",
+			"F2",
+			"B2",
+		}
+	}
+	// if subgroup != 0 {
+	// if node.move != "" {
+	// 	for i, move := range moves {
+	// 		if move == node.move {
+	// 			moves = append(moves[:i], moves[i+1:]...)
+	// 			break
+	// 		}
+	// 	}// remove opposite face move, not just last move?? i.e. avoid G0 R L R L????!!!
+	// }
+	// fmt.Printf("moves: %v\n", moves)//
+	return moves
+}
+
 func listMoves(node *rubik, subgroup uint8) []string {
 	moves := []string{}
 	if subgroup == 0 {
