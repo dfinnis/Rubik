@@ -4,6 +4,7 @@ import (
 	"os"
 	"fmt"
 	"math"
+	"io/ioutil"
 )
 
 func listAllMoves(cube *cepo) []string {
@@ -91,16 +92,16 @@ func binaryToDecimal(binary [12]int8) int {
 	return decimal
 }
 
-func tableFull(table [4096]uint8) bool {
-	for i := 1; i < len(table); i++ {
-		if table[i] == 0 {
-			return false
-		}
-	}
-	return true
-}
+// func tableFull(table [4096]uint8) bool {
+// 	for i := 1; i < len(table); i++ {
+// 		if table[i] == 0 {
+// 			return false
+// 		}
+// 	}
+// 	return true
+// }
 
-func tableG0() [4096]uint8 {
+func tableGeneratorG0() [4096]uint8 {
 	fmt.Printf("Generating pruning table for G0")
 	var table [4096]uint8
 	var depth uint8
@@ -142,21 +143,32 @@ func tableG0() [4096]uint8 {
 	return table
 }
 
-func tableGenerator() {
+func tableGenerator() [4096]uint8 {
+	var tableG0 [4096]uint8//
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
-		tableG0 := tableG0()
+		tableG0 = tableGeneratorG0()
 
 		f, err := os.Create("tables/G0.txt")
 		if err != nil {
-			fmt.Printf("error creating file: %v", err)
-			return
+			// fmt.Printf("error creating file: %v", err)
+			errorExit("failed to create file")
 		}
 		defer f.Close()
 		for i := 0; i < len(tableG0); i++ {
 			_, err = f.WriteString(fmt.Sprintf("%d", tableG0[i]))
 			if err != nil {
-				fmt.Printf("error writing to file: %v", err)
+				// fmt.Printf("error writing to file: %v", err)
+				errorExit("failed to write to file")
 			}
 		}
+	} else {
+		file, err := ioutil.ReadFile("tables/G0.txt")
+		if err != nil {
+			errorExit("failed to read pruning table G0 file")
+		}
+		for i, depth := range file {
+			tableG0[i] = depth - 48
+		}
 	}
+	return tableG0
 }

@@ -128,8 +128,9 @@ func RunRubik2() {
 	// if mix == "-r" || mix == "--random" {
 	// 	mix = randomMix(length)
 	// }
+	tableG0 := tableGenerator()
+	fmt.Printf("tableG0: %v\n", tableG0)//
 	// cube := initCepo()
-	tableGenerator()
 	// dumpCepo(cube)//
 	// // fmt.Printf(cepo)
 	// spinCepo(mix, cube)
