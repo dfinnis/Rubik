@@ -70,27 +70,38 @@ func solveG0(parent *cepo, tableG0 [4096]uint8) string {
 	parentDepth := tableG0[index]
 	fmt.Printf("index: %v\n", index)//
 	fmt.Printf("depth: %v\n\n", parentDepth)//
+	dumpCepo(parent)//
+	fmt.Printf("---------------------------------------\n")//
 
 	// for isSubgroup(parent) == 0 {
-	for i, move := range listMovesCepo(parent, 0) {
-		fmt.Printf("move[%v]: %v\n", i, move)//
-		child := newNodeCepo(parent, move)
-		spinCepo(move, child)
-		index := binaryToDecimal(child.eO)
-		fmt.Printf("index: %v\n", index)//
-		childDepth := tableG0[index]
-		fmt.Printf("childDepth: %v\n", childDepth)//
-		if childDepth < parentDepth {
-			fmt.Printf("OH HIII!!\n\n")//
-			solution += move + " "
-			fmt.Printf("solution: %v\n", solution)////////
-			parent = child
-			parentDepth = childDepth
+	for depth := 0; depth < 5; depth++ {
+		fmt.Printf("parentDepth: %v\n", parentDepth)//
+		for i, move := range listMovesCepo(parent, 0) {
+			fmt.Printf("move[%v]: %v\n", i, move)//
+			child := newNodeCepo(parent, move)
+			spinCepo(move, child)
+			index := binaryToDecimal(child.eO)
+			fmt.Printf("index: %v\n", index)//
+			childDepth := tableG0[index]
+			fmt.Printf("childDepth: %v\n", childDepth)//
+			if childDepth < parentDepth {
+				fmt.Printf("OH HIII!!\n\n")//
+				solution += move + " "
+				fmt.Printf("solution: %v\n", solution)////////
+				parent = child
+				parentDepth = childDepth
+				break
+			}
+		}
+		if isSubgroup(parent) == 1 {
 			break
 		}
+		fmt.Printf("########################################\n")//
 	}
-	// }
-	dumpCepo(parent)
+	dumpCepo(parent)//
+	index = binaryToDecimal(parent.eO)
+	fmt.Printf("index: %v\n", index)//
+
 	
 	// dumpCepo(cube)//
 	return solution
@@ -103,33 +114,153 @@ func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//
 	// solution := "F U"//
 
+	// var solution string
+	// for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
+	// 	fmt.Printf("\nsubgroup: %v\n", subgroup)////////
+	// 	if subgroup == 0 {
+	// 		solutionPart := solveG0(cube, tableG0)
+	// 		fmt.Printf("solutionPart: %v\n", solutionPart)////////
+	// 		solution += solutionPart
+	// 	} else {//
+	// 		break//
+	// 	}
+	// 	// spinCepo(solutionPart, cube)
+	// 	// solution += solutionPart
+	// 	// if isSolvedCepo(cube) {
+	// 	// 	break
+	// 	// }
+	// }
+
 	var solution string
+	// for subgroup := subgroup(&r.cube); subgroup < 4; subgroup++ {
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
+
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
+		// fmt.Printf("heuristicG0(&r.cube): %v\n", heuristicG0(&r.cube))////////
+		// fmt.Printf("heuristicG1(&r.cube): %v\n", heuristicG1(&r.cube))////////
+		// fmt.Printf("heuristicG2(&r.cube): %v\n", heuristicG2(&r.cube))////////
+		// fmt.Printf("heuristicG3(&r.cube): %v\n", heuristicG3(&r.cube))////////
+		// start := time.Now()//
 		if subgroup == 0 {
-			solutionPart := solveG0(cube, tableG0)
-			fmt.Printf("solutionPart: %v\n", solutionPart)////////
+			solutionPart := idaStar2(cube, subgroup, tableG0)
+			solution += solutionPart
+		} else {
+			break
 		}
-		// spinCepo(solutionPart, cube)
+		// elapsed := time.Since(start)//
+		// fmt.Printf("Group Solve time: %v\n", elapsed)//
+		// fmt.Printf("solutionPart: %v\n", solutionPart)//
+		// fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
+		// spinCepo(solutionPart, &r.cube)
+		// dumpCube(&r.cube)//
 		// solution += solutionPart
 		// if isSolvedCepo(cube) {
 		// 	break
 		// }
+		// if subgroup == 0 {//
+		// 	break//
+		// }//
 	}
 
 	// fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
 	// fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
 	// solution = trim(solution)
 
-
-
-
-
-
-
-
-
-
-
 	return solution
+}
+
+
+func inPath2(node *cepo, path []cepo) bool {
+	for idx := range path {
+		var different bool
+		for i := range node.cP {
+			if node.cP[i] != path[idx].cP[i] {
+				different = true
+				break
+			}
+		}
+		for i := range node.cO {
+			if node.cO[i] != path[idx].cO[i] {
+				different = true
+				break
+			}
+		}
+		for i := range node.eP {
+			if node.eP[i] != path[idx].eP[i] {
+				different = true
+				break
+			}
+		}
+		for i := range node.eO {
+			if node.eO[i] != path[idx].eO[i] {
+				different = true
+				break
+			}
+		}
+		if different == false {
+			return true
+		}
+	}
+	return false
+}
+
+func idaStar2(cube *cepo, subgroup int8, tableG0 [4096]uint8) string {
+	// index := binaryToDecimal(cube.eO)
+	// bound := tableG0[index]
+	bound := tableG0[binaryToDecimal(cube.eO)]
+	var path []cepo
+	path = append(path, *cube)
+	for {
+		cost, solution := search2(path, 0, bound, subgroup, 0, tableG0)
+		// fmt.Printf("cost: %v\n", cost)///
+		if cost == 255 {
+			return solution
+		}
+		bound = cost
+	}
+}
+
+func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tableG0 [4096]uint8) (uint8, string) {
+	node := path[len(path) - 1]
+	f := g + tableG0[binaryToDecimal(node.eO)]
+	// fmt.Printf("g: %v\n", g)//
+	// fmt.Printf("f: %v\n", f)//
+
+	if f > bound {
+		return f, ""
+	}
+	// fmt.Printf("g = %v\n", g)//
+	// fmt.Printf("subgroup = %v\n", subgroup)//
+	// fmt.Printf("depth = %v\n", depth)//
+	if tableG0[binaryToDecimal(node.eO)] == 0 {
+		var solvedPart string
+		for i := 1; i < len(path); i++ {
+			solvedPart += path[i].move + " "
+		}
+		// fmt.Printf("subgroup: %v\n", subgroup)//
+		// fmt.Printf("depth = %v\n", depth)//
+		return 255, solvedPart
+	}
+	moves := listMovesCepo(&node, subgroup)
+	var min uint8 = 255 // ∞
+	for i:= 0; i < len(moves); i++ {
+		new := newNodeCepo(&node, moves[i])
+		spinCepo(moves[i], new)
+		// fmt.Printf("Move: %v\n", new.move)//
+		// dumpCube(&new.cube)//
+		if inPath2(new, path) == false {
+			path = append(path, *new)
+			// dumpPath(path)//
+			cost, solution := search2(path, g + tableG0[binaryToDecimal(new.eO)]/* + 1 */, bound, subgroup, depth + 1, tableG0) // g + h + 1?
+			if cost == 255 {
+				return 255, solution
+			}
+			if cost < min {
+				min = cost
+			}
+			path = path[:len(path) - 1] // pop
+		}
+		// fmt.Printf("##############################\n")//
+	}
+	return min, ""
 }

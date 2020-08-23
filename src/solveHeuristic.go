@@ -4,18 +4,36 @@ import (
 	// "fmt"
 )
 
-func listMovesCepo(cube *cepo, subgroup uint8) []string {
+func listMovesCepo(cube *cepo, subgroup int8) []string {
 	moves := []string{}
 	if subgroup == 0 {
 		moves = []string{
+			// "U",
+			// "D",
+			// // "U'",
+			// // "D'",
+			// "R",
+			// "L",
+			// "F",
+			// "B",
 			"U",
+			"U'",
+			"U2",
 			"D",
-			// "U'",
-			// "D'",
+			"D'",
+			"D2",
 			"R",
+			"R'",
+			"R2",
 			"L",
+			"L'",
+			"L2",
 			"F",
+			"F'",
+			"F2",
 			"B",
+			"B'",
+			"B2",
 		}
 	} else if subgroup == 1 {
 		moves = []string{
