@@ -102,7 +102,7 @@ func binaryToDecimal(binary [12]int8) int {
 // }
 
 func tableGeneratorG0() [4096]uint8 {
-	fmt.Printf("Generating pruning table for G0")
+	fmt.Printf("\nGenerating pruning table for G0")
 	var table [4096]uint8
 	var depth uint8
 	var parents []cepo
@@ -143,32 +143,41 @@ func tableGeneratorG0() [4096]uint8 {
 	return table
 }
 
+func createFile(filepath string) *os.File {
+	file, err := os.Create(filepath)
+	if err != nil {
+		errorExit("failed to create file")
+	}
+	return file
+}
+
+func readFile(filepath string) []byte {
+	file, err := ioutil.ReadFile(filepath)
+	if err != nil {
+		errorExit("failed to read pruning table file")
+	}
+	return file
+}
+
 func tableGenerator() [4096]uint8 {
 	var tableG0 [4096]uint8//
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
 		tableG0 = tableGeneratorG0()
-
-		f, err := os.Create("tables/G0.txt")
-		if err != nil {
-			// fmt.Printf("error creating file: %v", err)
-			errorExit("failed to create file")
-		}
-		defer f.Close()
+		file := createFile("tables/G0.txt")
+		defer file.Close()
 		for i := 0; i < len(tableG0); i++ {
-			_, err = f.WriteString(fmt.Sprintf("%d", tableG0[i]))
+			_, err = file.WriteString(fmt.Sprintf("%d", tableG0[i]))
 			if err != nil {
-				// fmt.Printf("error writing to file: %v", err)
 				errorExit("failed to write to file")
 			}
 		}
 	} else {
-		file, err := ioutil.ReadFile("tables/G0.txt")
-		if err != nil {
-			errorExit("failed to read pruning table G0 file")
-		}
+		file := readFile("tables/G0.txt")
 		for i, depth := range file {
 			tableG0[i] = depth - 48
 		}
 	}
+
+	// var tableG1 [4096]uint8//
 	return tableG0
 }
