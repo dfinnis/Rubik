@@ -4,6 +4,85 @@ import (
 	"fmt"//
 )
 
+
+func listMovesCepo(cube *cepo, subgroup int8) []string {
+	moves := []string{}
+	if subgroup == 0 {
+		moves = []string{
+			"U",
+			"U'",
+			"U2",
+			"D",
+			"D'",
+			"D2",
+			"R",
+			"R'",
+			"R2",
+			"L",
+			"L'",
+			"L2",
+			"F",
+			"F'",
+			"F2",
+			"B",
+			"B'",
+			"B2",
+		}
+	} else if subgroup == 1 {
+		moves = []string{
+			// "U2",
+			// "D2",
+			// "R",
+			// "L",
+			// "F",
+			// "B",
+			"U2",
+			"D2",
+			"R",
+			"R'",
+			"R2",
+			"L",
+			"L'",
+			"L2",
+			"F",
+			"F'",
+			"F2",
+			"B",
+			"B'",
+			"B2",
+		}
+	} else if subgroup == 2 {
+		moves = []string{
+			"U2",
+			"D2",
+			"R",
+			"L",
+			"F2",
+			"B2",
+		}
+	} else { // subgroup = 3
+		moves = []string{
+			"U2",
+			"D2",
+			"R2",
+			"L2",
+			"F2",
+			"B2",
+		}
+	}
+	// if subgroup != 0 {
+	// if node.move != "" {
+	// 	for i, move := range moves {
+	// 		if move == node.move {
+	// 			moves = append(moves[:i], moves[i+1:]...)
+	// 			break
+	// 		}
+	// 	}// remove opposite face move, not just last move?? i.e. avoid G0 R L R L????!!!
+	// }
+	// fmt.Printf("moves: %v\n", moves)//
+	return moves
+}
+
 func isSubgroup(cube *cepo) int8 {
 	for i := range cube.eO { // edges not oriented -> 0
 		if cube.eO[i] != 0 {
@@ -108,45 +187,6 @@ func isSubgroup(cube *cepo) int8 {
 // 	// return "F U"
 // }
 
-func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
-	// fmt.Printf("tableG0: %v\n", tableG0)//
-	subgroup := isSubgroup(cube)
-	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//
-	// solution := "F U"//
-
-	var solution string
-	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
-		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-
-		if subgroup == 0 {
-			solutionPart := idaStar2(cube, subgroup, tableG0)
-			solution += solutionPart
-		} else {
-			break
-		}
-		// elapsed := time.Since(start)//
-		// fmt.Printf("Group Solve time: %v\n", elapsed)//
-		// fmt.Printf("solutionPart: %v\n", solutionPart)//
-		// fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
-		// spinCepo(solutionPart, &r.cube)
-		// dumpCube(&r.cube)//
-		// solution += solutionPart
-		// if isSolvedCepo(cube) {
-		// 	break
-		// }
-		// if subgroup == 0 {//
-		// 	break//
-		// }//
-	}
-
-	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
-	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
-	solution = trim(solution)
-
-	return solution
-}
-
-
 func inPath2(node *cepo, path []cepo) bool {
 	for idx := range path {
 		var different bool
@@ -188,22 +228,6 @@ func inPath2(node *cepo, path []cepo) bool {
 		}
 	}
 	return false
-}
-
-func idaStar2(cube *cepo, subgroup int8, tableG0 [4096]uint8) string {
-	// index := binaryToDecimal(cube.eO)
-	// bound := tableG0[index]
-	bound := tableG0[binaryToDecimal(cube.eO)]
-	var path []cepo
-	path = append(path, *cube)
-	for {
-		cost, solution := search2(path, 0, bound, subgroup, 0, tableG0)
-		// fmt.Printf("cost: %v\n", cost)///
-		if cost == 255 {
-			return solution
-		}
-		bound = cost
-	}
 }
 
 func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tableG0 [4096]uint8) (uint8, string) {
@@ -249,4 +273,56 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 		// fmt.Printf("##############################\n")//
 	}
 	return min, ""
+}
+
+func idaStar2(cube *cepo, subgroup int8, tableG0 [4096]uint8) string {
+	bound := tableG0[binaryToDecimal(cube.eO)]
+	var path []cepo
+	path = append(path, *cube)
+	for {
+		cost, solution := search2(path, 0, bound, subgroup, 0, tableG0)
+		// fmt.Printf("cost: %v\n", cost)///
+		if cost == 255 {
+			return solution
+		}
+		bound = cost
+	}
+}
+
+func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
+	// fmt.Printf("tableG0: %v\n", tableG0)//
+	subgroup := isSubgroup(cube)
+	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//
+	// solution := "F U"//
+
+	var solution string
+	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
+		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
+
+		if subgroup == 0 {
+			solutionPart := idaStar2(cube, subgroup, tableG0)
+			solution += solutionPart
+		} else {
+			break
+		}
+		// elapsed := time.Since(start)//
+		// fmt.Printf("Group Solve time: %v\n", elapsed)//
+		// fmt.Printf("solutionPart: %v\n", solutionPart)//
+		// fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
+		// spinCepo(solutionPart, &r.cube)
+		// dumpCube(&r.cube)//
+		// solution += solutionPart
+		// if isSolvedCepo(cube) {
+		// 	break
+		// }
+		// if subgroup == 0 {//
+		// 	break//
+		// }//
+	}
+
+	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
+	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
+	solution = trim(solution)
+
+	return solution
 }
