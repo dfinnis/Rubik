@@ -64,49 +64,49 @@ func isSubgroup(cube *cepo) int8 {
 	return 4
 }
 
-func solveG0(parent *cepo, tableG0 [4096]uint8) string {
-	var solution string
-	index := binaryToDecimal(parent.eO)
-	parentDepth := tableG0[index]
-	fmt.Printf("index: %v\n", index)//
-	fmt.Printf("depth: %v\n\n", parentDepth)//
-	dumpCepo(parent)//
-	fmt.Printf("---------------------------------------\n")//
+// func solveG0(parent *cepo, tableG0 [4096]uint8) string {
+// 	var solution string
+// 	index := binaryToDecimal(parent.eO)
+// 	parentDepth := tableG0[index]
+// 	fmt.Printf("index: %v\n", index)//
+// 	fmt.Printf("depth: %v\n\n", parentDepth)//
+// 	dumpCepo(parent)//
+// 	fmt.Printf("---------------------------------------\n")//
 
-	// for isSubgroup(parent) == 0 {
-	for depth := 0; depth < 5; depth++ {
-		fmt.Printf("parentDepth: %v\n", parentDepth)//
-		for i, move := range listMovesCepo(parent, 0) {
-			fmt.Printf("move[%v]: %v\n", i, move)//
-			child := newNodeCepo(parent, move)
-			spinCepo(move, child)
-			index := binaryToDecimal(child.eO)
-			fmt.Printf("index: %v\n", index)//
-			childDepth := tableG0[index]
-			fmt.Printf("childDepth: %v\n", childDepth)//
-			if childDepth < parentDepth {
-				fmt.Printf("OH HIII!!\n\n")//
-				solution += move + " "
-				fmt.Printf("solution: %v\n", solution)////////
-				parent = child
-				parentDepth = childDepth
-				break
-			}
-		}
-		if isSubgroup(parent) == 1 {
-			break
-		}
-		fmt.Printf("########################################\n")//
-	}
-	dumpCepo(parent)//
-	index = binaryToDecimal(parent.eO)
-	fmt.Printf("index: %v\n", index)//
+// 	// for isSubgroup(parent) == 0 {
+// 	for depth := 0; depth < 5; depth++ {
+// 		fmt.Printf("parentDepth: %v\n", parentDepth)//
+// 		for i, move := range listMovesCepo(parent, 0) {
+// 			fmt.Printf("move[%v]: %v\n", i, move)//
+// 			child := newNodeCepo(parent, move)
+// 			spinCepo(move, child)
+// 			index := binaryToDecimal(child.eO)
+// 			fmt.Printf("index: %v\n", index)//
+// 			childDepth := tableG0[index]
+// 			fmt.Printf("childDepth: %v\n", childDepth)//
+// 			if childDepth < parentDepth {
+// 				fmt.Printf("OH HIII!!\n\n")//
+// 				solution += move + " "
+// 				fmt.Printf("solution: %v\n", solution)////////
+// 				parent = child
+// 				parentDepth = childDepth
+// 				break
+// 			}
+// 		}
+// 		if isSubgroup(parent) == 1 {
+// 			break
+// 		}
+// 		fmt.Printf("########################################\n")//
+// 	}
+// 	dumpCepo(parent)//
+// 	index = binaryToDecimal(parent.eO)
+// 	fmt.Printf("index: %v\n", index)//
 
 	
-	// dumpCepo(cube)//
-	return solution
-	// return "F U"
-}
+// 	// dumpCepo(cube)//
+// 	return solution
+// 	// return "F U"
+// }
 
 func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 	// fmt.Printf("tableG0: %v\n", tableG0)//
@@ -114,33 +114,10 @@ func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//
 	// solution := "F U"//
 
-	// var solution string
-	// for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
-	// 	fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-	// 	if subgroup == 0 {
-	// 		solutionPart := solveG0(cube, tableG0)
-	// 		fmt.Printf("solutionPart: %v\n", solutionPart)////////
-	// 		solution += solutionPart
-	// 	} else {//
-	// 		break//
-	// 	}
-	// 	// spinCepo(solutionPart, cube)
-	// 	// solution += solutionPart
-	// 	// if isSolvedCepo(cube) {
-	// 	// 	break
-	// 	// }
-	// }
-
 	var solution string
-	// for subgroup := subgroup(&r.cube); subgroup < 4; subgroup++ {
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
-
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-		// fmt.Printf("heuristicG0(&r.cube): %v\n", heuristicG0(&r.cube))////////
-		// fmt.Printf("heuristicG1(&r.cube): %v\n", heuristicG1(&r.cube))////////
-		// fmt.Printf("heuristicG2(&r.cube): %v\n", heuristicG2(&r.cube))////////
-		// fmt.Printf("heuristicG3(&r.cube): %v\n", heuristicG3(&r.cube))////////
-		// start := time.Now()//
+
 		if subgroup == 0 {
 			solutionPart := idaStar2(cube, subgroup, tableG0)
 			solution += solutionPart
@@ -162,9 +139,9 @@ func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 		// }//
 	}
 
-	// fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
-	// fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
-	// solution = trim(solution)
+	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
+	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
+	solution = trim(solution)
 
 	return solution
 }
@@ -179,17 +156,26 @@ func inPath2(node *cepo, path []cepo) bool {
 				break
 			}
 		}
+		if different == true {
+			break
+		}
 		for i := range node.cO {
 			if node.cO[i] != path[idx].cO[i] {
 				different = true
 				break
 			}
 		}
+		if different == true {
+			break
+		}
 		for i := range node.eP {
 			if node.eP[i] != path[idx].eP[i] {
 				different = true
 				break
 			}
+		}
+		if different == true {
+			break
 		}
 		for i := range node.eO {
 			if node.eO[i] != path[idx].eO[i] {
