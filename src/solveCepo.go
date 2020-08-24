@@ -284,7 +284,6 @@ func findBound(cube *cepo, subgroup int8, tableG0 [4096]uint8) uint8 {
 }
 
 func idaStar2(cube *cepo, subgroup int8, tableG0 [4096]uint8) string {
-	// bound := tableG0[binaryToDecimal(cube.eO)]
 	bound := findBound(cube, subgroup, tableG0)
 	var path []cepo
 	path = append(path, *cube)
@@ -307,13 +306,14 @@ func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-
-		if subgroup == 0 {
+		dumpCepo(cube)////
+		if subgroup == 0 {//
 			solutionPart := idaStar2(cube, subgroup, tableG0)
+			spinCepo(solutionPart, cube)
 			solution += solutionPart
-		} else {
-			break
-		}
+		// } else {
+		// 	break
+		// }
 		// elapsed := time.Since(start)//
 		// fmt.Printf("Group Solve time: %v\n", elapsed)//
 		// fmt.Printf("solutionPart: %v\n", solutionPart)//
@@ -326,7 +326,14 @@ func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 		// }
 		// if subgroup == 0 {//
 		// 	break//
-		// }//
+		}//
+		if subgroup == 1 {//
+			index := orientation2index(cube)
+			fmt.Printf("orientation2index: %v\n", index)
+			// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
+			fmt.Printf("index2orientation: %v\n", index2orientation(index))
+			break
+		}
 	}
 
 	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///

@@ -92,6 +92,31 @@ func binaryToDecimal(binary [12]int8) int {
 	return decimal
 }
 
+func orientation2index(cube *cepo) int {
+	var index int
+	for i := 0; i < 8; i++ {
+		index = index * 3
+		index = index + int(cube.cO[i])
+	}
+	return index
+}
+
+func index2orientation(index int) [8]int {
+	var s int
+	var or [8]int
+	for i := 7; i >= 0; i-- {
+		or[i] = index % 3
+		s = s - or[i]
+		if s < 0 {
+			s = s + 3
+		}
+		index = (index - or[i]) / 3
+	}
+	// or[n] = s
+	return or
+}
+
+
 // func tableFull(table [4096]uint8) bool {
 // 	for i := 1; i < len(table); i++ {
 // 		if table[i] == 0 {

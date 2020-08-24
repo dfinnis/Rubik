@@ -141,7 +141,7 @@ func RunRubik2() {
 	elapsed := time.Since(start)
 	spinCepo(solution, cube)
 	fmt.Printf("========================================\n")//
-	dumpCepo(cube)//
+	// dumpCepo(cube)//
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }
