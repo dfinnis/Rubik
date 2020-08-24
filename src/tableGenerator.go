@@ -94,7 +94,7 @@ func binaryToDecimal(binary [12]int8) int {
 
 func orientation2index(cube *cepo) int {
 	var index int
-	for i := 0; i < 8; i++ {
+	for i := 0; i < 7; i++ {
 		index = index * 3
 		index = index + int(cube.cO[i])
 	}
@@ -104,7 +104,7 @@ func orientation2index(cube *cepo) int {
 func index2orientation(index int) [8]int {
 	var s int
 	var or [8]int
-	for i := 7; i >= 0; i-- {
+	for i := 6; i >= 0; i-- {
 		or[i] = index % 3
 		s = s - or[i]
 		if s < 0 {
@@ -112,7 +112,7 @@ func index2orientation(index int) [8]int {
 		}
 		index = (index - or[i]) / 3
 	}
-	// or[n] = s
+	or[7] = s
 	return or
 }
 

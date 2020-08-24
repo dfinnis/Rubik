@@ -332,6 +332,7 @@ func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
 			fmt.Printf("orientation2index: %v\n", index)
 			// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
 			fmt.Printf("index2orientation: %v\n", index2orientation(index))
+			// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
 			break
 		}
 	}
