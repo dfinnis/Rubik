@@ -328,14 +328,27 @@ func solveCepo(cube *cepo, tableG0 [2048]uint8) string {
 		// 	break//
 		}//
 		if subgroup == 1 {//
-			index := orientation2index(cube)
-			fmt.Printf("orientation2index: %v\n", index)
-			// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
-			fmt.Printf("index2orientation: %v\n", index2orientation(index))
-			// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
+			// index := orientation2index(cube)
+			// fmt.Printf("orientation2index: %v\n", index)
+			// // fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
+			// fmt.Printf("index2orientation: %v\n", index2orientation(index))
+			// // fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
+			// edgePermutationBin := eP2Binary(cube)
+			// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
+			// index = binaryBool2Decimal(edgePermutationBin)
+			// fmt.Printf("index: %v\n", index)//
 			break
 		}
 	}
+	index := orientation2index(cube)
+	fmt.Printf("orientation2index: %v\n", index)
+	// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
+	fmt.Printf("index2orientation: %v\n", index2orientation(index))
+	// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
+	edgePermutationBin := eP2Binary(cube)
+	fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
+	index = binaryBool2Decimal(edgePermutationBin)
+	fmt.Printf("index: %v\n", index)//
 
 	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
 	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
