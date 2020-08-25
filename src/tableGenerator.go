@@ -97,9 +97,9 @@ func eP2Binary(cube *cepo) [12]bool {
 
 func binaryBool2Decimal(binary [12]bool) int {
 	var decimal int
-	for i := 0; i < 11; i++ {
+	for i := 0; i < 12; i++ {
 		if binary[i] == true {
-			decimal += int(math.Pow(2, float64(10-i)))
+			decimal += int(math.Pow(2, float64(11-i)))
 		}
 	}
 	return decimal
@@ -230,27 +230,28 @@ func tableGenerator() [2048]uint8 {
 	var converted int16 = 1
 	var idx int64
 	// for idx = 7; idx <=1920; idx++ {
-	for idx = 7; idx <=4096; idx++ {
+	for idx = 0; idx <4096; idx++ {
 		var count uint8
 		// fmt.Printf("idx: %v\n", idx) // 
 		binary := strconv.FormatInt(idx, 2)
 		for _, bit := range binary {
 			if bit == '1' {
-				// fmt.Printf("Oh HI\n")///
 				count++
 			}
 		}
 		if count == 4 {
 				// fmt.Printf("binary: %v\n", binary)///
-				fmt.Printf("idx: %v\n", idx) // 
-				fmt.Printf("converted: %v\n", converted)///
+				// fmt.Printf("idx: %v\n", idx) // 
+				// fmt.Printf("converted: %v\n", converted)///
 				colIndex[idx] = converted
 				converted++
 		}
-		// if has 4 true /12 {
-			// mark colIndex[i]
-		// }
 	}
+	// for i, index := range colIndex {
+	// 	if index != 0 {
+	// 		fmt.Printf("index %v: %v\n", i, index) // 
+	// 	}
+	// }
 	// var tableG1 [2048]uint8//
 	return tableG0
 }
