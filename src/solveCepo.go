@@ -143,7 +143,7 @@ func isSubgroup(cube *cepo) int8 {
 	return 4
 }
 
-// func solveG0(parent *cepo, tableG0 [4096]uint8) string {
+// func solveG0(parent *cepo, tableG0 [2048]uint8) string {
 // 	var solution string
 // 	index := binaryToDecimal(parent.eO)
 // 	parentDepth := tableG0[index]
@@ -230,7 +230,7 @@ func inPath2(node *cepo, path []cepo) bool {
 	return false
 }
 
-func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tableG0 [4096]uint8) (uint8, string) {
+func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tableG0 [2048]uint8) (uint8, string) {
 	node := path[len(path) - 1]
 	f := g + tableG0[binaryToDecimal(node.eO)]
 	// fmt.Printf("g: %v\n", g)//
@@ -275,7 +275,7 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 	return min, ""
 }
 
-func findBound(cube *cepo, subgroup int8, tableG0 [4096]uint8) uint8 {
+func findBound(cube *cepo, subgroup int8, tableG0 [2048]uint8) uint8 {
 	var bound uint8
 	if subgroup == 0 {
 		bound = tableG0[binaryToDecimal(cube.eO)]
@@ -283,7 +283,7 @@ func findBound(cube *cepo, subgroup int8, tableG0 [4096]uint8) uint8 {
 	return bound
 }
 
-func idaStar2(cube *cepo, subgroup int8, tableG0 [4096]uint8) string {
+func idaStar2(cube *cepo, subgroup int8, tableG0 [2048]uint8) string {
 	bound := findBound(cube, subgroup, tableG0)
 	var path []cepo
 	path = append(path, *cube)
@@ -297,7 +297,7 @@ func idaStar2(cube *cepo, subgroup int8, tableG0 [4096]uint8) string {
 	}
 }
 
-func solveCepo(cube *cepo, tableG0 [4096]uint8) string {
+func solveCepo(cube *cepo, tableG0 [2048]uint8) string {
 	// fmt.Printf("tableG0: %v\n", tableG0)//
 	subgroup := isSubgroup(cube)
 	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//

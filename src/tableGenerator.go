@@ -86,8 +86,8 @@ func newNodeCepo(parent *cepo, move string) *cepo {
 
 func binaryToDecimal(binary [12]int8) int {
 	var decimal int
-	for i, bit := range binary {
-		decimal += int(bit) * int(math.Pow(2, float64(11-i)))
+	for i := 0; i < 11; i++ {
+		decimal += int(binary[i]) * int(math.Pow(2, float64(10-i)))
 	}
 	return decimal
 }
@@ -117,7 +117,7 @@ func index2orientation(index int) [8]int {
 }
 
 
-// func tableFull(table [4096]uint8) bool {
+// func tableFull(table [2048]uint8) bool {
 // 	for i := 1; i < len(table); i++ {
 // 		if table[i] == 0 {
 // 			return false
@@ -126,9 +126,9 @@ func index2orientation(index int) [8]int {
 // 	return true
 // }
 
-func tableGeneratorG0() [4096]uint8 {
+func tableGeneratorG0() [2048]uint8 {
 	fmt.Printf("\nGenerating pruning table for G0")
-	var table [4096]uint8
+	var table [2048]uint8
 	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCepo())
@@ -161,6 +161,7 @@ func tableGeneratorG0() [4096]uint8 {
 	for i, depth := range table {
 		if i > 0 && depth == 0 {
 			table[i] = 7
+			fmt.Printf("13\n")//
 		}
 	}
 	// fmt.Printf("table: %v\n", table)//
@@ -184,8 +185,8 @@ func readFile(filepath string) []byte {
 	return file
 }
 
-func tableGenerator() [4096]uint8 {
-	var tableG0 [4096]uint8//
+func tableGenerator() [2048]uint8 {
+	var tableG0 [2048]uint8//
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
 		tableG0 = tableGeneratorG0()
 		file := createFile("tables/G0.txt")
@@ -203,6 +204,6 @@ func tableGenerator() [4096]uint8 {
 		}
 	}
 
-	// var tableG1 [4096]uint8//
+	// var tableG1 [2048]uint8//
 	return tableG0
 }
