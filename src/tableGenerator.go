@@ -10,6 +10,7 @@ import (
 
 type tables struct {
 	G0 [2048]uint8
+	colIndex [4096]int16
 }
 
 
@@ -152,7 +153,7 @@ func index2orientation(index int) [8]int {
 // 	return true
 // }
 
-func tableGeneratorG0() [2048]uint8 {
+func tableG0() [2048]uint8 {
 	fmt.Printf("\nGenerating pruning table for G0")
 	var table [2048]uint8
 	var depth uint8
@@ -187,7 +188,6 @@ func tableGeneratorG0() [2048]uint8 {
 	for i, depth := range table {
 		if i > 0 && depth == 0 {
 			table[i] = 7
-			fmt.Printf("13\n")//
 		}
 	}
 	// fmt.Printf("table: %v\n", table)//
@@ -211,12 +211,9 @@ func readFile(filepath string) []byte {
 	return file
 }
 
-// func tableGenerator() [2048]uint8 {
-func tableGenerator() *tables {
-	tables := &tables{}
-	// var tableG0 [2048]uint8//
+func tableGeneratorG0(tables *tables) {
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
-		tables.G0 = tableGeneratorG0()
+		tables.G0 = tableG0()
 		file := createFile("tables/G0.txt")
 		defer file.Close()
 		for i := 0; i < len(tables.G0); i++ {
@@ -231,9 +228,13 @@ func tableGenerator() *tables {
 			tables.G0[i] = depth - 48
 		}
 	}
+}
 
-	// var colIndex [2048]int16
-	var colIndex [4096]int16
+// func tableGenerator() [2048]uint8 {
+func tableGenerator() *tables {
+	tables := &tables{}
+	tableGeneratorG0(tables)
+
 	var converted int16 = 1
 	var idx int64
 	// for idx = 7; idx <=1920; idx++ {
@@ -250,7 +251,7 @@ func tableGenerator() *tables {
 				// fmt.Printf("binary: %v\n", binary)///
 				// fmt.Printf("idx: %v\n", idx) // 
 				// fmt.Printf("converted: %v\n", converted)///
-				colIndex[idx] = converted
+				tables.colIndex[idx] = converted
 				converted++
 		}
 	}

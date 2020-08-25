@@ -349,6 +349,8 @@ func solveCepo(cube *cepo, tables *tables) string {
 	fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
 	index = binaryBool2Decimal(edgePermutationBin)
 	fmt.Printf("index: %v\n", index)//
+	converted := tables.colIndex[index]
+	fmt.Printf("converted: %v\n", converted)//
 
 	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
 	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
