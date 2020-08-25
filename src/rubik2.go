@@ -128,7 +128,7 @@ func RunRubik2() {
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix(length)
 	}
-	tableG0 := tableGenerator()
+	tables := tableGenerator()
 	// fmt.Printf("tableG0: %v\n", tableG0)//
 	cube := initCepo()
 	// dumpCepo(cube)//
@@ -136,7 +136,7 @@ func RunRubik2() {
 	// dumpCepo(cube)//
 
 	start := time.Now()
-	solution := solveCepo(cube, tableG0)
+	solution := solveCepo(cube, tables)
 	// solution := "U U"//
 	elapsed := time.Since(start)
 	spinCepo(solution, cube)

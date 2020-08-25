@@ -8,6 +8,11 @@ import (
 	"strconv"
 )
 
+type tables struct {
+	G0 [2048]uint8
+}
+
+
 func listAllMoves(cube *cepo) []string {
 	moves := []string{
 			"U",
@@ -206,14 +211,16 @@ func readFile(filepath string) []byte {
 	return file
 }
 
-func tableGenerator() [2048]uint8 {
-	var tableG0 [2048]uint8//
+// func tableGenerator() [2048]uint8 {
+func tableGenerator() *tables {
+	tables := &tables{}
+	// var tableG0 [2048]uint8//
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
-		tableG0 = tableGeneratorG0()
+		tables.G0 = tableGeneratorG0()
 		file := createFile("tables/G0.txt")
 		defer file.Close()
-		for i := 0; i < len(tableG0); i++ {
-			_, err = file.WriteString(fmt.Sprintf("%d", tableG0[i]))
+		for i := 0; i < len(tables.G0); i++ {
+			_, err = file.WriteString(fmt.Sprintf("%d", tables.G0[i]))
 			if err != nil {
 				errorExit("failed to write to file")
 			}
@@ -221,7 +228,7 @@ func tableGenerator() [2048]uint8 {
 	} else {
 		file := readFile("tables/G0.txt")
 		for i, depth := range file {
-			tableG0[i] = depth - 48
+			tables.G0[i] = depth - 48
 		}
 	}
 
@@ -253,5 +260,5 @@ func tableGenerator() [2048]uint8 {
 	// 	}
 	// }
 	// var tableG1 [2048]uint8//
-	return tableG0
+	return tables
 }

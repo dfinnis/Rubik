@@ -230,9 +230,9 @@ func inPath2(node *cepo, path []cepo) bool {
 	return false
 }
 
-func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tableG0 [2048]uint8) (uint8, string) {
+func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tables *tables) (uint8, string) {
 	node := path[len(path) - 1]
-	f := g + tableG0[binaryToDecimal(node.eO)]
+	f := g + tables.G0[binaryToDecimal(node.eO)]
 	// fmt.Printf("g: %v\n", g)//
 	// fmt.Printf("f: %v\n", f)//
 
@@ -242,7 +242,7 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 	// fmt.Printf("g = %v\n", g)//
 	// fmt.Printf("subgroup = %v\n", subgroup)//
 	// fmt.Printf("depth = %v\n", depth)//
-	if tableG0[binaryToDecimal(node.eO)] == 0 {
+	if tables.G0[binaryToDecimal(node.eO)] == 0 {
 		var solvedPart string
 		for i := 1; i < len(path); i++ {
 			solvedPart += path[i].move + " "
@@ -261,7 +261,7 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 		if inPath2(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
-			cost, solution := search2(path, g + tableG0[binaryToDecimal(new.eO)]/* + 1 */, bound, subgroup, depth + 1, tableG0) // g + h + 1?
+			cost, solution := search2(path, g + tables.G0[binaryToDecimal(new.eO)]/* + 1 */, bound, subgroup, depth + 1, tables) // g + h + 1?
 			if cost == 255 {
 				return 255, solution
 			}
@@ -275,20 +275,20 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 	return min, ""
 }
 
-func findBound(cube *cepo, subgroup int8, tableG0 [2048]uint8) uint8 {
+func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
 	var bound uint8
 	if subgroup == 0 {
-		bound = tableG0[binaryToDecimal(cube.eO)]
+		bound = tables.G0[binaryToDecimal(cube.eO)]
 	}
 	return bound
 }
 
-func idaStar2(cube *cepo, subgroup int8, tableG0 [2048]uint8) string {
-	bound := findBound(cube, subgroup, tableG0)
+func idaStar2(cube *cepo, subgroup int8, tables *tables) string {
+	bound := findBound(cube, subgroup, tables)
 	var path []cepo
 	path = append(path, *cube)
 	for {
-		cost, solution := search2(path, 0, bound, subgroup, 0, tableG0)
+		cost, solution := search2(path, 0, bound, subgroup, 0, tables)
 		// fmt.Printf("cost: %v\n", cost)///
 		if cost == 255 {
 			return solution
@@ -297,7 +297,7 @@ func idaStar2(cube *cepo, subgroup int8, tableG0 [2048]uint8) string {
 	}
 }
 
-func solveCepo(cube *cepo, tableG0 [2048]uint8) string {
+func solveCepo(cube *cepo, tables *tables) string {
 	// fmt.Printf("tableG0: %v\n", tableG0)//
 	subgroup := isSubgroup(cube)
 	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//
@@ -308,7 +308,7 @@ func solveCepo(cube *cepo, tableG0 [2048]uint8) string {
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
 		dumpCepo(cube)////
 		if subgroup == 0 {//
-			solutionPart := idaStar2(cube, subgroup, tableG0)
+			solutionPart := idaStar2(cube, subgroup, tables)
 			spinCepo(solutionPart, cube)
 			solution += solutionPart
 		// } else {
