@@ -133,10 +133,10 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 		// fmt.Printf("depth = %v\n", depth)//
 		return 255, solvedPart
 	}
-	moves := listMovesCepo(&node, subgroup)
+	moves := listMoves(&node, subgroup)
 	var min uint8 = 255 // ∞
 	for i:= 0; i < len(moves); i++ {
-		new := newNodeCepo(&node, moves[i])
+		new := newNode(&node, moves[i])
 		spin(moves[i], new)
 		// fmt.Printf("Move: %v\n", new.move)//
 		// dumpCube(&new.cube)//

@@ -4,7 +4,7 @@ package rubik
 // 	"fmt"//
 // )
 
-func listMovesCepo(cube *cepo, subgroup int8) []string {
+func listMoves(cube *cepo, subgroup int8) []string {
 	moves := []string{}
 	if subgroup == 0 {
 		moves = []string{

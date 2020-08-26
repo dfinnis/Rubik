@@ -80,7 +80,7 @@ func listAllMoves(cube *cepo) []string {
 	return moves
 }
 
-func newNodeCepo(parent *cepo, move string) *cepo {
+func newNode(parent *cepo, move string) *cepo {
 	return &cepo{
 		cP:   	parent.cP,
 		cO:   	parent.cO,
@@ -158,7 +158,7 @@ func tableG0() [2048]uint8 {
 	var table [2048]uint8
 	var depth uint8
 	var parents []cepo
-	parents = append(parents, *initCepo())
+	parents = append(parents, *initCube())
 	
 	for depth < 6 {
 		// for tableFull(table) == false {
@@ -168,7 +168,7 @@ func tableG0() [2048]uint8 {
 		for _, parent := range parents {
 			for _, move := range listAllMoves(&parent) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
-				child := newNodeCepo(&parent, move)
+				child := newNode(&parent, move)
 				spin(move, child)
 				// dumpCepo(child)//
 				index := binaryToDecimal(child.eO)
@@ -263,7 +263,7 @@ func tableG1(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G1")
 	var depth uint8
 	var parents []cepo
-	parents = append(parents, *initCepo())
+	parents = append(parents, *initCube())
 	for depth < 5 {//10//////////////////////////////////////////////////////
 		// for tableFull(table) == false {
 		var children []cepo
@@ -271,9 +271,9 @@ func tableG1(tables *tables) {
 		depth++
 		// fmt.Printf("len(parents): %v\n", len(parents))//
 		for _, parent := range parents {
-			for _, move := range listMovesCepo(&parent, 1) {
+			for _, move := range listMoves(&parent, 1) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
-				child := newNodeCepo(&parent, move)
+				child := newNode(&parent, move)
 				spin(move, child)
 				// dumpCepo(child)//
 				// index := binaryToDecimal(child.eO)

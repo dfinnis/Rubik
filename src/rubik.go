@@ -93,7 +93,7 @@ func parseArg() (string, bool, int) {
 
 
 
-func initCepo() *cepo {
+func initCube() *cepo {
 	cepo := &cepo{}
 	for i := range cepo.cP {
 		cepo.cP[i] = int8(i)
@@ -194,16 +194,16 @@ func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
 }
 
 func RunRubik2() {
-	// cube := initCepo()//
+	// cube := initCube()//
 	// spin("U2", cube)//
-	// listMovesCepo(cube, 0)//
+	// (cube, 0)//
 	mix, visualizer, length := parseArg()
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix(length)
 	}
 	tables := makeTables()
 	// fmt.Printf("tableG0: %v\n", tableG0)//
-	cube := initCepo()
+	cube := initCube()
 	// dumpCepo(cube)//
 	spin(mix, cube)
 	// dumpCepo(cube)//
