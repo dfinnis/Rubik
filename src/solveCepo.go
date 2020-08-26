@@ -69,50 +69,6 @@ func isSubgroup(cube *cepo) int8 {
 	return 4
 }
 
-// func solveG0(parent *cepo, tableG0 [2048]uint8) string {
-// 	var solution string
-// 	index := binaryToDecimal(parent.eO)
-// 	parentDepth := tableG0[index]
-// 	fmt.Printf("index: %v\n", index)//
-// 	fmt.Printf("depth: %v\n\n", parentDepth)//
-// 	dumpCepo(parent)//
-// 	fmt.Printf("---------------------------------------\n")//
-
-// 	// for isSubgroup(parent) == 0 {
-// 	for depth := 0; depth < 5; depth++ {
-// 		fmt.Printf("parentDepth: %v\n", parentDepth)//
-// 		for i, move := range listMovesCepo(parent, 0) {
-// 			fmt.Printf("move[%v]: %v\n", i, move)//
-// 			child := newNodeCepo(parent, move)
-// 			spinCepo(move, child)
-// 			index := binaryToDecimal(child.eO)
-// 			fmt.Printf("index: %v\n", index)//
-// 			childDepth := tableG0[index]
-// 			fmt.Printf("childDepth: %v\n", childDepth)//
-// 			if childDepth < parentDepth {
-// 				fmt.Printf("OH HIII!!\n\n")//
-// 				solution += move + " "
-// 				fmt.Printf("solution: %v\n", solution)////////
-// 				parent = child
-// 				parentDepth = childDepth
-// 				break
-// 			}
-// 		}
-// 		if isSubgroup(parent) == 1 {
-// 			break
-// 		}
-// 		fmt.Printf("########################################\n")//
-// 	}
-// 	dumpCepo(parent)//
-// 	index = binaryToDecimal(parent.eO)
-// 	fmt.Printf("index: %v\n", index)//
-
-	
-// 	// dumpCepo(cube)//
-// 	return solution
-// 	// return "F U"
-// }
-
 func inPath2(node *cepo, path []cepo) bool {
 	for idx := range path {
 		var different bool
@@ -268,9 +224,7 @@ func solveCepo(cube *cepo, tables *tables) string {
 	}
 	index := orientation2index(cube)
 	fmt.Printf("\norientation2index: %v\n", index)
-	// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
 	// fmt.Printf("index2orientation: %v\n", index2orientation(index))
-	// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
 	edgePermutationBin := eP2Binary(cube)
 	// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
 	index = binaryBool2Decimal(edgePermutationBin)
