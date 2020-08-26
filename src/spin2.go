@@ -140,58 +140,76 @@ func spinCepo(mix string, cube *cepo) {
 		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin])	//	debug tool
 		if sequence[spin] == "U" {
 			spinCepoU(cube)
+			cube.move = "U"
 		} else if sequence[spin] == "U'" {
 			spinCepoU(cube)
 			spinCepoU(cube)
 			spinCepoU(cube)
+			cube.move = "U'"
 		} else if sequence[spin] == "U2" {
 			spinCepoU(cube)
 			spinCepoU(cube)
+			cube.move = "U2"
 		} else if sequence[spin] == "D" {
 			spinCepoD(cube)
+			cube.move = "D"
 		} else if sequence[spin] == "D'" {
 			spinCepoD(cube)
 			spinCepoD(cube)
 			spinCepoD(cube)
+			cube.move = "D'"
 		} else if sequence[spin] == "D2" {
 			spinCepoD(cube)
 			spinCepoD(cube)
+			cube.move = "D2"
 		} else if sequence[spin] == "R" {
 			spinCepoR(cube)
+			cube.move = "R"
 		} else if sequence[spin] == "R'" {
 			spinCepoR(cube)
 			spinCepoR(cube)
 			spinCepoR(cube)
+			cube.move = "R'"
 		} else if sequence[spin] == "R2" {
 			spinCepoR(cube)
 			spinCepoR(cube)
+			cube.move = "R2"
 		} else if sequence[spin] == "L" {
 			spinCepoL(cube)
+			cube.move = "L"
 		} else if sequence[spin] == "L'" {
 			spinCepoL(cube)
 			spinCepoL(cube)
 			spinCepoL(cube)
+			cube.move = "L'"
 		} else if sequence[spin] == "L2" {
 			spinCepoL(cube)
 			spinCepoL(cube)
+			cube.move = "L2"
 		} else if sequence[spin] == "F" {
 			spinCepoF(cube)
+			cube.move = "F"
 		} else if sequence[spin] == "F'" {
 			spinCepoF(cube)
 			spinCepoF(cube)
 			spinCepoF(cube)
+			cube.move = "F'"
 		} else if sequence[spin] == "F2" {
 			spinCepoF(cube)
 			spinCepoF(cube)
+			cube.move = "F2"
 		} else if sequence[spin] == "B" {
 			spinCepoB(cube)
+			cube.move = "B"
 		} else if sequence[spin] == "B'" {
 			spinCepoB(cube)
 			spinCepoB(cube)
 			spinCepoB(cube)
+			cube.move = "B'"
 		} else if sequence[spin] == "B2" {
 			spinCepoB(cube)
 			spinCepoB(cube)
+			cube.move = "B2"
 		} else {
 			errorExit("bad input")
 		}

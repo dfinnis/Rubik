@@ -264,14 +264,14 @@ func tableG1(tables *tables) {
 	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCepo())
-	for depth < 1 {//10
+	for depth < 5 {//10//////////////////////////////////////////////////////
 		// for tableFull(table) == false {
 		var children []cepo
 		var count int//
 		depth++
-		fmt.Printf("len(parents): %v\n", len(parents))//
+		// fmt.Printf("len(parents): %v\n", len(parents))//
 		for _, parent := range parents {
-			for _, move := range listAllMoves(&parent) {
+			for _, move := range listMovesCepo(&parent, 1) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNodeCepo(&parent, move)
 				spinCepo(move, child)
@@ -287,13 +287,13 @@ func tableG1(tables *tables) {
 				idxEP := binaryBool2Decimal(ePBinary)
 				// fmt.Printf("index: %v\n", index)//
 				idxEPconverted := tables.colIndex[idxEP]
-				fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
-				fmt.Printf("idxCO: %v\n", idxCO)//
+				// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
+				// fmt.Printf("idxCO: %v\n", idxCO)//
 
-				if !(idxEPconverted == 0 && idxCO == 0) && tableG1[idxEPconverted][idxCO] == 0 {
+				if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
 					tableG1[idxEPconverted][idxCO] = depth
 					count++//
-					fmt.Printf("count++\n\n")//
+					// fmt.Printf("count++\n\n")//
 				}
 				children = append(children, *child)
 			}
@@ -310,7 +310,7 @@ func tableG1(tables *tables) {
 	// 	}
 	// }
 	// fmt.Printf("\ntableG1: %v\n", tableG1)//
-	fmt.Printf("\n")
+	fmt.Printf("\n###########################################################################\n")
 }
 
 func tableGeneratorG1(tables *tables) {

@@ -4,85 +4,6 @@ import (
 	"fmt"//
 )
 
-
-func listMovesCepo(cube *cepo, subgroup int8) []string {
-	moves := []string{}
-	if subgroup == 0 {
-		moves = []string{
-			"U",
-			"U'",
-			"U2",
-			"D",
-			"D'",
-			"D2",
-			"R",
-			"R'",
-			"R2",
-			"L",
-			"L'",
-			"L2",
-			"F",
-			"F'",
-			"F2",
-			"B",
-			"B'",
-			"B2",
-		}
-	} else if subgroup == 1 {
-		moves = []string{
-			// "U2",
-			// "D2",
-			// "R",
-			// "L",
-			// "F",
-			// "B",
-			"U2",
-			"D2",
-			"R",
-			"R'",
-			"R2",
-			"L",
-			"L'",
-			"L2",
-			"F",
-			"F'",
-			"F2",
-			"B",
-			"B'",
-			"B2",
-		}
-	} else if subgroup == 2 {
-		moves = []string{
-			"U2",
-			"D2",
-			"R",
-			"L",
-			"F2",
-			"B2",
-		}
-	} else { // subgroup = 3
-		moves = []string{
-			"U2",
-			"D2",
-			"R2",
-			"L2",
-			"F2",
-			"B2",
-		}
-	}
-	// if subgroup != 0 {
-	// if node.move != "" {
-	// 	for i, move := range moves {
-	// 		if move == node.move {
-	// 			moves = append(moves[:i], moves[i+1:]...)
-	// 			break
-	// 		}
-	// 	}// remove opposite face move, not just last move?? i.e. avoid G0 R L R L????!!!
-	// }
-	// fmt.Printf("moves: %v\n", moves)//
-	return moves
-}
-
 func isSubgroup(cube *cepo) int8 {
 	for i := range cube.eO { // edges not oriented -> 0
 		if cube.eO[i] != 0 {
@@ -306,7 +227,7 @@ func solveCepo(cube *cepo, tables *tables) string {
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-		dumpCepo(cube)////
+		// dumpCepo(cube)////////////////////////////////////////////////////##########
 		if subgroup == 0 {//
 			solutionPart := idaStar2(cube, subgroup, tables)
 			spinCepo(solutionPart, cube)
@@ -341,7 +262,7 @@ func solveCepo(cube *cepo, tables *tables) string {
 		}
 	}
 	index := orientation2index(cube)
-	fmt.Printf("orientation2index: %v\n", index)
+	fmt.Printf("\norientation2index: %v\n", index)
 	// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
 	// fmt.Printf("index2orientation: %v\n", index2orientation(index))
 	// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
