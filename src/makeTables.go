@@ -169,7 +169,7 @@ func tableG0() [2048]uint8 {
 			for _, move := range listAllMoves(&parent) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNodeCepo(&parent, move)
-				spinCepo(move, child)
+				spin(move, child)
 				// dumpCepo(child)//
 				index := binaryToDecimal(child.eO)
 				if index != 0 && table[index] == 0 {
@@ -274,7 +274,7 @@ func tableG1(tables *tables) {
 			for _, move := range listMovesCepo(&parent, 1) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNodeCepo(&parent, move)
-				spinCepo(move, child)
+				spin(move, child)
 				// dumpCepo(child)//
 				// index := binaryToDecimal(child.eO)
 				idxCO := orientation2index(child)

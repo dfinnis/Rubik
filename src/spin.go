@@ -13,7 +13,7 @@ func modulo3(n int8) int8 {
 	}
 }
 
-func spinCepoU(cube *cepo) {
+func spinU(cube *cepo) {
 	// corner permutation
 	tmp := cube.cP[0]
 	cube.cP[0] = cube.cP[4]
@@ -38,7 +38,7 @@ func spinCepoU(cube *cepo) {
 	cube.eO[cube.eP[11]] = (cube.eO[cube.eP[11]] + 1) % 2
 }
 
-func spinCepoD(cube *cepo) {
+func spinD(cube *cepo) {
 	// corner permutation
 	tmp := cube.cP[1]
 	cube.cP[1] = cube.cP[5]
@@ -63,7 +63,7 @@ func spinCepoD(cube *cepo) {
 	cube.eO[cube.eP[9]] = (cube.eO[cube.eP[9]] + 1) % 2
 }
 
-func spinCepoF(cube *cepo) {
+func spinF(cube *cepo) {
 	// corner permutation
 	tmp := cube.cP[4]
 	cube.cP[4] = cube.cP[1]
@@ -83,7 +83,7 @@ func spinCepoF(cube *cepo) {
 	cube.cO[cube.cP[6]] = modulo3(cube.cO[cube.cP[6]] - 1)
 }
 
-func spinCepoB(cube *cepo) {
+func spinB(cube *cepo) {
 	// corner permutation
 	tmp := cube.cP[7]
 	cube.cP[7] = cube.cP[2]
@@ -103,7 +103,7 @@ func spinCepoB(cube *cepo) {
 	cube.cO[cube.cP[7]] = modulo3(cube.cO[cube.cP[7]] - 1)
 }
 
-func spinCepoL(cube *cepo) {
+func spinL(cube *cepo) {
 	// corner permutation
 	tmp := cube.cP[0]
 	cube.cP[0] = cube.cP[5]
@@ -118,7 +118,7 @@ func spinCepoL(cube *cepo) {
 	cube.eP[0] = tmp
 }
 
-func spinCepoR(cube *cepo) {
+func spinR(cube *cepo) {
 	// corner permutation
 	tmp := cube.cP[3]
 	cube.cP[3] = cube.cP[6]
@@ -133,82 +133,82 @@ func spinCepoR(cube *cepo) {
 	cube.eP[3] = tmp
 }
 
-func spinCepo(mix string, cube *cepo) {
+func spin(mix string, cube *cepo) {
 	sequence := strings.Fields(mix)
 	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence))	//	debug tool
 	for spin := 0; spin < len(sequence); spin++ {
 		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin])	//	debug tool
 		if sequence[spin] == "U" {
-			spinCepoU(cube)
+			spinU(cube)
 			cube.move = "U"
 		} else if sequence[spin] == "U'" {
-			spinCepoU(cube)
-			spinCepoU(cube)
-			spinCepoU(cube)
+			spinU(cube)
+			spinU(cube)
+			spinU(cube)
 			cube.move = "U'"
 		} else if sequence[spin] == "U2" {
-			spinCepoU(cube)
-			spinCepoU(cube)
+			spinU(cube)
+			spinU(cube)
 			cube.move = "U2"
 		} else if sequence[spin] == "D" {
-			spinCepoD(cube)
+			spinD(cube)
 			cube.move = "D"
 		} else if sequence[spin] == "D'" {
-			spinCepoD(cube)
-			spinCepoD(cube)
-			spinCepoD(cube)
+			spinD(cube)
+			spinD(cube)
+			spinD(cube)
 			cube.move = "D'"
 		} else if sequence[spin] == "D2" {
-			spinCepoD(cube)
-			spinCepoD(cube)
+			spinD(cube)
+			spinD(cube)
 			cube.move = "D2"
 		} else if sequence[spin] == "R" {
-			spinCepoR(cube)
+			spinR(cube)
 			cube.move = "R"
 		} else if sequence[spin] == "R'" {
-			spinCepoR(cube)
-			spinCepoR(cube)
-			spinCepoR(cube)
+			spinR(cube)
+			spinR(cube)
+			spinR(cube)
 			cube.move = "R'"
 		} else if sequence[spin] == "R2" {
-			spinCepoR(cube)
-			spinCepoR(cube)
+			spinR(cube)
+			spinR(cube)
 			cube.move = "R2"
 		} else if sequence[spin] == "L" {
-			spinCepoL(cube)
+			spinL(cube)
 			cube.move = "L"
 		} else if sequence[spin] == "L'" {
-			spinCepoL(cube)
-			spinCepoL(cube)
-			spinCepoL(cube)
+			spinL(cube)
+			spinL(cube)
+			spinL(cube)
 			cube.move = "L'"
 		} else if sequence[spin] == "L2" {
-			spinCepoL(cube)
-			spinCepoL(cube)
+			spinL(cube)
+			spinL(cube)
 			cube.move = "L2"
 		} else if sequence[spin] == "F" {
-			spinCepoF(cube)
+			spinF(cube)
 			cube.move = "F"
 		} else if sequence[spin] == "F'" {
-			spinCepoF(cube)
-			spinCepoF(cube)
-			spinCepoF(cube)
+			spinF(cube)
+			spinF(cube)
+			spinF(cube)
 			cube.move = "F'"
 		} else if sequence[spin] == "F2" {
-			spinCepoF(cube)
-			spinCepoF(cube)
+			spinF(cube)
+			spinF(cube)
 			cube.move = "F2"
 		} else if sequence[spin] == "B" {
-			spinCepoB(cube)
+			spinB(cube)
 			cube.move = "B"
 		} else if sequence[spin] == "B'" {
-			spinCepoB(cube)
-			spinCepoB(cube)
-			spinCepoB(cube)
+			spinB(cube)
+			spinB(cube)
+			spinB(cube)
 			cube.move = "B'"
 		} else if sequence[spin] == "B2" {
-			spinCepoB(cube)
-			spinCepoB(cube)
+			spinB(cube)
+			spinB(cube)
 			cube.move = "B2"
 		} else {
 			errorExit("bad input")

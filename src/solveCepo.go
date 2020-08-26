@@ -137,7 +137,7 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 	var min uint8 = 255 // ∞
 	for i:= 0; i < len(moves); i++ {
 		new := newNodeCepo(&node, moves[i])
-		spinCepo(moves[i], new)
+		spin(moves[i], new)
 		// fmt.Printf("Move: %v\n", new.move)//
 		// dumpCube(&new.cube)//
 		if inPath2(new, path) == false {
@@ -191,7 +191,7 @@ func solveCepo(cube *cepo, tables *tables) string {
 		// dumpCepo(cube)////////////////////////////////////////////////////##########
 		if subgroup == 0 {//
 			solutionPart := idaStar2(cube, subgroup, tables)
-			spinCepo(solutionPart, cube)
+			spin(solutionPart, cube)
 			solution += solutionPart
 		// } else {
 		// 	break
@@ -200,7 +200,7 @@ func solveCepo(cube *cepo, tables *tables) string {
 		// fmt.Printf("Group Solve time: %v\n", elapsed)//
 		// fmt.Printf("solutionPart: %v\n", solutionPart)//
 		// fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
-		// spinCepo(solutionPart, &r.cube)
+		// spin(solutionPart, &r.cube)
 		// dumpCube(&r.cube)//
 		// solution += solutionPart
 		// if isSolvedCepo(cube) {
