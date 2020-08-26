@@ -230,12 +230,8 @@ func tableGeneratorG0(tables *tables) {
 	}
 }
 
-// func tableGenerator() [2048]uint8 {
-func tableGenerator() *tables {
-	tables := &tables{}
-	tableGeneratorG0(tables)
-
-	var converted int16 = 1
+func tableG1IdxConv(tables *tables) { // make file/read from file?
+	var converted int16// = 1
 	var idx int64
 	// for idx = 7; idx <=1920; idx++ {
 	for idx = 0; idx <4096; idx++ {
@@ -260,6 +256,74 @@ func tableGenerator() *tables {
 	// 		fmt.Printf("index %v: %v\n", i, index) // 
 	// 	}
 	// }
-	// var tableG1 [2048]uint8//
+}
+
+func tableG1(tables *tables) {
+	var tableG1 [495][2187]uint8
+	fmt.Printf("\nGenerating pruning table for G1")
+	var depth uint8
+	var parents []cepo
+	parents = append(parents, *initCepo())
+	for depth < 1 {//10
+		// for tableFull(table) == false {
+		var children []cepo
+		var count int//
+		depth++
+		fmt.Printf("len(parents): %v\n", len(parents))//
+		for _, parent := range parents {
+			for _, move := range listAllMoves(&parent) {
+				// fmt.Printf("\nmove %v: %v\n", i, move)//
+				child := newNodeCepo(&parent, move)
+				spinCepo(move, child)
+				// dumpCepo(child)//
+				// index := binaryToDecimal(child.eO)
+				idxCO := orientation2index(child)
+				// fmt.Printf("orientation2index: %v\n", index)
+				// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
+				// fmt.Printf("index2orientation: %v\n", index2orientation(index))
+				// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
+				ePBinary := eP2Binary(child)
+				// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
+				idxEP := binaryBool2Decimal(ePBinary)
+				// fmt.Printf("index: %v\n", index)//
+				idxEPconverted := tables.colIndex[idxEP]
+				fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
+				fmt.Printf("idxCO: %v\n", idxCO)//
+
+				if !(idxEPconverted == 0 && idxCO == 0) && tableG1[idxEPconverted][idxCO] == 0 {
+					tableG1[idxEPconverted][idxCO] = depth
+					count++//
+					fmt.Printf("count++\n\n")//
+				}
+				children = append(children, *child)
+			}
+		}
+		parents = children
+		fmt.Printf(".")
+		fmt.Printf("depth: %v\n", depth)//
+		fmt.Printf("count: %v\n", count)//
+		// fmt.Printf("len(parents): %v\n", len(parents))//
+	}
+	// for i, depth := range table {
+	// 	if i > 0 && depth == 0 {
+	// 		table[i] = 10
+	// 	}
+	// }
+	// fmt.Printf("\ntableG1: %v\n", tableG1)//
+	fmt.Printf("\n")
+}
+
+func tableGeneratorG1(tables *tables) {
+	tableG1IdxConv(tables)
+	tableG1(tables)
+}
+
+// func tableGenerator() [2048]uint8 {
+func tableGenerator() *tables {
+	tables := &tables{}
+	tableGeneratorG0(tables)
+	tableGeneratorG1(tables)
+
+
 	return tables
 }
