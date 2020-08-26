@@ -209,7 +209,7 @@ func RunRubik2() {
 	// dumpCepo(cube)//
 
 	start := time.Now()
-	solution := solveCepo(cube, tables)
+	solution := solve(cube, tables)
 	// solution := "U U"//
 	elapsed := time.Since(start)
 	spin(solution, cube)

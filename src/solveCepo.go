@@ -112,7 +112,7 @@ func inPath2(node *cepo, path []cepo) bool {
 	return false
 }
 
-func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tables *tables) (uint8, string) {
+func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tables *tables) (uint8, string) {
 	node := path[len(path) - 1]
 	f := g + tables.G0[binaryToDecimal(node.eO)]
 	// fmt.Printf("g: %v\n", g)//
@@ -143,7 +143,7 @@ func search2(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tabl
 		if inPath2(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
-			cost, solution := search2(path, g + tables.G0[binaryToDecimal(new.eO)]/* + 1 */, bound, subgroup, depth + 1, tables) // g + h + 1?
+			cost, solution := search(path, g + tables.G0[binaryToDecimal(new.eO)]/* + 1 */, bound, subgroup, depth + 1, tables) // g + h + 1?
 			if cost == 255 {
 				return 255, solution
 			}
@@ -165,12 +165,12 @@ func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
 	return bound
 }
 
-func idaStar2(cube *cepo, subgroup int8, tables *tables) string {
+func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 	bound := findBound(cube, subgroup, tables)
 	var path []cepo
 	path = append(path, *cube)
 	for {
-		cost, solution := search2(path, 0, bound, subgroup, 0, tables)
+		cost, solution := search(path, 0, bound, subgroup, 0, tables)
 		// fmt.Printf("cost: %v\n", cost)///
 		if cost == 255 {
 			return solution
@@ -179,7 +179,7 @@ func idaStar2(cube *cepo, subgroup int8, tables *tables) string {
 	}
 }
 
-func solveCepo(cube *cepo, tables *tables) string {
+func solve(cube *cepo, tables *tables) string {
 	// fmt.Printf("tableG0: %v\n", tableG0)//
 	subgroup := isSubgroup(cube)
 	fmt.Printf("\nsubgroup initally: %v\n", subgroup)//
@@ -190,7 +190,7 @@ func solveCepo(cube *cepo, tables *tables) string {
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
 		// dumpCepo(cube)////////////////////////////////////////////////////##########
 		if subgroup == 0 {//
-			solutionPart := idaStar2(cube, subgroup, tables)
+			solutionPart := idaStar(cube, subgroup, tables)
 			spin(solutionPart, cube)
 			solution += solutionPart
 		// } else {
