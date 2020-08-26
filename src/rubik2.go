@@ -3,6 +3,8 @@ package rubik
 import (
 	"fmt"
 	"time"
+	"os"
+	"strconv"
 )
 
 // S =	cornerPermutation	edgePermutation
@@ -22,6 +24,74 @@ type cepo struct {
 }
 
 // var cepo *cepo
+
+const Reset		= "\x1B[0m"
+// const White		= "\x1B[0m"					// 0 U
+// const Orange	= "\x1B[38;2;255;165;0m"	// 1 L
+const Green		= "\x1B[32m"				// 2 F
+const Red		= "\x1B[31m"				// 3 R
+// const Blue		= "\x1B[34m"				// 4 B
+// const Yellow	= "\x1B[33m"				// 5 D
+
+
+
+func errorExit(message string) {
+	fmt.Printf("Error: %s\n", message)
+	printUsage()
+}
+
+func printUsage() {
+	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-r [length]] [-v] [-h]\n\n")
+	fmt.Printf("    mix should be valid sequence string e.g.\n")
+	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
+	fmt.Printf("    or mix \"$(< mix/superflip.txt)\" reads a file\n")
+	fmt.Printf("    or mix \"-r\" or \"--random\" mixes randomly\n\n")
+	fmt.Printf("    [-v] (--visualizer) show visual of mix and solution\n")
+	fmt.Printf("    [-h] (--help) show usage\n\n")
+	os.Exit(1)
+}
+
+
+func parseArg() (string, bool, int) {
+	args := os.Args[1:]
+	var random int = -1
+	if len(args) == 0 {
+		errorExit("not enough arguments, no mix given")
+	} else if len(args) > 3 {
+		errorExit("too many arguments")
+	}
+	mix := args[0]
+	if mix == "-h" || mix == "--help" {
+		printUsage()
+	}
+	visualizer := false
+	// debug := false
+	// binary := false
+	if len(args) > 1 {
+		for i := 1; i < len(args); i++ {
+			if (mix == "-r" || mix == "--random") && i == 1 {
+				length, err := strconv.Atoi(args[1])
+				if err != nil || length < 0 || length > 100 {
+					printUsage()
+				}
+				random = length
+			} else if args[i] == "-v" || args[i] == "--visualizer" {
+				visualizer = true
+			// } else if args[i] == "-d" || args[i] == "--debug" {
+			// 	debug = true
+			// } else if args[i] == "-b" || args[i] == "--binary" {
+			// 	debug = true
+			// 	binary = true
+			} else {
+				fmt.Printf("Error: bad argument\n")
+				printUsage()
+			}
+		}
+	}
+	return mix, visualizer, random
+}
+
+
 
 func initCepo() *cepo {
 	cepo := &cepo{}

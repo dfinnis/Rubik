@@ -2,7 +2,12 @@ package rubik
 
 import (
 	"fmt"//
+	"strings"
 )
+
+func halfTurnMetric(sequence string) int {
+	return len(strings.Fields(sequence))
+}
 
 func isSubgroup(cube *cepo) int8 {
 	for i := range cube.eO { // edges not oriented -> 0

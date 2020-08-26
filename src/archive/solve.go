@@ -125,9 +125,9 @@ func subgroup(cube *[6]uint32) uint8 {
 	return subgroup
 }
 
-func halfTurnMetric(sequence string) int {
-	return len(strings.Fields(sequence))
-}
+// func halfTurnMetric(sequence string) int {
+// 	return len(strings.Fields(sequence))
+// }
 
 func solve(r *rubik) string {
 	// dumpCube(&r.cube)//
