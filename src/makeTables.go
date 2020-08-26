@@ -211,7 +211,7 @@ func readFile(filepath string) []byte {
 	return file
 }
 
-func tableGeneratorG0(tables *tables) {
+func makeTableG0(tables *tables) {
 	if _, err := os.Stat("tables/G0.txt"); os.IsNotExist(err) {
 		tables.G0 = tableG0()
 		file := createFile("tables/G0.txt")
@@ -313,16 +313,16 @@ func tableG1(tables *tables) {
 	fmt.Printf("\n###########################################################################\n")
 }
 
-func tableGeneratorG1(tables *tables) {
+func makeTableG1(tables *tables) {
 	tableG1IdxConv(tables)
 	tableG1(tables)
 }
 
-// func tableGenerator() [2048]uint8 {
-func tableGenerator() *tables {
+// func makeTables() [2048]uint8 {
+func makeTables() *tables {
 	tables := &tables{}
-	tableGeneratorG0(tables)
-	tableGeneratorG1(tables)
+	makeTableG0(tables)
+	makeTableG1(tables)
 
 
 	return tables

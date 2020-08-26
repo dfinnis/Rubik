@@ -201,7 +201,7 @@ func RunRubik2() {
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix(length)
 	}
-	tables := tableGenerator()
+	tables := makeTables()
 	// fmt.Printf("tableG0: %v\n", tableG0)//
 	cube := initCepo()
 	// dumpCepo(cube)//
