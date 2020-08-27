@@ -60,7 +60,7 @@ func binaryBool2Decimal(binary [12]bool) int {
 	return decimal
 }
 
-func ePindex(cube *cepo, tables *tables) int16 {
+func eP2index(cube *cepo, tables *tables) int16 {
 	ePbinary := eP2Binary(cube)
 	// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
 	idxEP := binaryBool2Decimal(ePbinary)
@@ -247,7 +247,7 @@ func tableG1(tables *tables) {
 				// idxEP := binaryBool2Decimal(ePBinary)
 				// // fmt.Printf("index: %v\n", index)//
 				// idxEPconverted := tables.colIndex[idxEP]
-				idxEP := ePindex(child, tables)
+				idxEP := eP2index(child, tables)
 				// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
 				// fmt.Printf("idxCO: %v\n", idxCO)//
 

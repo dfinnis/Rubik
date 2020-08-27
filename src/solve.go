@@ -162,7 +162,7 @@ func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
 	if subgroup == 0 {
 		bound = tables.G0[binaryToDecimal(cube.eO)]
 	// } else if subgroup == 1 {
-	// 	bound = tables.G1cO[cO2index(cube)]
+	// 	bound = tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
 	}
 	return bound
 }
