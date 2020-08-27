@@ -207,6 +207,8 @@ func RunRubik2() {
 	cube := initCube()
 	// dumpCepo(cube)//
 	spin(mix, cube)
+	cube.move = ""
+	cube.move2 = ""
 	// dumpCepo(cube)//
 
 	start := time.Now()
