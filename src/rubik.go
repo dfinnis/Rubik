@@ -195,8 +195,9 @@ func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
 
 func RunRubik2() {
 	// cube := initCube()//
-	// spin("U2", cube)//
-	// (cube, 0)//
+	// spin("U2 U D", cube)//
+	// fmt.Printf("listMoves: %v\n", listMoves(cube, 0))//
+	// fmt.Printf("Move: %v\nmove2 : %v\n", cube.move, cube.move2)//
 	mix, visualizer, length := parseArg()
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix(length)
@@ -212,9 +213,9 @@ func RunRubik2() {
 	solution := solve(cube, tables)
 	// solution := "U U"//
 	elapsed := time.Since(start)
-	spin(solution, cube)
+	// spin(solution, cube)
 	fmt.Printf("========================================\n")//
-	// dumpCepo(cube)//
+	dumpCepo(cube)//
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }

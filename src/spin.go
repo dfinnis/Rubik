@@ -133,6 +133,12 @@ func spinR(cube *cepo) {
 	cube.eP[3] = tmp
 }
 
+func updateMove(cube *cepo, move string) {
+	cube.move2 = cube.move
+	cube.move = move
+	cube.move2 = move2nul(cube.move, cube.move2)
+}
+
 func spin(mix string, cube *cepo) {
 	sequence := strings.Fields(mix)
 	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence))	//	debug tool
@@ -140,76 +146,76 @@ func spin(mix string, cube *cepo) {
 		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin])	//	debug tool
 		if sequence[spin] == "U" {
 			spinU(cube)
-			cube.move = "U"
+			updateMove(cube, "U")
 		} else if sequence[spin] == "U'" {
 			spinU(cube)
 			spinU(cube)
 			spinU(cube)
-			cube.move = "U'"
+			updateMove(cube, "U'")
 		} else if sequence[spin] == "U2" {
 			spinU(cube)
 			spinU(cube)
-			cube.move = "U2"
+			updateMove(cube, "U2")
 		} else if sequence[spin] == "D" {
 			spinD(cube)
-			cube.move = "D"
+			updateMove(cube, "D")
 		} else if sequence[spin] == "D'" {
 			spinD(cube)
 			spinD(cube)
 			spinD(cube)
-			cube.move = "D'"
+			updateMove(cube, "D'")
 		} else if sequence[spin] == "D2" {
 			spinD(cube)
 			spinD(cube)
-			cube.move = "D2"
+			updateMove(cube, "D2")
 		} else if sequence[spin] == "R" {
 			spinR(cube)
-			cube.move = "R"
+			updateMove(cube, "R")
 		} else if sequence[spin] == "R'" {
 			spinR(cube)
 			spinR(cube)
 			spinR(cube)
-			cube.move = "R'"
+			updateMove(cube, "R'")
 		} else if sequence[spin] == "R2" {
 			spinR(cube)
 			spinR(cube)
-			cube.move = "R2"
+			updateMove(cube, "R2")
 		} else if sequence[spin] == "L" {
 			spinL(cube)
-			cube.move = "L"
+			updateMove(cube, "L")
 		} else if sequence[spin] == "L'" {
 			spinL(cube)
 			spinL(cube)
 			spinL(cube)
-			cube.move = "L'"
+			updateMove(cube, "L'")
 		} else if sequence[spin] == "L2" {
 			spinL(cube)
 			spinL(cube)
-			cube.move = "L2"
+			updateMove(cube, "L2")
 		} else if sequence[spin] == "F" {
 			spinF(cube)
-			cube.move = "F"
+			updateMove(cube, "F")
 		} else if sequence[spin] == "F'" {
 			spinF(cube)
 			spinF(cube)
 			spinF(cube)
-			cube.move = "F'"
+			updateMove(cube, "F'")
 		} else if sequence[spin] == "F2" {
 			spinF(cube)
 			spinF(cube)
-			cube.move = "F2"
+			updateMove(cube, "F2")
 		} else if sequence[spin] == "B" {
 			spinB(cube)
-			cube.move = "B"
+			updateMove(cube, "B")
 		} else if sequence[spin] == "B'" {
 			spinB(cube)
 			spinB(cube)
 			spinB(cube)
-			cube.move = "B'"
+			updateMove(cube, "B'")
 		} else if sequence[spin] == "B2" {
 			spinB(cube)
 			spinB(cube)
-			cube.move = "B2"
+			updateMove(cube, "B2")
 		} else {
 			errorExit("bad input")
 		}

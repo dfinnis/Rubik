@@ -13,71 +13,18 @@ type tables struct {
 	colIndex [4096]int16
 }
 
-
-func listAllMoves(cube *cepo) []string {
-	moves := []string{
-			"U",
-			"U'",
-			"U2",
-			"D",
-			"D'",
-			"D2",
-			"R",
-			"R'",
-			"R2",
-			"L",
-			"L'",
-			"L2",
-			"F",
-			"F'",
-			"F2",
-			"B",
-			"B'",
-			"B2",
+func move2nul(move string, move2 string) string {
+	if move != "" && move2 != "" {
+		if move[0] == 'U' && move2[0] != 'D' || 
+			move[0] == 'D' && move2[0] != 'U' ||
+			move[0] == 'F' && move2[0] != 'B' || 
+			move[0] == 'B' && move2[0] != 'F' ||
+			move[0] == 'L' && move2[0] != 'R' || 
+			move[0] == 'R' && move2[0] != 'L' {
+			move2 = ""
+		}
 	}
-	// dry := moves
-	// // // for i := 0; i < n; i++ {
-	// // // 	move := dry[rand.Intn(len(dry))]
-	// // // 	mix += move
-	// if cube.move == "U" || cube.move == "U'" || cube.move == "U2" {
-	// 	if cube.move2 == "D" || cube.move2 == "D'" || cube.move2 == "D2" {
-	// 		dry = moves[3:]
-	// 	} else {
-	// 		dry = moves[6:]
-	// 	}
-// 	} else if move == "D" || move == "D'" || move == "D2" {
-// 		if stringInSlice("U", dry) {
-// 			dry = append([]string{}, spin[:3]...)
-// 			dry = append(dry, spin[6:]...)
-// 		} else {
-// 			dry = spin[6:]
-// 		}
-// 	} else if move == "R" || move == "R'" || move == "R2" {
-// 		dry = append([]string{}, spin[:6]...)
-// 		if stringInSlice("L", dry) {
-// 			dry = append(dry, spin[9:]...)
-// 		} else {
-// 			dry = append(dry, spin[12:]...)
-// 		}
-// 	} else if move == "L" || move == "L'" || move == "L2" {
-// 		if stringInSlice("R", dry) {
-// 			dry = append([]string{}, spin[:9]...)
-// 		} else {
-// 			dry = append([]string{}, spin[:6]...)
-// 		}
-// 		dry = append(dry, spin[12:]...)
-// 	} else if move == "F" || move == "F'" || move == "F2" {
-// 		dry = append([]string{}, spin[:12]...)
-// 		if stringInSlice("B", dry) {
-// 			dry = append(dry, spin[15:]...)
-// 		}
-// 	} else if move == "B" || move == "B'" || move == "B2" {
-// 		if stringInSlice("F", dry) {
-// 			dry = spin[:15]
-// 		} else {
-// 			dry = spin[:12]
-	// }
-	return moves
+	return move2
 }
 
 func newNode(parent *cepo, move string) *cepo {
@@ -86,7 +33,7 @@ func newNode(parent *cepo, move string) *cepo {
 		cO:   	parent.cO,
 		eP:   	parent.eP,
 		eO:   	parent.eO,
-		move2:	parent.move,
+		move2:	move2nul(move, parent.move),
 		move:	move,
 	}
 }
@@ -166,7 +113,7 @@ func tableG0() [2048]uint8 {
 		// var count int//
 		depth++
 		for _, parent := range parents {
-			for _, move := range listAllMoves(&parent) {
+			for _, move := range listMoves(&parent, 0) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
@@ -264,7 +211,7 @@ func tableG1(tables *tables) {
 	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCube())
-	for depth < 3 {//10//////////////////////////////////////////////////////
+	for depth < 5 {//10//////////////////////////////////////////////////////
 		// for tableFull(table) == false {
 		var children []cepo
 		var count int//
@@ -290,7 +237,8 @@ func tableG1(tables *tables) {
 				// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
 				// fmt.Printf("idxCO: %v\n", idxCO)//
 
-				if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
+				// if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
+				if tableG1[idxEPconverted][idxCO] == 0 && (idxEPconverted != 0 || idxCO != 0) {
 					tableG1[idxEPconverted][idxCO] = depth
 					// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
 					// fmt.Printf("idxCO: %v\n", idxCO)//
