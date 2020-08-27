@@ -60,6 +60,15 @@ func binaryBool2Decimal(binary [12]bool) int {
 	return decimal
 }
 
+func ePindex(cube *cepo, tables *tables) int16 {
+	ePbinary := eP2Binary(cube)
+	// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
+	idxEP := binaryBool2Decimal(ePbinary)
+	// fmt.Printf("index: %v\n", index)//
+	return tables.colIndex[idxEP]
+}
+
+
 func binaryToDecimal(binary [12]int8) int {
 	var decimal int
 	for i := 0; i < 11; i++ {
@@ -77,20 +86,20 @@ func cO2index(cube *cepo) int {
 	return index
 }
 
-func index2orientation(index int) [8]int {
-	var s int
-	var or [8]int
-	for i := 6; i >= 0; i-- {
-		or[i] = index % 3
-		s = s - or[i]
-		if s < 0 {
-			s = s + 3
-		}
-		index = (index - or[i]) / 3
-	}
-	or[7] = s
-	return or
-}
+// func index2orientation(index int) [8]int {
+// 	var s int
+// 	var or [8]int
+// 	for i := 6; i >= 0; i-- {
+// 		or[i] = index % 3
+// 		s = s - or[i]
+// 		if s < 0 {
+// 			s = s + 3
+// 		}
+// 		index = (index - or[i]) / 3
+// 	}
+// 	or[7] = s
+// 	return or
+// }
 
 
 // func tableFull(table [2048]uint8) bool {
@@ -233,11 +242,12 @@ func tableG1(tables *tables) {
 				// fmt.Printf("cO2index2: %v\n", cO2index(cube))
 				// fmt.Printf("index2orientation: %v\n", index2orientation(index))
 				// fmt.Printf("cO2index max: %v\n", cO2index(cube))
-				ePBinary := eP2Binary(child)
-				// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
-				idxEP := binaryBool2Decimal(ePBinary)
-				// fmt.Printf("index: %v\n", index)//
-				idxEPconverted := tables.colIndex[idxEP]
+				// ePBinary := eP2Binary(child)
+				// // fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
+				// idxEP := binaryBool2Decimal(ePBinary)
+				// // fmt.Printf("index: %v\n", index)//
+				// idxEPconverted := tables.colIndex[idxEP]
+				idxEP := ePindex(child, tables)
 				// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
 				// fmt.Printf("idxCO: %v\n", idxCO)//
 
@@ -245,8 +255,8 @@ func tableG1(tables *tables) {
 					tables.G1cO[idxCO] = depth
 					count++//
 				}
-				if idxEPconverted != 0 && tables.G1eP[idxEPconverted] == 0 {
-					tables.G1eP[idxEPconverted] = depth
+				if idxEP != 0 && tables.G1eP[idxEP] == 0 {
+					tables.G1eP[idxEP] = depth
 				}
 				// if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
 				// if tableG1[idxEPconverted][idxCO] == 0 && (idxEPconverted != 0 || idxCO != 0) {
