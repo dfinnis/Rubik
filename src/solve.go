@@ -161,6 +161,8 @@ func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
 	var bound uint8
 	if subgroup == 0 {
 		bound = tables.G0[binaryToDecimal(cube.eO)]
+	// } else if subgroup == 1 {
+	// 	bound = tables.G1cO[cO2index(cube)]
 	}
 	return bound
 }
@@ -189,10 +191,10 @@ func solve(cube *cepo, tables *tables) string {
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
 		// dumpCepo(cube)////////////////////////////////////////////////////##########
-		if subgroup == 0 {//
-			solutionPart := idaStar(cube, subgroup, tables)
-			spin(solutionPart, cube)
-			solution += solutionPart
+		// if subgroup == 0 {//
+		solutionPart := idaStar(cube, subgroup, tables)
+		spin(solutionPart, cube)
+		solution += solutionPart
 		// } else {
 		// 	break
 		// }
@@ -208,13 +210,13 @@ func solve(cube *cepo, tables *tables) string {
 		// }
 		// if subgroup == 0 {//
 		// 	break//
-		}//
-		if subgroup == 1 {//
-			// index := orientation2index(cube)
-			// fmt.Printf("orientation2index: %v\n", index)
-			// // fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
+		// }//
+		if subgroup > 1 {//
+			// index := cO2index(cube)
+			// fmt.Printf("cO2index: %v\n", index)
+			// // fmt.Printf("cO2index2: %v\n", cO2index(cube))
 			// fmt.Printf("index2orientation: %v\n", index2orientation(index))
-			// // fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
+			// // fmt.Printf("cO2index max: %v\n", cO2index(cube))
 			// edgePermutationBin := eP2Binary(cube)
 			// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
 			// index = binaryBool2Decimal(edgePermutationBin)
@@ -222,8 +224,8 @@ func solve(cube *cepo, tables *tables) string {
 			break
 		}
 	}
-	index := orientation2index(cube)
-	fmt.Printf("\norientation2index: %v\n", index)
+	index := cO2index(cube)
+	fmt.Printf("\ncO2index: %v\n", index)
 	// fmt.Printf("index2orientation: %v\n", index2orientation(index))
 	edgePermutationBin := eP2Binary(cube)
 	// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)

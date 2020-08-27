@@ -11,6 +11,8 @@ import (
 type tables struct {
 	G0 [2048]uint8
 	colIndex [4096]int16
+	G1cO [2187]uint8
+	G1eP [495]uint8
 }
 
 func move2nul(move string, move2 string) string {
@@ -66,7 +68,7 @@ func binaryToDecimal(binary [12]int8) int {
 	return decimal
 }
 
-func orientation2index(cube *cepo) int {
+func cO2index(cube *cepo) int {
 	var index int
 	for i := 0; i < 7; i++ {
 		index = index * 3
@@ -206,12 +208,14 @@ func tableG1IdxConv(tables *tables) { // make file/read from file?
 }
 
 func tableG1(tables *tables) {
-	var tableG1 [495][2187]uint8
+	// var tableG1 [495][2187]uint8
+	// var tableG1cO [2187]uint8
+	// var tableG1eP [495]uint8
 	fmt.Printf("\nGenerating pruning table for G1")
 	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCube())
-	for depth < 5 {//10//////////////////////////////////////////////////////
+	for depth < 7 {//10//////////////////////////////////////////////////////
 		// for tableFull(table) == false {
 		var children []cepo
 		var count int//
@@ -224,11 +228,11 @@ func tableG1(tables *tables) {
 				spin(move, child)
 				// dumpCepo(child)//
 				// index := binaryToDecimal(child.eO)
-				idxCO := orientation2index(child)
-				// fmt.Printf("orientation2index: %v\n", index)
-				// fmt.Printf("orientation2index2: %v\n", orientation2index(cube))
+				idxCO := cO2index(child)
+				// fmt.Printf("cO2index: %v\n", index)
+				// fmt.Printf("cO2index2: %v\n", cO2index(cube))
 				// fmt.Printf("index2orientation: %v\n", index2orientation(index))
-				// fmt.Printf("orientation2index max: %v\n", orientation2index(cube))
+				// fmt.Printf("cO2index max: %v\n", cO2index(cube))
 				ePBinary := eP2Binary(child)
 				// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
 				idxEP := binaryBool2Decimal(ePBinary)
@@ -237,21 +241,29 @@ func tableG1(tables *tables) {
 				// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
 				// fmt.Printf("idxCO: %v\n", idxCO)//
 
-				// if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
-				if tableG1[idxEPconverted][idxCO] == 0 && (idxEPconverted != 0 || idxCO != 0) {
-					tableG1[idxEPconverted][idxCO] = depth
-					// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
-					// fmt.Printf("idxCO: %v\n", idxCO)//
+				if idxCO != 0 && tables.G1cO[idxCO] == 0 {
+					tables.G1cO[idxCO] = depth
 					count++//
-					// fmt.Printf("count++\n\n")//
-					children = append(children, *child)
 				}
+				if idxEPconverted != 0 && tables.G1eP[idxEPconverted] == 0 {
+					tables.G1eP[idxEPconverted] = depth
+				}
+				// if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
+				// if tableG1[idxEPconverted][idxCO] == 0 && (idxEPconverted != 0 || idxCO != 0) {
+				// 	tableG1[idxEPconverted][idxCO] = depth
+				// 	fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
+				// 	fmt.Printf("idxCO: %v\n", idxCO)//
+				// 	count++//
+				// 	// fmt.Printf("count++\n\n")//
+				// 	// children = append(children, *child)
+				// }
+				children = append(children, *child)
 			}
 		}
 		parents = children
 		fmt.Printf(".")
 		fmt.Printf("depth: %v\n", depth)//
-		fmt.Printf("count: %v\n", count)//
+		fmt.Printf("count: %v\n\n", count)//
 		// fmt.Printf("len(parents): %v\n", len(parents))//
 	}
 	// for i, depth := range table {
@@ -259,7 +271,13 @@ func tableG1(tables *tables) {
 	// 		table[i] = 10
 	// 	}
 	// }
-	// fmt.Printf("\ntableG1: %v\n", tableG1)//
+	fmt.Printf("\ntableG1cO: %v\n\n", tables.G1cO)//
+	for _, entry := range tables.G1cO {
+		if entry == 0 {
+			fmt.Printf("OH HIIII\n")//
+		}
+	}
+	fmt.Printf("\ntableG1eP: %v\n", tables.G1eP)//
 	fmt.Printf("\n###########################################################################\n")
 }
 
