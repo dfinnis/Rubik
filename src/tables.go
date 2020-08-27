@@ -264,7 +264,7 @@ func tableG1(tables *tables) {
 	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCube())
-	for depth < 5 {//10//////////////////////////////////////////////////////
+	for depth < 3 {//10//////////////////////////////////////////////////////
 		// for tableFull(table) == false {
 		var children []cepo
 		var count int//
@@ -292,10 +292,12 @@ func tableG1(tables *tables) {
 
 				if tableG1[idxEPconverted][idxCO] == 0 && !(idxEPconverted == 0 && idxCO == 0) {
 					tableG1[idxEPconverted][idxCO] = depth
+					// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
+					// fmt.Printf("idxCO: %v\n", idxCO)//
 					count++//
 					// fmt.Printf("count++\n\n")//
+					children = append(children, *child)
 				}
-				children = append(children, *child)
 			}
 		}
 		parents = children
