@@ -112,9 +112,18 @@ func inPath2(node *cepo, path []cepo) bool {
 	return false
 }
 
+func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
+	if subgroup == 0 {
+		return tables.G0[binaryToDecimal(cube.eO)]
+	} else {// if subgroup == 1 {
+		return tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
+	}
+}
+
 func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tables *tables) (uint8, string) {
 	node := path[len(path) - 1]
-	f := g + tables.G0[binaryToDecimal(node.eO)]
+	// f := g + tables.G0[binaryToDecimal(node.eO)]
+	f := g + heuristic(&node, subgroup, tables)
 	// fmt.Printf("g: %v\n", g)//
 	// fmt.Printf("f: %v\n", f)//
 
@@ -124,7 +133,8 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 	// fmt.Printf("g = %v\n", g)//
 	// fmt.Printf("subgroup = %v\n", subgroup)//
 	// fmt.Printf("depth = %v\n", depth)//
-	if tables.G0[binaryToDecimal(node.eO)] == 0 {
+	// if tables.G0[binaryToDecimal(node.eO)] == 0 {
+	if heuristic(&node, subgroup, tables) == 0 {
 		var solvedPart string
 		for i := 1; i < len(path); i++ {
 			solvedPart += path[i].move + " "
@@ -143,7 +153,7 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 		if inPath2(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
-			cost, solution := search(path, g + tables.G0[binaryToDecimal(new.eO)]/* + 1 */, bound, subgroup, depth + 1, tables) // g + h + 1?
+			cost, solution := search(path, g + heuristic(new, subgroup, tables), bound, subgroup, depth + 1, tables) // g + h + 1?
 			if cost == 255 {
 				return 255, solution
 			}
@@ -157,18 +167,19 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 	return min, ""
 }
 
-func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
-	var bound uint8
-	if subgroup == 0 {
-		bound = tables.G0[binaryToDecimal(cube.eO)]
-	// } else if subgroup == 1 {
-	// 	bound = tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
-	}
-	return bound
-}
+// func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
+// 	var bound uint8
+// 	if subgroup == 0 {
+// 		bound = tables.G0[binaryToDecimal(cube.eO)]
+// 	} else if subgroup == 1 {
+// 		bound = tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
+// 		fmt.Printf("\n\nBOUND: %v\n\n", bound)/////
+// 	}
+// 	return bound
+// }
 
 func idaStar(cube *cepo, subgroup int8, tables *tables) string {
-	bound := findBound(cube, subgroup, tables)
+	bound := heuristic(cube, subgroup, tables)
 	var path []cepo
 	path = append(path, *cube)
 	for {
@@ -200,7 +211,7 @@ func solve(cube *cepo, tables *tables) string {
 		// }
 		// elapsed := time.Since(start)//
 		// fmt.Printf("Group Solve time: %v\n", elapsed)//
-		// fmt.Printf("solutionPart: %v\n", solutionPart)//
+		fmt.Printf("solutionPart: %v\n", solutionPart)//
 		// fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
 		// spin(solutionPart, &r.cube)
 		// dumpCube(&r.cube)//

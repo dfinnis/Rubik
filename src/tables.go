@@ -224,7 +224,7 @@ func tableG1(tables *tables) {
 	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCube())
-	for depth < 7 {//10//////////////////////////////////////////////////////
+	for depth < 6 {//10//////////////////////////////////////////////////////
 		// for tableFull(table) == false {
 		var children []cepo
 		var count int//
@@ -281,12 +281,15 @@ func tableG1(tables *tables) {
 	// 		table[i] = 10
 	// 	}
 	// }
-	fmt.Printf("\ntableG1cO: %v\n\n", tables.G1cO)//
-	for _, entry := range tables.G1cO {
-		if entry == 0 {
-			fmt.Printf("OH HIIII\n")//
+	for i, entry := range tables.G1cO {
+		if i > 0 {
+			if entry == 0 {
+				tables.G1cO[i] = 7
+				// fmt.Printf("OH HIIII\n")//
+			}
 		}
 	}
+	fmt.Printf("\ntableG1cO: %v\n\n", tables.G1cO)//
 	fmt.Printf("\ntableG1eP: %v\n", tables.G1eP)//
 	fmt.Printf("\n###########################################################################\n")
 }
