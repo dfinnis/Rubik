@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	// "reflect"//
 )
 
 func cP2index(cube *cepo) int {
 	n := 8
 	index := 0
 	for i := 0; i < n; i++ {
-		index = index * (n + 1 - i)
+		index = index * (n - i)
 		for j := i+1; j < n; j++ {
 			if cube.cP[i] > cube.cP[j] {
 				index++
@@ -18,6 +19,21 @@ func cP2index(cube *cepo) int {
 		}
 	}
 	return index
+}
+
+func index2cP(index int) [8]int {
+	var cP [8]int
+	cP[7] = 1
+	for i := 7; i >= 0; i-- {
+		cP[i] = 1 + (index % (8-i))
+		index = (index - (index % (8-i)))/(8-i)
+		for j := i + 1; j < 8; j++ {
+			if cP[j] >= cP[i] {
+				cP[j] = cP[j]+1
+			}
+		}
+	}
+	return cP
 }
 
 func eP2Binary8(cube *cepo) [8]bool {
@@ -67,10 +83,20 @@ func tableG2IdxConv(tables *tables) { // make file/read from file?
 func makeTableG2(tables *tables) {
 	tableG2IdxConv(tables)
 	cube := initCube()
-	fmt.Printf("\ncPindex: %v\n", cP2index(cube))//
-	fmt.Printf("\nePindex: %v\n", eP2index8(cube, tables))//
-	spin("L F2 U2", cube)
-	fmt.Printf("\ncPindex: %v\n", cP2index(cube))//
-	fmt.Printf("\nePindex: %v\n", eP2index8(cube, tables))//
-	fmt.Printf("\ntables.G2ePindex: %v\n", tables.G2ePindex)//
+	cPindex := cP2index(cube)
+	fmt.Printf("\ncPindex: %v\n", cPindex)//
+	// fmt.Println(reflect.TypeOf(cPindex))//
+	index2cP := index2cP(cPindex)
+	fmt.Printf("index2cP: %v\n", index2cP)//
+
+	fmt.Printf("ePindex: %v\n\n", eP2index8(cube, tables))//
+	spin("L F2 U2 D2 R", cube)
+
+	cPindex = cP2index(cube)
+	fmt.Printf("cPindex: %v\n", cPindex)//
+	// fmt.Println(reflect.TypeOf(cPindex))//
+	// index2cP = index2cP(cPindex)
+	// fmt.Printf("index2cP: %v\n", index2cP)//
+	fmt.Printf("ePindex: %v\n", eP2index8(cube, tables))//
+	// fmt.Printf("\ntables.G2ePindex: %v\n", tables.G2ePindex)//
 }
