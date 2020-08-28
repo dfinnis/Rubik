@@ -9,6 +9,7 @@ type tables struct {
 	G0 [2048]uint8
 	G1ePindex [4096]int16
 	G1 [495][2187]uint8
+	G2ePindex [255]int16
 	G2 [40320][70]uint8
 }
 
