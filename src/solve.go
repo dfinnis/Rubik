@@ -116,7 +116,8 @@ func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
 	if subgroup == 0 {
 		return tables.G0[binaryToDecimal(cube.eO)]
 	} else {// if subgroup == 1 {
-		return tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
+		// return tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
+		return tables.G1[eP2index(cube, tables)][cO2index(cube)]
 	}
 }
 
@@ -189,6 +190,8 @@ func solve(cube *cepo, tables *tables) string {
 
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
+		cube.move = ""
+		cube.move2 = ""
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
 		// dumpCepo(cube)////////////////////////////////////////////////////##########
 		// start := time.Now()
