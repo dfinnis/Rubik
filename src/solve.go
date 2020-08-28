@@ -167,17 +167,6 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 	return min, ""
 }
 
-// func findBound(cube *cepo, subgroup int8, tables *tables) uint8 {
-// 	var bound uint8
-// 	if subgroup == 0 {
-// 		bound = tables.G0[binaryToDecimal(cube.eO)]
-// 	} else if subgroup == 1 {
-// 		bound = tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
-// 		fmt.Printf("\n\nBOUND: %v\n\n", bound)/////
-// 	}
-// 	return bound
-// }
-
 func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 	bound := heuristic(cube, subgroup, tables)
 	var path []cepo
@@ -202,48 +191,25 @@ func solve(cube *cepo, tables *tables) string {
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
 		// dumpCepo(cube)////////////////////////////////////////////////////##########
-		// if subgroup == 0 {//
+		// start := time.Now()
 		solutionPart := idaStar(cube, subgroup, tables)
 		spin(solutionPart, cube)
 		solution += solutionPart
-		// } else {
-		// 	break
-		// }
 		// elapsed := time.Since(start)//
 		// fmt.Printf("Group Solve time: %v\n", elapsed)//
 		fmt.Printf("solutionPart: %v\n", solutionPart)//
-		// fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
-		// spin(solutionPart, &r.cube)
-		// dumpCube(&r.cube)//
-		// solution += solutionPart
-		// if isSolvedCepo(cube) {
+		fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
+		// if isSolved(cube) {
 		// 	break
 		// }
-		// if subgroup == 0 {//
-		// 	break//
-		// }//
 		if subgroup > 1 {//
-			// index := cO2index(cube)
-			// fmt.Printf("cO2index: %v\n", index)
-			// // fmt.Printf("cO2index2: %v\n", cO2index(cube))
-			// fmt.Printf("index2orientation: %v\n", index2orientation(index))
-			// // fmt.Printf("cO2index max: %v\n", cO2index(cube))
-			// edgePermutationBin := eP2Binary(cube)
-			// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
-			// index = binaryBool2Decimal(edgePermutationBin)
-			// fmt.Printf("index: %v\n", index)//
 			break
 		}
 	}
-	index := cO2index(cube)
-	fmt.Printf("\ncO2index: %v\n", index)
-	// fmt.Printf("index2orientation: %v\n", index2orientation(index))
-	edgePermutationBin := eP2Binary(cube)
-	// fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
-	index = binaryBool2Decimal(edgePermutationBin)
-	// fmt.Printf("index: %v\n", index)//
-	converted := tables.colIndex[index]
-	fmt.Printf("converted: %v\n", converted)//
+	cOindex := cO2index(cube)//
+	ePindex := eP2index(cube, tables)//
+	fmt.Printf("\ncO2index: %v\n", cOindex)//
+	fmt.Printf("ePindex: %v\n", ePindex)//
 
 	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
 	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///

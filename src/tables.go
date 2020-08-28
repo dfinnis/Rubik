@@ -236,20 +236,8 @@ func tableG1(tables *tables) {
 				child := newNode(&parent, move)
 				spin(move, child)
 				// dumpCepo(child)//
-				// index := binaryToDecimal(child.eO)
 				idxCO := cO2index(child)
-				// fmt.Printf("cO2index: %v\n", index)
-				// fmt.Printf("cO2index2: %v\n", cO2index(cube))
-				// fmt.Printf("index2orientation: %v\n", index2orientation(index))
-				// fmt.Printf("cO2index max: %v\n", cO2index(cube))
-				// ePBinary := eP2Binary(child)
-				// // fmt.Printf("edgePermutationBin: %v\n", edgePermutationBin)
-				// idxEP := binaryBool2Decimal(ePBinary)
-				// // fmt.Printf("index: %v\n", index)//
-				// idxEPconverted := tables.colIndex[idxEP]
 				idxEP := eP2index(child, tables)
-				// fmt.Printf("idxEPconverted: %v\n", idxEPconverted)//
-				// fmt.Printf("idxCO: %v\n", idxCO)//
 
 				if idxCO != 0 && tables.G1cO[idxCO] == 0 {
 					tables.G1cO[idxCO] = depth
