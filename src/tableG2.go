@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"strconv"
-	// "reflect"//
 )
 
 func cP2index(cube *cepo) int {
@@ -63,7 +62,7 @@ func eP2index8(cube *cepo, tables *tables) int16 {
 }
 
 func tableG2IdxConv(tables *tables) { // make file/read from file?
-	var converted int16// = 1
+	var converted int16
 	var idx int64
 	for idx = 0; idx <255; idx++ {
 		var count uint8
@@ -80,24 +79,86 @@ func tableG2IdxConv(tables *tables) { // make file/read from file?
 	}
 }
 
+func cornersInOrbit(cube *cepo) bool {
+	for i := 0; i < 4; i++ {
+		if cube.cP[i] > 3 {
+			return false
+		}
+	}
+	return true
+}
+
+func cPinList(cube *cepo, initial []cepo) bool {
+	for _, permuation := range initial {
+		if cP2index(cube) == cP2index(&permuation) {
+			return true
+		}
+	}
+	return false
+}
+
+func tableG2(tables *tables) {
+	fmt.Printf("\nGenerating pruning table for G2")
+	// parent := initCube()
+	var initial []cepo
+	var parents []cepo
+	parents = append(parents, *initCube())
+	var count int//
+	var depth uint8
+	for depth < 4 {
+		depth++
+		var children []cepo
+		for _, parent := range parents {
+			for _, move := range listMoves(&parent, 2) {
+				// fmt.Printf("\nmove %v: %v\n", i, move)//
+				child := newNode(&parent, move)
+				spin(move, child)
+				// cPindex := cP2index(child)
+				// ePindex := eP2index8(child, tables)
+				// dumpCube(child)//
+				// fmt.Printf("cPindex: %v\n", cPindex)//
+				// index2cP := index2cP8(cPindex)
+				// fmt.Printf("index2cP: %v\n", index2cP)//
+				if cornersInOrbit(child) == true {
+					// fmt.Printf("cornersInOrbit!!!!!!!\n")
+					count++//
+					// if inPath(child, initial) == false {
+					if cPinList(child, initial) == false {
+						// fmt.Printf("not in Path!!!!!!!\n")
+						initial = append(initial, *child)
+					}
+				}
+				children = append(children, *child)
+				// fmt.Printf("ePindex: %v\n\n", ePindex)//
+			}
+		}
+		parents = children
+	}
+	fmt.Printf("\ncount: %v\n", count)//
+	fmt.Printf("len(initial): %v\n", len(initial))//
+	fmt.Printf("len(parents): %v\n", len(parents))//
+
+
+	fmt.Printf("\n\n###########################################################################\n")//
+}
+
 func makeTableG2(tables *tables) {
 	tableG2IdxConv(tables)
-	cube := initCube()
-	cPindex := cP2index(cube)
-	fmt.Printf("\ncPindex: %v\n", cPindex)//
-	// fmt.Println(reflect.TypeOf(cPindex))//
-	index2cP := index2cP8(cPindex)
-	fmt.Printf("index2cP: %v\n", index2cP)//
+	tableG2(tables)
+	// cube := initCube()
 
-	fmt.Printf("ePindex: %v\n\n", eP2index8(cube, tables))//
-	spin("L F2 U2 D2 R", cube)
-	dumpCepo(cube)//
+	// cPindex := cP2index(cube)
+	// ePindex := eP2index8(cube, tables)
 
-	cPindex2 := cP2index(cube)
-	fmt.Printf("cPindex: %v\n", cPindex2)//
-	index2cP2 := index2cP8(cPindex2)
+
+
+	// fmt.Printf("\ncPindex: %v\n", cPindex)//
 	// fmt.Println(reflect.TypeOf(cPindex))//
-	fmt.Printf("index2cP: %v\n", index2cP2)//
-	fmt.Printf("ePindex: %v\n", eP2index8(cube, tables))//
-	// fmt.Printf("\ntables.G2ePindex: %v\n", tables.G2ePindex)//
+	// index2cP := index2cP8(cPindex)
+	// fmt.Printf("index2cP: %v\n", index2cP)//
+
+	// fmt.Printf("ePindex: %v\n\n", eP2index8(cube, tables))//
+	// spin("L F2 U2 D2 R", cube)//
+	// dumpCube(cube)//
+
 }

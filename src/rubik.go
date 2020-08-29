@@ -91,8 +91,6 @@ func parseArg() (string, bool, int) {
 	return mix, visualizer, random
 }
 
-
-
 func initCube() *cepo {
 	cepo := &cepo{}
 	for i := range cepo.cP {
@@ -104,55 +102,21 @@ func initCube() *cepo {
 	return cepo
 }
 
-// func cornerFacelet(cepo *cepo, idx uint8, face uint8) (color uint8) {
-// 	// fmt.Printf("OH HIIII")//
-// 	permutation := cepo.cP[idx]
-// 	fmt.Printf("permutation: %v\n", permutation)
-// 	return 0
-// }
-
-//func edgeFacelet(cepo *cepo, idx uint8, face uint8) (color uint8) {
-//}
-
-func dumpCepo(cepo *cepo) {
+func dumpCube(cube *cepo) {
 	fmt.Printf("\n\n#### -- CUBE -- ####\n")
-
-
-	
-	// dumpFace(cube, 0)
-	// dumpLFRB(cube)
-	// dumpFace(cube, 5)
-	// fmt.Printf("\n        ")
-
-	// if cornerFacelet(cepo, 0, 0) == 5 {
-	// 	fmt.Printf("%v5%v ", Yellow, Reset)
-	// } else if cornerFacelet(cepo, 0, 0) == 4 {
-	// 	fmt.Printf("%v4%v ", Blue, Reset)
-	// } else if cornerFacelet(cepo, 0, 0) == 3 {
-	// 	fmt.Printf("%v3%v ", Red, Reset)
-	// } else if cornerFacelet(cepo, 0, 0) == 2 {
-	// 	fmt.Printf("%v2%v ", Green, Reset)
-	// } else if cornerFacelet(cepo, 0, 0) == 1 {
-	// 	fmt.Printf("%v1%v ", Orange, Reset)
-	// } else {
-	// 	fmt.Printf("0 ")
-	// }
-	// fmt.Printf("%v")
-
-	fmt.Printf("\n\n")//
-	for i, corner := range cepo.cP {
+	for i, corner := range cube.cP {
 		fmt.Printf("Corner Permutation %v:\t%v\n", i, corner)//
 	}
 	fmt.Println()//
-	for i, corner := range cepo.cO {
+	for i, corner := range cube.cO {
 		fmt.Printf("Corner Orientation %v:\t%v\n", i, corner)//
 	}
 	fmt.Println()//
-	for i, edge := range cepo.eP {
+	for i, edge := range cube.eP {
 		fmt.Printf("Edge Permutation %v:\t%v\n", i, edge)//
 	}
 	fmt.Println()//
-	for i, edge := range cepo.eO {
+	for i, edge := range cube.eO {
 		fmt.Printf("Edge Orientation %v:\t%v\n", i, edge)//
 	}
 }
@@ -205,11 +169,11 @@ func RunRubik2() {
 	tables := makeTables()
 	// fmt.Printf("tableG0: %v\n", tableG0)//
 	cube := initCube()
-	// dumpCepo(cube)//
+	// dumpCube(cube)//
 	spin(mix, cube)
 	// cube.move = ""
 	// cube.move2 = ""
-	// dumpCepo(cube)//
+	// dumpCube(cube)//
 
 	start := time.Now()
 	solution := solve(cube, tables)
@@ -217,7 +181,7 @@ func RunRubik2() {
 	elapsed := time.Since(start)
 	// spin(solution, cube)
 	fmt.Printf("========================================\n")//
-	dumpCepo(cube)//
+	dumpCube(cube)//
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }

@@ -69,7 +69,7 @@ func isSubgroup(cube *cepo) int8 {
 	return 4
 }
 
-func inPath2(node *cepo, path []cepo) bool {
+func inPath(node *cepo, path []cepo) bool {
 	for idx := range path {
 		var different bool
 		for i := range node.cP {
@@ -151,7 +151,7 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 		spin(moves[i], new)
 		// fmt.Printf("Move: %v\n", new.move)//
 		// dumpCube(&new.cube)//
-		if inPath2(new, path) == false {
+		if inPath(new, path) == false {
 			path = append(path, *new)
 			// dumpPath(path)//
 			cost, solution := search(path, g + heuristic(new, subgroup, tables), bound, subgroup, depth + 1, tables) // g + h + 1?
@@ -193,7 +193,7 @@ func solve(cube *cepo, tables *tables) string {
 		cube.move = ""
 		cube.move2 = ""
 		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-		// dumpCepo(cube)////////////////////////////////////////////////////##########
+		// dumpCube(cube)////////////////////////////////////////////////////##########
 		// start := time.Now()
 		solutionPart := idaStar(cube, subgroup, tables)
 		spin(solutionPart, cube)
@@ -209,10 +209,6 @@ func solve(cube *cepo, tables *tables) string {
 			break
 		}
 	}
-	cOindex := cO2index(cube)//
-	ePindex := eP2index(cube, tables)//
-	fmt.Printf("\ncO2index: %v\n", cOindex)//
-	fmt.Printf("ePindex: %v\n", ePindex)//
 
 	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
 	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///

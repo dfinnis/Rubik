@@ -90,7 +90,7 @@ func tableG1(tables *tables) {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
-				// dumpCepo(child)//
+				// dumpCube(child)//
 
 				idxCO := cO2index(child)
 				idxEP := eP2index(child, tables)
@@ -106,9 +106,9 @@ func tableG1(tables *tables) {
 		}
 		parents = children
 		fmt.Printf(".")
-		fmt.Printf("depth: %v\n", depth)//
-		fmt.Printf("count: %v\n", count)//
-		fmt.Printf("cumulative: %v\n\n", cumulative)//
+		// fmt.Printf("depth: %v\n", depth)//
+		// fmt.Printf("count: %v\n", count)//
+		// fmt.Printf("cumulative: %v\n\n", cumulative)//
 		// fmt.Printf("len(parents): %v\n", len(parents))//
 	}
 
@@ -122,10 +122,10 @@ func tableG1(tables *tables) {
 			}
 		}
 	}
-	fmt.Printf("depth: %v\n", 9)//
-	fmt.Printf("count: %v\n", count)//
-	fmt.Printf("cumulative: %v\n\n", cumulative)//
-	fmt.Printf("\n###########################################################################\n")//
+	// fmt.Printf("depth: %v\n", 9)//
+	// fmt.Printf("count: %v\n", count)//
+	// fmt.Printf("cumulative: %v\n\n", cumulative)//
+	// fmt.Printf("\n###########################################################################\n")//
 }
 
 func makeTableG1(tables *tables) {

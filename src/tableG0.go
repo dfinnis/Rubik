@@ -30,7 +30,7 @@ func tableG0() [2048]uint8 {
 				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
-				// dumpCepo(child)//
+				// dumpCube(child)//
 				index := binaryToDecimal(child.eO)
 				if index != 0 && table[index] == 0 {
 					table[index] = depth
