@@ -25,10 +25,10 @@ func ePindexConverter(cube *cepo) int {
 	return ePindex
 }
 
-func cPindexConverter() [40320]uint8 {
+func cPtableIndex() [40320]uint8 {
+	var cPtableIndex [40320]uint8
 	var initial []cepo
 	var parents []cepo
-	var cPindexConv [40320]uint8
 	var converted uint8 = 1
 	initial = append(initial, *initCube())
 	parents = append(parents, *initCube())
@@ -40,7 +40,7 @@ func cPindexConverter() [40320]uint8 {
 				spin(move, child)
 				if cornersInOrbit(child) == true && cPinList(child, initial) == false {
 					initial = append(initial, *child)
-					cPindexConv[cP2index(child)] = converted
+					cPtableIndex[cP2index(child)] = converted
 					converted++
 				}
 				children = append(children, *child)
@@ -49,17 +49,17 @@ func cPindexConverter() [40320]uint8 {
 		parents = children
 	}
 	// fmt.Printf("count: %v\n", count)//
-	return cPindexConv
+	return cPtableIndex
 }
 
 func makeTableG3(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G3")
-	cPindexConv := cPindexConverter()
+	cPtableIndex := cPtableIndex()
 	cube := initCube()
 	ePindexConverter(cube)
 	spin("U2 D2 R2", cube)//
-	cPindex := cP2index(cube)
-	fmt.Printf("\ncPindexConv[cPindex]: %v\n", cPindexConv[cPindex])//
+	// cPindex := cP2index(cube)//
+	fmt.Printf("\ncPtableIndex[cPindex]: %v\n", cPtableIndex[cP2index(cube)])//
 	fmt.Printf("\nePindexConverter(cube): %v\n", ePindexConverter(cube))//
-	// fmt.Printf("cPindexConv: %v\n", cPindexConv)//
+	// fmt.Printf("cPtableIndex: %v\n", cPtableIndex)//
 }
