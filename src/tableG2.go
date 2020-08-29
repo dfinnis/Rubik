@@ -55,14 +55,14 @@ func binaryBool2Decimal8(binary [8]bool) int {
 	return decimal
 }
 
-func eP2index8(cube *cepo, tables *tables) int8 {
+func eP2index8(cube *cepo, tables *tables) uint8 {
 	ePbinary := eP2Binary8(cube)
 	idxEP := binaryBool2Decimal8(ePbinary)
 	return tables.G2ePindex[idxEP]
 }
 
 func tableG2IdxConv(tables *tables) { // make file/read from file?
-	var converted int8
+	var converted uint8
 	var idx int64
 	for idx = 0; idx <255; idx++ {
 		var count uint8
@@ -100,6 +100,7 @@ func cPinList(cube *cepo, initial []cepo) bool {
 func initial96cubes() []cepo {
 	var initial []cepo
 	var parents []cepo
+	initial = append(initial, *initCube())
 	parents = append(parents, *initCube())
 	for depth := 0; depth < 4; depth++ {
 		var children []cepo
@@ -122,6 +123,43 @@ func tableG2(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G2")
 	parents := initial96cubes()
 	fmt.Printf("len(parents): %v\n", len(parents))//
+
+	var depth uint8
+	cumulative := len(parents)//
+	for depth < 13 {// 13 !!!!
+		depth++
+		var count int//
+		var children []cepo
+		for _, parent := range parents {
+			for _, move := range listMoves(&parent, 2) {
+				// fmt.Printf("\nmove %v: %v\n", i, move)//
+				child := newNode(&parent, move)
+				spin(move, child)
+				// dumpCube(child)//
+
+				idxCP := cP2index(child)
+				idxEP := eP2index8(child, tables)
+
+				if tables.G2[idxCP][idxEP] == 0 && !(idxCP == 0 && idxEP == 0) {
+					tables.G2[idxCP][idxEP] = depth
+					count++//
+					cumulative++//
+					children = append(children, *child)
+				}
+				// children = append(children, *child)
+			}
+		}
+		parents = children
+		fmt.Printf(".")
+		fmt.Printf("depth: %v\n", depth)//
+		fmt.Printf("count: %v\n", count)//
+		fmt.Printf("cumulative: %v\n\n", cumulative)//
+		// fmt.Printf("len(parents): %v\n", len(parents))//
+	}
+
+
+
+
 
 	fmt.Printf("\n\n###########################################################################\n")//
 }

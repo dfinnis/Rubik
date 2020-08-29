@@ -9,7 +9,7 @@ type tables struct {
 	G0 [2048]uint8
 	G1ePindex [4096]int16
 	G1 [495][2187]uint8
-	G2ePindex [255]int8
+	G2ePindex [255]uint8
 	G2 [40320][70]uint8
 }
 
@@ -33,8 +33,10 @@ func newNode(parent *cepo, move string) *cepo {
 		cO:   	parent.cO,
 		eP:   	parent.eP,
 		eO:   	parent.eO,
-		move2:	move2nul(move, parent.move),
-		move:	move,
+		// move2:	move2nul(move, parent.move),
+		// move:	move,
+		move2:	parent.move2,
+		move:	parent.move,
 	}
 }
 
