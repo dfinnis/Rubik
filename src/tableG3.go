@@ -5,30 +5,24 @@ import (
 	"math"
 )
 
-// func conv12index(eP [12]int8) int {
-// 	var decimal int
-// 	for i := 0; i < 12; i++ {
-// 		decimal += int(eP[i]) * int(math.Pow(2, float64(i)))
-// 	}
-// 	return decimal
-// }
-
-func ePindex4(cube *cepo) int {
-	var index int
-	for i := 0; i < 3; i++ {
-		fmt.Printf("cube.eP[i] : %v\n", cube.eP[i])//
-		index += int(cube.eP[i]) * int(math.Pow(2, float64(2-i)))
-		fmt.Printf("math.Pow(2, float64(3-i)): %v\n", math.Pow(2, float64(2-i)))//
-		fmt.Printf("index: %v\n", index)//
+func ePindexConverter(cube *cepo) int {
+	// fmt.Printf("\nOH HIII!\n")
+	// cube := initCube()
+	ePindex := 1
+	for slice := 0; slice < 3; slice++ {
+		var sliceIndex int
+		for i := slice * 4; i < slice * 4 + 3; i++ {
+			// fmt.Printf("cube.eP[i] : %v\n", cube.eP[i])//
+			sliceIndex += (int(cube.eP[i]) - slice * 4) * int(math.Pow(2, float64(2 - i + slice * 4)))
+			// fmt.Printf("math.Pow(2, float64(3-i)): %v\n", math.Pow(2, float64(2-i + slice * 4)))//
+			// fmt.Printf("index: %v\n", index)//
+	
+		}
+		ePindex *= sliceIndex
+		// fmt.Printf("index slice: %v\n\n", index)//
 	}
-	return index
-}
-
-func ePindexConverter()/* [6912]uint8*/ {
-	fmt.Printf("\nOH HIII!\n")
-	cube := initCube()
-	index := ePindex4(cube)
-	fmt.Printf("index done: %v\n", index)//
+	// fmt.Printf("index done: %v\n", index)//
+	return ePindex
 }
 
 func cPindexConverter() [40320]uint8 {
@@ -61,10 +55,11 @@ func cPindexConverter() [40320]uint8 {
 func makeTableG3(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G3")
 	cPindexConv := cPindexConverter()
-	ePindexConverter()
 	cube := initCube()
-	spin("U2 D2", cube)//
+	ePindexConverter(cube)
+	spin("U2 D2 R2", cube)//
 	cPindex := cP2index(cube)
 	fmt.Printf("\ncPindexConv[cPindex]: %v\n", cPindexConv[cPindex])//
+	fmt.Printf("\nePindexConverter(cube): %v\n", ePindexConverter(cube))//
 	// fmt.Printf("cPindexConv: %v\n", cPindexConv)//
 }
