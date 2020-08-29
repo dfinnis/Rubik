@@ -61,6 +61,6 @@ func makeTables() *tables {
 	makeTableG0(tables)
 	makeTableG1(tables)
 	makeTableG2(tables)
-
+	makeTableG3(tables)
 	return tables
 }
