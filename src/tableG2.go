@@ -124,7 +124,7 @@ func initial96cubes() []cepo {
 func tableG2(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G2")
 	parents := initial96cubes()
-	fmt.Printf("len(parents): %v\n", len(parents))//
+	// fmt.Printf("len(parents): %v\n", len(parents))//
 
 	var depth uint8
 	cumulative := len(parents)//
@@ -153,14 +153,14 @@ func tableG2(tables *tables) {
 		}
 		parents = children
 		fmt.Printf(".")
-		fmt.Printf("depth: %v\n", depth)//
-		fmt.Printf("count: %v\n", count)//
-		fmt.Printf("cumulative: %v\n\n", cumulative)//
-		// fmt.Printf("len(parents): %v\n", len(parents))//
-		// fmt.Printf("tables.G2[0][0]: %v\n\n", tables.G2[0][0])//
-		// fmt.Printf("tables.G2[0][1]: %v\n\n", tables.G2[0][1])//
-		// fmt.Printf("tables.G2[0][2]: %v\n\n", tables.G2[0][2])//
-		// fmt.Printf("tables.G2[40319][69]: %v\n\n", tables.G2[40319][69])//
+		// fmt.Printf("depth: %v\n", depth)//
+		// fmt.Printf("count: %v\n", count)//
+		// fmt.Printf("cumulative: %v\n\n", cumulative)//
+		// // fmt.Printf("len(parents): %v\n", len(parents))//
+		// // fmt.Printf("tables.G2[0][0]: %v\n\n", tables.G2[0][0])//
+		// // fmt.Printf("tables.G2[0][1]: %v\n\n", tables.G2[0][1])//
+		// // fmt.Printf("tables.G2[0][2]: %v\n\n", tables.G2[0][2])//
+		// // fmt.Printf("tables.G2[40319][69]: %v\n\n", tables.G2[40319][69])//
 	}
 }
 
@@ -186,8 +186,6 @@ func makeTableG2(tables *tables) {
 				}
 			}
 		}
-		// fmt.Printf("tables.G2[40319][1]: %v\n\n", tables.G2[403][11])//
-		// fmt.Printf("tables.G2[40319][2]: %v\n\n", tables.G2[403][12])//
 	} else {
 		file := readFile("tables/G2.txt")
 		cPidx := 0
@@ -200,31 +198,5 @@ func makeTableG2(tables *tables) {
 				cPidx++
 			}
 		}
-		// fmt.Printf("tables.G2[40319][1]: %v\n\n", tables.G2[403][11])//
-		// fmt.Printf("tables.G2[40319][2]: %v\n\n", tables.G2[403][12])//
-		// fmt.Printf("\nRead table G2")///
 	}
-	
-	
-	
-	
-	
-	
-	// tableG2(tables)
-	// cube := initCube()
-
-	// cPindex := cP2index(cube)
-	// ePindex := eP2index8(cube, tables)
-
-
-
-	// fmt.Printf("\ncPindex: %v\n", cPindex)//
-	// fmt.Println(reflect.TypeOf(cPindex))//
-	// index2cP := index2cP8(cPindex)
-	// fmt.Printf("index2cP: %v\n", index2cP)//
-
-	// fmt.Printf("ePindex: %v\n\n", eP2index8(cube, tables))//
-	// spin("L F2 U2 D2 R", cube)//
-	// dumpCube(cube)//
-
 }

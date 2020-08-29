@@ -115,9 +115,10 @@ func inPath(node *cepo, path []cepo) bool {
 func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
 	if subgroup == 0 {
 		return tables.G0[binaryToDecimal(cube.eO)]
-	} else {// if subgroup == 1 {
-		// return tables.G1cO[cO2index(cube)] + tables.G1eP[eP2index(cube, tables)]
+	} else if subgroup == 1 {
 		return tables.G1[eP2index(cube, tables)][cO2index(cube)]
+	} else {// if subgroup == 2 {
+		return tables.G2[cP2index(cube)][eP2index8(cube, tables)]
 	}
 }
 
@@ -205,7 +206,7 @@ func solve(cube *cepo, tables *tables) string {
 		// if isSolved(cube) {
 		// 	break
 		// }
-		if subgroup > 1 {//
+		if subgroup > 2 {//
 			break
 		}
 	}
