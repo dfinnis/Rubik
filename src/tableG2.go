@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"os"
+	// "reflect"
 )
 
 func cP2index(cube *cepo) int {
@@ -155,18 +157,60 @@ func tableG2(tables *tables) {
 		fmt.Printf("count: %v\n", count)//
 		fmt.Printf("cumulative: %v\n\n", cumulative)//
 		// fmt.Printf("len(parents): %v\n", len(parents))//
+		// fmt.Printf("tables.G2[0][0]: %v\n\n", tables.G2[0][0])//
+		// fmt.Printf("tables.G2[0][1]: %v\n\n", tables.G2[0][1])//
+		// fmt.Printf("tables.G2[0][2]: %v\n\n", tables.G2[0][2])//
+		// fmt.Printf("tables.G2[40319][69]: %v\n\n", tables.G2[40319][69])//
 	}
+}
 
-
-
-
-
-	fmt.Printf("\n\n###########################################################################\n")//
+func readHex(char uint8) uint8 {
+	if char < 97 {
+		return char - 48
+	} else {
+		return char - 87
+	}
 }
 
 func makeTableG2(tables *tables) {
 	tableG2IdxConv(tables)
-	tableG2(tables)
+	if _, err := os.Stat("tables/G2.txt"); os.IsNotExist(err) {
+		tableG2(tables)
+		file := createFile("tables/G2.txt")
+		defer file.Close()
+		for cPidx := 0; cPidx < 40320; cPidx++ {
+			for ePidx := 0; ePidx < 70; ePidx++ {
+				_, err = file.WriteString(fmt.Sprintf("%x", tables.G2[cPidx][ePidx]))
+				if err != nil {
+					errorExit("failed to write to file")
+				}
+			}
+		}
+		// fmt.Printf("tables.G2[40319][1]: %v\n\n", tables.G2[403][11])//
+		// fmt.Printf("tables.G2[40319][2]: %v\n\n", tables.G2[403][12])//
+	} else {
+		file := readFile("tables/G2.txt")
+		cPidx := 0
+		ePidx := 0
+		for _, depth := range file {
+			tables.G2[cPidx][ePidx] = readHex(depth)
+			ePidx++
+			if ePidx >= 70 {
+				ePidx = 0
+				cPidx++
+			}
+		}
+		// fmt.Printf("tables.G2[40319][1]: %v\n\n", tables.G2[403][11])//
+		// fmt.Printf("tables.G2[40319][2]: %v\n\n", tables.G2[403][12])//
+		// fmt.Printf("\nRead table G2")///
+	}
+	
+	
+	
+	
+	
+	
+	// tableG2(tables)
 	// cube := initCube()
 
 	// cPindex := cP2index(cube)
