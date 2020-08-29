@@ -118,6 +118,7 @@ func initial96cubes() []cepo {
 		}
 		parents = children
 	}
+	fmt.Printf("len(initial): %v\n", len(initial))//
 	return initial
 }
 

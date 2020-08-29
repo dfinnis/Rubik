@@ -11,6 +11,7 @@ type tables struct {
 	G1 [495][2187]uint8
 	G2ePindex [255]uint8
 	G2 [40320][70]uint8
+	G3 [96][6912]uint8
 }
 
 func move2nul(move string, move2 string) string {

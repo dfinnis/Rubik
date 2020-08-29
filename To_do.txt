@@ -1,4 +1,6 @@
-Avoid repeating moves e.g. F2 F2
+redo tablesG1
+bug -r -v
+
 
 human solver
 

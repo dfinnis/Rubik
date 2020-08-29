@@ -207,6 +207,7 @@ func solve(cube *cepo, tables *tables) string {
 		// 	break
 		// }
 		if subgroup > 2 {//
+			// fmt.Printf("G3: binaryToDecimal12: %v\n", binaryToDecimal12(cube.eP))//
 			break
 		}
 	}
