@@ -21,7 +21,7 @@ func cP2index(cube *cepo) int {
 	return index
 }
 
-func index2cP(index int) [8]int {
+func index2cP8(index int) [8]int {
 	var cP [8]int
 	cP[7] = 1
 	for i := 7; i >= 0; i-- {
@@ -86,17 +86,18 @@ func makeTableG2(tables *tables) {
 	cPindex := cP2index(cube)
 	fmt.Printf("\ncPindex: %v\n", cPindex)//
 	// fmt.Println(reflect.TypeOf(cPindex))//
-	index2cP := index2cP(cPindex)
+	index2cP := index2cP8(cPindex)
 	fmt.Printf("index2cP: %v\n", index2cP)//
 
 	fmt.Printf("ePindex: %v\n\n", eP2index8(cube, tables))//
 	spin("L F2 U2 D2 R", cube)
+	dumpCepo(cube)//
 
-	cPindex = cP2index(cube)
-	fmt.Printf("cPindex: %v\n", cPindex)//
+	cPindex2 := cP2index(cube)
+	fmt.Printf("cPindex: %v\n", cPindex2)//
+	index2cP2 := index2cP8(cPindex2)
 	// fmt.Println(reflect.TypeOf(cPindex))//
-	// index2cP = index2cP(cPindex)
-	// fmt.Printf("index2cP: %v\n", index2cP)//
+	fmt.Printf("index2cP: %v\n", index2cP2)//
 	fmt.Printf("ePindex: %v\n", eP2index8(cube, tables))//
 	// fmt.Printf("\ntables.G2ePindex: %v\n", tables.G2ePindex)//
 }
