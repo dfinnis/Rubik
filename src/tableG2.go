@@ -20,20 +20,20 @@ func cP2index(cube *cepo) int {
 	return index
 }
 
-func index2cP8(index int) [8]int {
-	var cP [8]int
-	cP[7] = 1
-	for i := 7; i >= 0; i-- {
-		cP[i] = 1 + (index % (8-i))
-		index = (index - (index % (8-i)))/(8-i)
-		for j := i + 1; j < 8; j++ {
-			if cP[j] >= cP[i] {
-				cP[j] = cP[j]+1
-			}
-		}
-	}
-	return cP
-}
+// func index2cP8(index int) [8]int {
+// 	var cP [8]int
+// 	cP[7] = 1
+// 	for i := 7; i >= 0; i-- {
+// 		cP[i] = 1 + (index % (8-i))
+// 		index = (index - (index % (8-i)))/(8-i)
+// 		for j := i + 1; j < 8; j++ {
+// 			if cP[j] >= cP[i] {
+// 				cP[j] = cP[j]+1
+// 			}
+// 		}
+// 	}
+// 	return cP
+// }
 
 func eP2Binary8(cube *cepo) [8]bool {
 	var binary [8]bool
@@ -55,14 +55,14 @@ func binaryBool2Decimal8(binary [8]bool) int {
 	return decimal
 }
 
-func eP2index8(cube *cepo, tables *tables) int16 {
+func eP2index8(cube *cepo, tables *tables) int8 {
 	ePbinary := eP2Binary8(cube)
 	idxEP := binaryBool2Decimal8(ePbinary)
 	return tables.G2ePindex[idxEP]
 }
 
 func tableG2IdxConv(tables *tables) { // make file/read from file?
-	var converted int16
+	var converted int8
 	var idx int64
 	for idx = 0; idx <255; idx++ {
 		var count uint8
