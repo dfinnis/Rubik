@@ -99,43 +99,29 @@ func cPinList(cube *cepo, initial []cepo) bool {
 
 func tableG2(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G2")
-	// parent := initCube()
 	var initial []cepo
 	var parents []cepo
 	parents = append(parents, *initCube())
-	var count int//
+	// var count int//
 	var depth uint8
 	for depth < 4 {
 		depth++
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 2) {
-				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
-				// cPindex := cP2index(child)
-				// ePindex := eP2index8(child, tables)
-				// dumpCube(child)//
-				// fmt.Printf("cPindex: %v\n", cPindex)//
-				// index2cP := index2cP8(cPindex)
-				// fmt.Printf("index2cP: %v\n", index2cP)//
-				if cornersInOrbit(child) == true {
-					// fmt.Printf("cornersInOrbit!!!!!!!\n")
-					count++//
-					// if inPath(child, initial) == false {
-					if cPinList(child, initial) == false {
-						// fmt.Printf("not in Path!!!!!!!\n")
-						initial = append(initial, *child)
-					}
+				if cornersInOrbit(child) == true && cPinList(child, initial) == false {
+					initial = append(initial, *child)
 				}
 				children = append(children, *child)
-				// fmt.Printf("ePindex: %v\n\n", ePindex)//
 			}
 		}
 		parents = children
 	}
-	fmt.Printf("\ncount: %v\n", count)//
-	fmt.Printf("len(initial): %v\n", len(initial))//
+	parents = initial
+	// fmt.Printf("\ncount: %v\n", count)//
+	fmt.Printf("\nlen(initial): %v\n", len(initial))//
 	fmt.Printf("len(parents): %v\n", len(parents))//
 
 
