@@ -2,7 +2,7 @@ package rubik
 
 import (
 	"fmt"
-	// "math"
+	"math"
 )
 
 // func conv12index(eP [12]int8) int {
@@ -13,18 +13,22 @@ import (
 // 	return decimal
 // }
 
+func ePindex4(cube *cepo) int {
+	var index int
+	for i := 0; i < 3; i++ {
+		fmt.Printf("cube.eP[i] : %v\n", cube.eP[i])//
+		index += int(cube.eP[i]) * int(math.Pow(2, float64(2-i)))
+		fmt.Printf("math.Pow(2, float64(3-i)): %v\n", math.Pow(2, float64(2-i)))//
+		fmt.Printf("index: %v\n", index)//
+	}
+	return index
+}
+
 func ePindexConverter()/* [6912]uint8*/ {
 	fmt.Printf("\nOH HIII!\n")
-	// cube := initCube()
-	// // whatsthis := binaryToDecimal(cube.eP)
-	// // fmt.Printf("whatsthis: %v\n", binaryToDecimal12(cube.eP))//
-	// var index int
-	// for i := 0; i < 3; i++ {
-	// 	fmt.Printf("cube.eP[i] : %v\n", cube.eP[i])//
-	// 	index += int(cube.eP[i]) * int(math.Pow(2, float64(2-i)))
-	// 	fmt.Printf("math.Pow(2, float64(3-i)): %v\n", math.Pow(2, float64(2-i)))//
-	// 	fmt.Printf("index: %v\n", index)//
-	// }
+	cube := initCube()
+	index := ePindex4(cube)
+	fmt.Printf("index done: %v\n", index)//
 }
 
 func cPindexConverter() [40320]uint8 {
