@@ -97,15 +97,11 @@ func cPinList(cube *cepo, initial []cepo) bool {
 	return false
 }
 
-func tableG2(tables *tables) {
-	fmt.Printf("\nGenerating pruning table for G2")
+func initial96cubes() []cepo {
 	var initial []cepo
 	var parents []cepo
 	parents = append(parents, *initCube())
-	// var count int//
-	var depth uint8
-	for depth < 4 {
-		depth++
+	for depth := 0; depth < 4; depth++ {
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 2) {
@@ -119,11 +115,13 @@ func tableG2(tables *tables) {
 		}
 		parents = children
 	}
-	parents = initial
-	// fmt.Printf("\ncount: %v\n", count)//
-	fmt.Printf("\nlen(initial): %v\n", len(initial))//
-	fmt.Printf("len(parents): %v\n", len(parents))//
+	return initial
+}
 
+func tableG2(tables *tables) {
+	fmt.Printf("\nGenerating pruning table for G2")
+	parents := initial96cubes()
+	fmt.Printf("len(parents): %v\n", len(parents))//
 
 	fmt.Printf("\n\n###########################################################################\n")//
 }
