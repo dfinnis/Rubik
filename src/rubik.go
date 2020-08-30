@@ -13,7 +13,6 @@ import (
 // corner[0] is face U top left cubie
 // edge[0] is face U left cubie
 
-
 type cepo struct {
 	cP 		[8]int8		// cornerPermutation	(0-7)
 	cO 		[8]int8		// cornerOrientation	(0-2)	0 = good, 1 = twisted clockwise, 2 = twisted anti-clockwise
@@ -146,42 +145,28 @@ func isSolvedCepo(cube *cepo) bool {
 }
 
 func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
-	fmt.Printf("\n########################################\n")
+	// fmt.Printf("\n########################################\n")//
 	if isSolvedCepo(cube) == false {
 		fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
-	} else {//
+	} else {
 		fmt.Printf("%v\nSolution Correct, cube solved! :)\n%v", Green, Reset)//
-	}//
+	}
 	fmt.Printf("\nHalf Turn Metric: %v\n", halfTurnMetric(solution))
 	fmt.Printf("\n%vSolution:\n%v%v\n\n", "\x1B[1m", "\x1B[0m", solution)
 	fmt.Printf("Solve time:\n%v\n\n", elapsed)
 }
 
 func RunRubik2() {
-	// cube := initCube()//
-	// spin("U2 U D", cube)//
-	// fmt.Printf("listMoves: %v\n", listMoves(cube, 0))//
-	// fmt.Printf("Move: %v\nmove2 : %v\n", cube.move, cube.move2)//
 	mix, visualizer, length := parseArg()
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix(length)
 	}
 	tables := makeTables()
-	// fmt.Printf("tableG0: %v\n", tableG0)//
 	cube := initCube()
-	// dumpCube(cube)//
 	spin(mix, cube)
-	// cube.move = ""
-	// cube.move2 = ""
-	// dumpCube(cube)//
-
 	start := time.Now()
 	solution := solve(cube, tables)
-	// solution := "U U"//
 	elapsed := time.Since(start)
-	// spin(solution, cube)
-	fmt.Printf("========================================\n")//
-	dumpCube(cube)//
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }

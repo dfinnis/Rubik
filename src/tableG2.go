@@ -5,7 +5,6 @@ import (
 	"math"
 	"strconv"
 	"os"
-	// "reflect"
 )
 
 func cP2index(cube *cepo) int {
@@ -125,28 +124,24 @@ func initial96cubes() []cepo {
 func tableG2(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G2")
 	parents := initial96cubes()
-	// fmt.Printf("len(parents): %v\n", len(parents))//
-
 	var depth uint8
-	cumulative := len(parents)//
-	for depth < 13 {// 13 !!!!
+	// cumulative := len(parents)//
+	for depth < 13 {
 		depth++
-		var count int//
+		// var count int//
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 2) {
-				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
-				// dumpCube(child)//
 
 				idxCP := cP2index(child)
 				idxEP := eP2index8(child, tables)
 
 				if tables.G2[idxCP][idxEP] == 0 && !(idxCP == 0 && idxEP == 0) {
 					tables.G2[idxCP][idxEP] = depth
-					count++//
-					cumulative++//
+					// count++//
+					// cumulative++//
 					children = append(children, *child)
 				}
 				// children = append(children, *child)
@@ -157,11 +152,6 @@ func tableG2(tables *tables) {
 		// fmt.Printf("depth: %v\n", depth)//
 		// fmt.Printf("count: %v\n", count)//
 		// fmt.Printf("cumulative: %v\n\n", cumulative)//
-		// // fmt.Printf("len(parents): %v\n", len(parents))//
-		// // fmt.Printf("tables.G2[0][0]: %v\n\n", tables.G2[0][0])//
-		// // fmt.Printf("tables.G2[0][1]: %v\n\n", tables.G2[0][1])//
-		// // fmt.Printf("tables.G2[0][2]: %v\n\n", tables.G2[0][2])//
-		// // fmt.Printf("tables.G2[40319][69]: %v\n\n", tables.G2[40319][69])//
 	}
 }
 

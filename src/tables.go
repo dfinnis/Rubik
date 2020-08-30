@@ -35,8 +35,6 @@ func newNode(parent *cepo, move string) *cepo {
 		cO:   	parent.cO,
 		eP:   	parent.eP,
 		eO:   	parent.eO,
-		// move2:	move2nul(move, parent.move),
-		// move:	move,
 		move2:	parent.move2,
 		move:	parent.move,
 	}
