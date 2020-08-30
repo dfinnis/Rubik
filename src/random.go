@@ -90,6 +90,6 @@ func randomMix(length int) string {
 			mix += " "
 		}
 	}
-	fmt.Printf("\nRandom Mix: %v\n", mix)
+	fmt.Printf("\nRandom Mix: %v\n\n", mix)
 	return mix
 }

@@ -51,12 +51,12 @@ func printUsage() {
 }
 
 
-func parseArg() (string, bool, int) {
+func parseArg() (string, bool, int, bool) {
 	args := os.Args[1:]
 	var random int = -1
 	if len(args) == 0 {
 		errorExit("not enough arguments, no mix given")
-	} else if len(args) > 3 {
+	} else if len(args) > 4 {
 		errorExit("too many arguments")
 	}
 	mix := args[0]
@@ -64,6 +64,7 @@ func parseArg() (string, bool, int) {
 		printUsage()
 	}
 	visualizer := false
+	group := false
 	// debug := false
 	// binary := false
 	if len(args) > 1 {
@@ -76,6 +77,8 @@ func parseArg() (string, bool, int) {
 				random = length
 			} else if args[i] == "-v" || args[i] == "--visualizer" {
 				visualizer = true
+			} else if args[i] == "-g" || args[i] == "--group" {
+				group = true
 			// } else if args[i] == "-d" || args[i] == "--debug" {
 			// 	debug = true
 			// } else if args[i] == "-b" || args[i] == "--binary" {
@@ -87,7 +90,7 @@ func parseArg() (string, bool, int) {
 			}
 		}
 	}
-	return mix, visualizer, random
+	return mix, visualizer, random, group
 }
 
 func initCube() *cepo {
@@ -157,7 +160,7 @@ func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
 }
 
 func RunRubik2() {
-	mix, visualizer, length := parseArg()
+	mix, visualizer, length, group := parseArg()
 	if mix == "-r" || mix == "--random" {
 		mix = randomMix(length)
 	}
@@ -165,7 +168,7 @@ func RunRubik2() {
 	cube := initCube()
 	spin(mix, cube)
 	start := time.Now()
-	solution := solve(cube, tables)
+	solution := solve(cube, tables, group)
 	elapsed := time.Since(start)
 	printSolution2(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)

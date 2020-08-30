@@ -164,7 +164,7 @@ func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 	}
 }
 
-func solve(cube *cepo, tables *tables) string {
+func solve(cube *cepo, tables *tables, group bool) string {
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		cube.move = ""
@@ -172,12 +172,17 @@ func solve(cube *cepo, tables *tables) string {
 		start := time.Now()
 		solutionPart := idaStar(cube, subgroup, tables)
 		elapsed := time.Since(start)//
-		fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")////////
-		fmt.Printf("Solution: %v\n", solutionPart)//
-		fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
-		fmt.Printf("Time: %v\n", elapsed)//
+		if group {
+			fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")////////
+			fmt.Printf("Solution: %v\n", solutionPart)//
+			fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
+			fmt.Printf("Time: %v\n", elapsed)//
+		}
 		spin(solutionPart, cube)
 		solution += solutionPart
+	}
+	if group {
+		fmt.Println()
 	}
 	solution = trim(solution)
 	return solution
