@@ -28,92 +28,99 @@ import (
 // 	return sliceIndex
 // }
 
-func ePindexConverter(cube *cepo) [3]uint8 {
-	var sliceIndex [3]uint8
-	if cube.eP[0] == 0 {
-		if cube.eP[1] == 1 {
-			if cube.eP[2] == 2 {
-				sliceIndex[0] = 0 	//	0123
-			} else { // cube.eP[2] = 3
-				sliceIndex[0] = 1	//	0132
+func ePindexSlice(cube *cepo, slice uint8) uint8 {
+	slice4 := int8(slice * 4)
+	if cube.eP[0 + slice4] == 0 + slice4 {
+		if cube.eP[1 + slice4] == 1 + slice4 {
+			if cube.eP[2 + slice4] == 2 + slice4 {
+				return 0 			//	0123
+			} else {
+				return 1			//	0132
 			}
-		} else if cube.eP[1] == 2 {
-			if cube.eP[2] == 1 {
-				sliceIndex[0] = 2	//	0213
-			} else { // cube.eP[2] = 3
-				sliceIndex[0] = 3	//	0231
+		} else if cube.eP[1 + slice4] == 2 + slice4 {
+			if cube.eP[2 + slice4] == 1 + slice4 {
+				return 2			//	0213
+			} else {
+				return 3			//	0231
 			}
-		} else { // if cube.eP[1] == 3 {
-			if cube.eP[2] == 1 {
-				sliceIndex[0] = 4	//	0312
-			} else { // cube.eP[2] = 2
-				sliceIndex[0] = 5	//	0321
-			}
-		}
-	} else if cube.eP[0] == 1 {
-		if cube.eP[1] == 0 {
-			if cube.eP[2] == 2 {
-				sliceIndex[0] = 6 	//	1023
-			} else { // cube.eP[2] = 3
-				sliceIndex[0] = 7	//	1032
-			}
-		} else if cube.eP[1] == 2 {
-			if cube.eP[2] == 0 {
-				sliceIndex[0] = 8	//	1203
-			} else { // cube.eP[2] = 3
-				sliceIndex[0] = 9	//	1230
-			}
-		} else { // if cube.eP[1] == 3 {
-			if cube.eP[2] == 0 {
-				sliceIndex[0] = 10	//	1302
-			} else { // cube.eP[2] = 2
-				sliceIndex[0] = 11	//	1320
+		} else {
+			if cube.eP[2 + slice4] == 1 + slice4 {
+				return 4			//	0312
+			} else {
+				return 5			//	0321
 			}
 		}
-	} else if cube.eP[0] == 2 {
-		if cube.eP[1] == 0 {
-			if cube.eP[2] == 1 {
-				sliceIndex[0] = 12 	//	2013
-			} else { // cube.eP[2] = 3
-				sliceIndex[0] = 13	//	2031
+	} else if cube.eP[0 + slice4] == 1 + slice4 {
+		if cube.eP[1 + slice4] == 0 + slice4 {
+			if cube.eP[2 + slice4] == 2 + slice4 {
+				return 6 			//	1023
+			} else {
+				return 7			//	1032
 			}
-		} else if cube.eP[1] == 1 {
-			if cube.eP[2] == 0 {
-				sliceIndex[0] = 14	//	2103
-			} else { // cube.eP[2] = 3
-				sliceIndex[0] = 15	//	2130
+		} else if cube.eP[1 + slice4] == 2 + slice4 {
+			if cube.eP[2 + slice4] == 0 + slice4 {
+				return 8			//	1203
+			} else {
+				return 9			//	1230
 			}
-		} else { // cube.eP[1] == 3 {
-			if cube.eP[2] == 0 {
-				sliceIndex[0] = 16	//	2301
-			} else { // cube.eP[2] = 1
-				sliceIndex[0] = 17	//	2310
+		} else {
+			if cube.eP[2 + slice4] == 0 + slice4 {
+				return 10			//	1302
+			} else {
+				return 11			//	1320
 			}
 		}
-	} else { // if cube.eP[0] == 3 {
-		if cube.eP[1] == 0 {
-			if cube.eP[2] == 1 {
-				sliceIndex[0] = 18 	//	3012
-			} else { // cube.eP[2] = 2
-				sliceIndex[0] = 19 	//	3021
+	} else if cube.eP[0 + slice4] == 2 + slice4 {
+		if cube.eP[1 + slice4] == 0 + slice4 {
+			if cube.eP[2 + slice4] == 1 + slice4 {
+				return 12 			//	2013
+			} else {
+				return 13			//	2031
 			}
-		} else if cube.eP[1] == 1 {
-			if cube.eP[2] == 0 {
-				sliceIndex[0] = 20 	//	3102
-			} else { // cube.eP[2] = 2
-				sliceIndex[0] = 21 	//	3120
+		} else if cube.eP[1 + slice4] == 1 + slice4 {
+			if cube.eP[2 + slice4] == 0 + slice4 {
+				return 14			//	2103
+			} else {
+				return 15			//	2130
 			}
-		} else { // cube.eP[1] == 2 {
-			if cube.eP[2] == 0 {
-				sliceIndex[0] = 22	//	3201
-			} else { // cube.eP[2] = 1
-				sliceIndex[0] = 23	//	3210
+		} else {
+			if cube.eP[2 + slice4] == 0 + slice4 {
+				return 16			//	2301
+			} else {
+				return 17			//	2310
+			}
+		}
+	} else {
+		if cube.eP[1 + slice4] == 0 + slice4 {
+			if cube.eP[2 + slice4] == 1 + slice4 {
+				return 18 			//	3012
+			} else {
+				return 19 			//	3021
+			}
+		} else if cube.eP[1 + slice4] == 1 + slice4 {
+			if cube.eP[2 + slice4] == 0 + slice4 {
+				return 20 			//	3102
+			} else {
+				return 21 			//	3120
+			}
+		} else {
+			if cube.eP[2 + slice4] == 0 + slice4 {
+				return 22			//	3201
+			} else {
+				return 23			//	3210
 			}
 		}
 	}
-	
-	fmt.Printf("cube.eP: %v\n", cube.eP)//
-	fmt.Printf("sliceIndex[0]: %v\n", sliceIndex[0])//
+}
+
+func ePindexConverter(cube *cepo) [3]uint8 {
+	var sliceIndex [3]uint8
+	var slice uint8
+	for slice = 0; slice < 3; slice++ {
+		sliceIndex[slice] = ePindexSlice(cube, slice)
+	}
+	// fmt.Printf("cube.eP: %v\n", cube.eP)//
+	// fmt.Printf("sliceIndex: %v\n", sliceIndex)//
 	return sliceIndex
 }
 
