@@ -51,7 +51,6 @@ func tableG0() [2048]uint8 {
 		}
 	}
 	// fmt.Printf("table: %v\n", table)//
-	fmt.Printf("\n")
 	return table
 }
 

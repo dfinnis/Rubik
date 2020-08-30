@@ -3,6 +3,7 @@ package rubik
 import (
 	"fmt"//
 	"strings"
+	"time"
 )
 
 func halfTurnMetric(sequence string) int {
@@ -168,20 +169,16 @@ func solve(cube *cepo, tables *tables) string {
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		cube.move = ""
 		cube.move2 = ""
-		fmt.Printf("\nsubgroup: %v\n", subgroup)////////
-		// start := time.Now()
+		start := time.Now()
 		solutionPart := idaStar(cube, subgroup, tables)
+		elapsed := time.Since(start)//
+		fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")////////
+		fmt.Printf("Solution: %v\n", solutionPart)//
+		fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
+		fmt.Printf("Time: %v\n", elapsed)//
 		spin(solutionPart, cube)
 		solution += solutionPart
-		// elapsed := time.Since(start)//
-		// fmt.Printf("Group Solve time: %v\n", elapsed)//
-		fmt.Printf("solutionPart: %v\n", solutionPart)//
-		fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
 	}
-
-	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
-	fmt.Printf("HTM pre-trim: %v\n", halfTurnMetric(solution))///
 	solution = trim(solution)
-
 	return solution
 }

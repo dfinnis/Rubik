@@ -1,6 +1,7 @@
 package rubik
 
 import (
+	"fmt"
 	"os"
 	"io/ioutil"
 )
@@ -62,5 +63,6 @@ func makeTables() *tables {
 	makeTableG1(tables)
 	makeTableG2(tables)
 	makeTableG3(tables)
+	fmt.Println()
 	return tables
 }
