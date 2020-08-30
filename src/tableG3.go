@@ -52,14 +52,60 @@ func cPtableIndex() [40320]uint8 {
 	return cPtableIndex
 }
 
+
+func tableG3(tables *tables, cPtableIndex [40320]uint8) {
+	fmt.Printf("\nGenerating pruning table for G3")
+	var parents []cepo
+	parents = append(parents, *initCube())
+	var depth uint8
+	var cumulative int//
+	for depth < 15 {
+		depth++
+		var count int//
+		var children []cepo
+		for _, parent := range parents {
+			for _, move := range listMoves(&parent, 3) {
+				// fmt.Printf("\nmove %v: %v\n", i, move)//
+				child := newNode(&parent, move)
+				spin(move, child)
+				// dumpCube(child)//
+
+				idxCP := cPtableIndex[cP2index(child)]
+				idxEP := ePindexConverter(child)
+
+				if tables.G3[idxCP][idxEP] == 0 && !(idxCP == 0 && idxEP == 0) {
+					tables.G3[idxCP][idxEP] = depth
+					count++//
+					cumulative++//
+					// children = append(children, *child)
+				}
+				children = append(children, *child)
+			}
+		}
+		parents = children
+		fmt.Printf(".")
+		fmt.Printf("depth: %v\n", depth)//
+		fmt.Printf("count: %v\n", count)//
+		fmt.Printf("cumulative: %v\n\n", cumulative)//
+		// // fmt.Printf("len(parents): %v\n", len(parents))//
+		// // fmt.Printf("tables.G3[0][0]: %v\n\n", tables.G3[0][0])//
+		// // fmt.Printf("tables.G3[0][1]: %v\n\n", tables.G3[0][1])//
+		// // fmt.Printf("tables.G3[0][2]: %v\n\n", tables.G3[0][2])//
+		// // fmt.Printf("tables.G3[40319][69]: %v\n\n", tables.G3[40319][69])//
+	}
+}
+
+
+
 func makeTableG3(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G3")
 	cPtableIndex := cPtableIndex()
-	cube := initCube()
-	ePindexConverter(cube)
-	spin("U2 D2 R2", cube)//
-	// cPindex := cP2index(cube)//
-	fmt.Printf("\ncPtableIndex[cPindex]: %v\n", cPtableIndex[cP2index(cube)])//
-	fmt.Printf("\nePindexConverter(cube): %v\n", ePindexConverter(cube))//
+	tableG3(tables, cPtableIndex)
+	// cube := initCube()
+	// ePindexConverter(cube)
+	// spin("U2 D2 R2", cube)//
+	// // cPindex := cP2index(cube)//
+	// fmt.Printf("\ncPtableIndex[cPindex]: %v\n", cPtableIndex[cP2index(cube)])//
+	// fmt.Printf("\nePindexConverter(cube): %v\n", ePindexConverter(cube))//
 	// fmt.Printf("cPtableIndex: %v\n", cPtableIndex)//
 }

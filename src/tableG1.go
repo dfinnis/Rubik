@@ -77,10 +77,10 @@ func tableG1IdxConv(tables *tables) { // make file/read from file?
 
 func tableG1(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G1")
-	var depth uint8
 	var parents []cepo
-	var cumulative int//
 	parents = append(parents, *initCube())
+	var cumulative int//
+	var depth uint8
 	for depth < 8 {// 9 !!!!
 		depth++
 		var count int//
