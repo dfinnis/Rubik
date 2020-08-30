@@ -117,8 +117,15 @@ func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
 		return tables.G0[binaryToDecimal(cube.eO)]
 	} else if subgroup == 1 {
 		return tables.G1[eP2index(cube, tables)][cO2index(cube)]
-	} else {// if subgroup == 2 {
+	} else if subgroup == 2 {
 		return tables.G2[cP2index(cube)][eP2index8(cube, tables)]
+	} else { // subgroup == 3 {
+		idxCP := tables.G3cPindex[cP2index(cube)]
+		idxEP := ePindexConverter(cube)
+		// fmt.Printf("\nidxCP: %v\n", idxCP)//
+		// fmt.Printf("idxEP: %v\n", idxEP)//
+		// fmt.Printf("tables.G3[idxCP][idxEP[0]][idxEP[1]][idxEP[2]]: %v\n", tables.G3[idxCP][idxEP[0]][idxEP[1]][idxEP[2]])//
+		return tables.G3[idxCP][idxEP[0]][idxEP[1]][idxEP[2]]
 	}
 }
 
@@ -206,10 +213,10 @@ func solve(cube *cepo, tables *tables) string {
 		// if isSolved(cube) {
 		// 	break
 		// }
-		if subgroup > 2 {//
-			// fmt.Printf("G3: binaryToDecimal12: %v\n", binaryToDecimal12(cube.eP))//
-			break
-		}
+		// if subgroup > 2 {//
+		// 	// fmt.Printf("G3: binaryToDecimal12: %v\n", binaryToDecimal12(cube.eP))//
+		// 	break
+		// }
 	}
 
 	fmt.Printf("\n\nSolution pre-trim: %v\n", solution)///
