@@ -15,20 +15,6 @@ type tables struct {
 	G3cPindex [40320]uint8
 }
 
-func move2nul(move string, move2 string) string {
-	if move != "" && move2 != "" {
-		if move[0] == 'U' && move2[0] != 'D' || 
-			move[0] == 'D' && move2[0] != 'U' ||
-			move[0] == 'F' && move2[0] != 'B' || 
-			move[0] == 'B' && move2[0] != 'F' ||
-			move[0] == 'L' && move2[0] != 'R' || 
-			move[0] == 'R' && move2[0] != 'L' {
-			move2 = ""
-		}
-	}
-	return move2
-}
-
 func newNode(parent *cepo, move string) *cepo {
 	return &cepo{
 		cP:   	parent.cP,

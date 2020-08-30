@@ -1,22 +1,14 @@
 redo tablesG1
-bug -r -v
-
-
-human solver
+bug -r -v... flag bs
+test.sh HTM shows 1 when actually 0
 
 better than 23.8 seconds
 This will also be acceptable: 23.196 seconds
 
 #### BONUS ####
-1. test.sh
-2. -v --visualizer
-3. -r --random [length] mix generator
+1. -v --visualizer
+2. -r --random [length] mix generator
+3. test.sh
 4. example mixes inc. superflip - handle filepath??
-5. human solver algo?
-
-### TO DO ###
-{x} create nodes
-{ } create iterative deepening algo, get it to advance 1 iteration and create 18 cubes
-{ } Kociemba's algorithm
-{ } lookup + pruning table
-{ } translation table
+5. -g --group
+6. human solver algo?

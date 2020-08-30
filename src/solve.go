@@ -175,8 +175,8 @@ func solve(cube *cepo, tables *tables, group bool) string {
 		if group {
 			fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")////////
 			fmt.Printf("Solution: %v\n", solutionPart)//
-			fmt.Printf("Half Turn Metric = %v\n", halfTurnMetric(solutionPart))//
-			fmt.Printf("Time: %v\n", elapsed)//
+			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))//
+			fmt.Printf("Time:     %v\n", elapsed)//
 		}
 		spin(solutionPart, cube)
 		solution += solutionPart
