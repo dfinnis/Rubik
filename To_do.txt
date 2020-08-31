@@ -1,6 +1,7 @@
 redo tablesG1
 bug -r -v... flag bs
 test.sh HTM shows 1 when actually 0
+compress tableG3 by half, omitting empty
 
 better than 23.8 seconds
 This will also be acceptable: 23.196 seconds
