@@ -123,7 +123,7 @@ func dumpCube(cube *cepo) {
 	}
 }
 
-func isSolvedCepo(cube *cepo) bool {
+func isSolved(cube *cepo) bool {
 	for i := range cube.cP {
 		if cube.cP[i] != int8(i) {
 			return false
@@ -149,7 +149,7 @@ func isSolvedCepo(cube *cepo) bool {
 
 func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
 	// fmt.Printf("\n########################################\n")//
-	if isSolvedCepo(cube) == false {
+	if isSolved(cube) == false {
 		fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
 	} else {
 		fmt.Printf("%v\nSolution Correct, cube solved! :)\n%v", Green, Reset)//

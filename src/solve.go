@@ -55,7 +55,7 @@ func isSubgroup(cube *cepo) int8 {
 	if parity % 2 != 0 {
 		return 2
 	}
-	if isSolvedCepo(cube) == false {
+	if isSolved(cube) == false {
 		return 3
 	}
 	return 4
