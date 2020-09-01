@@ -108,7 +108,7 @@ func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
 	if subgroup == 0 {
 		return tables.G0[binaryToDecimal(cube.eO)]
 	} else if subgroup == 1 {
-		return tables.G1[eP2index(cube, tables)][cO2index(cube)]
+		return tables.G1[eP2index(cube, tables)][cO2index(cube.cO)]
 	} else if subgroup == 2 {
 		return tables.G2[cP2index(cube)][eP2index8(cube, tables)]
 	} else { // subgroup = 3
