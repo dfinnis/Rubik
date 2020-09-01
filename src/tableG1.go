@@ -7,30 +7,34 @@ import (
 	"strconv"
 )
 
-func cO2index(cube *cepo) int {
+func cO2index(cO [8]int8) int {
 	var index int
 	for i := 0; i < 7; i++ {
 		index = index * 3
-		index = index + int(cube.cO[i])
+		index = index + int(cO[i])
 	}
 	return index
 }
 
-// // index2cO reverses cO2index, accepting 0-2186 returning [00000000]-[22222221]
-// func index2cO(index int) [8]int {
-// 	var s int
-// 	var or [8]int
-// 	for i := 6; i >= 0; i-- {
-// 		or[i] = index % 3
-// 		s = s - or[i]
-// 		if s < 0 {
-// 			s = s + 3
-// 		}
-// 		index = (index - or[i]) / 3
-// 	}
-// 	or[7] = s
-// 	return or
-// }
+// index2cO reverses cO2index, accepting 0-2186 returning [00000000]-[22222221]
+func index2cO(index int) [8]int8 {
+	var s int
+	var or [8]int
+	for i := 6; i >= 0; i-- {
+		or[i] = index % 3
+		s = s - or[i]
+		if s < 0 {
+			s = s + 3
+		}
+		index = (index - or[i]) / 3
+	}
+	or[7] = s
+	var or8 [8]int8
+	for i := range or8 {
+		or8[i] = int8(or[i])
+	}
+	return or8
+}
 
 func eP2Binary(cube *cepo) [12]bool {
 	var binary [12]bool
@@ -134,16 +138,27 @@ func tableG1(tables *tables) {
 				spin(move, child)
 				// dumpCube(child)//
 
-				idxCO := cO2index(child)
+				idxCO := cO2index(child.cO)
 				idxEP := eP2index(child, tables)
 
 				if tables.G1[idxEP][idxCO] == 0 && !(idxEP == 0 && idxCO == 0) {
 					tables.G1[idxEP][idxCO] = depth
+					// children = append(children, *child)//!!!!!!!
 					count++//
 					cumulative++//
-					// children = append(children, *child)
+				// } else if tables.G1[idxEP][idxCO] != 0 {
+				// // } else if (idxEP == 0 && idxCO == 0) && isSolved(child) == false {//
+				// 	children = append(children, *child)
+					// fmt.Printf("child.move: %v\n", child.move)//
+					// fmt.Printf("child.move2: %v\n", child.move2)//
+					// fmt.Printf("OH MYYYY!!!\n")//
+					// dumpCube(child)
+				} else if !(idxEP == 0 && idxCO == 0) {//
+					// fmt.Printf("idxCO: %v\n", idxCO)//
+					// fmt.Printf("idxEP: %v\n", idxEP)//
+					// fmt.Printf("tables.G1[idxEP][idxCO]: %v\n", tables.G1[idxEP][idxCO])//
 				}
-				children = append(children, *child)
+				children = append(children, *child)//
 			}
 		}
 		parents = children
@@ -173,12 +188,27 @@ func tableG1(tables *tables) {
 func makeTableG1(tables *tables) {
 	tableG1IdxConv(tables)
 
+	// for i := 0; i <= 2186; i++{
+	// 	cO := index2cO(i)
+	// 	fmt.Printf("cO %v: %v\n", i, cO)//
+	// 	index := cO2index(cO)
+	// 	if index != i {
+	// 		fmt.Printf("WTF!!!!!!!!!!!!!!!!!!!!!\n")//
+	// 	}
+	// 	fmt.Printf("index: %v\n", index)//
+	// }
+
 	// cube := initCube()//
 	// // dumpCube(cube)//
 	// spin("R L2 U2 F B U2 D2 F B", cube)
 	// dumpCube(cube)//
 	// fmt.Println()//
-	// binary := eP2Binary(cube)
+	// // binary := eP2Binary(cube)
+	// var binary [12]bool
+	// binary[0] = true
+	// binary[1] = true
+	// binary[2] = true
+	// binary[6] = true
 	// fmt.Printf("binary: %v\n", binary)//
 	// idxEPpre := binaryBool2Decimal(binary)
 	// fmt.Printf("idxEP pre-convert: %v\n", idxEPpre)//
