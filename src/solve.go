@@ -172,11 +172,12 @@ func solve(cube *cepo, tables *tables, group bool) string {
 		start := time.Now()
 		solutionPart := idaStar(cube, subgroup, tables)
 		if group {
-			elapsed := time.Since(start)//
-			fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")////////
-			fmt.Printf("Solution: %v\n", solutionPart)//
-			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))//
-			fmt.Printf("Time:     %v\n", elapsed)//
+			elapsed := time.Since(start)
+			// dumpCube(cube)//
+			fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")
+			fmt.Printf("Solution: %v\n", solutionPart)
+			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))
+			fmt.Printf("Time:     %v\n", elapsed)
 		}
 		spin(solutionPart, cube)
 		solution += solutionPart

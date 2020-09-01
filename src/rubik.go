@@ -40,12 +40,13 @@ func errorExit(message string) {
 }
 
 func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-r [length]] [-v] [-h]\n\n")
+	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-r [length]] [-v] [-g] [-h]\n\n")
 	fmt.Printf("    mix should be valid sequence string e.g.\n")
 	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
 	fmt.Printf("    or mix \"$(< mix/superflip.txt)\" reads a file\n")
 	fmt.Printf("    or mix \"-r\" or \"--random\" mixes randomly\n\n")
 	fmt.Printf("    [-v] (--visualizer) show visual of mix and solution\n")
+	fmt.Printf("    [-g] (--group) show solution breakdown by subgroup\n")
 	fmt.Printf("    [-h] (--help) show usage\n\n")
 	os.Exit(1)
 }
@@ -65,28 +66,22 @@ func parseArg() (string, bool, int, bool) {
 	}
 	visualizer := false
 	group := false
-	// debug := false
-	// binary := false
 	if len(args) > 1 {
 		for i := 1; i < len(args); i++ {
-			if (mix == "-r" || mix == "--random") && i == 1 {
-				length, err := strconv.Atoi(args[1])
-				if err != nil || length < 0 || length > 100 {
-					printUsage()
-				}
-				random = length
+			if args[i] == "-h" || args[i] == "--help" {
+				printUsage()
 			} else if args[i] == "-v" || args[i] == "--visualizer" {
 				visualizer = true
 			} else if args[i] == "-g" || args[i] == "--group" {
 				group = true
-			// } else if args[i] == "-d" || args[i] == "--debug" {
-			// 	debug = true
-			// } else if args[i] == "-b" || args[i] == "--binary" {
-			// 	debug = true
-			// 	binary = true
 			} else {
-				fmt.Printf("Error: bad argument\n")
-				printUsage()
+				length, err := strconv.Atoi(args[1])
+				if (mix == "-r" || mix == "--random") && i == 1 && err == nil && length > 0 && length < 100 {
+					random = length
+				} else {
+					fmt.Printf("Error bad argument: %v\n", args[i])
+					printUsage()
+				}
 			}
 		}
 	}

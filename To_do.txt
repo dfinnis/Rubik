@@ -1,5 +1,4 @@
 redo tablesG1
-bug -r -v... flag bs
 test.sh HTM shows 1 when actually 0
 compress tableG3 by half, omitting empty
 
@@ -13,4 +12,4 @@ This will also be acceptable: 23.196 seconds
 4. unit tests, example mixes inc. superflip - handle filepath??
 5. -g --group
 6. integrated table maker
-7. human solver algo?
+7. -h --help usage, error handling
