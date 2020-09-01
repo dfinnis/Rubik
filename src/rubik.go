@@ -165,7 +165,8 @@ func isSolved(cube *cepo) bool {
 
 func printSolution(solution string, elapsed time.Duration, cube *cepo) {
 	if isSolved(cube) == false {
-		fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
+		// fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
+		fmt.Printf("\nError: Solution Incorrect :(\n")
 	} else {
 		fmt.Printf("%v\nSolution Correct, cube solved! :)\n%v", Green, Reset)//
 	}

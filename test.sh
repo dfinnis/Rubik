@@ -22,7 +22,7 @@ while [ $random -lt 10 ]
 do
 	cmd="./Rubik mix/random$random.txt"
 	output=$(eval "$cmd")
-	incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+	incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 	time=$(echo "$output" | tail -n 1)
 	prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 	if [ "$prefix" = "m" ]
@@ -88,7 +88,7 @@ do
 			time_best=$time_cut
 		fi
 	fi
-	htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+	htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 	if [ "$htm" -gt "$htm_worst" ]
 	then
 		htm_worst=$htm
@@ -98,11 +98,11 @@ do
 		htm_best=$htm
 	fi
 	htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-	if [ "$incorrect" == "Error: Solution incorrect :(" ]
+	if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 	then
-		echo "\x1b[31mRandom unit $random:\t\tERROR\t  $htm\t$time\x1b[0m"
+		echo "\x1b[31mRandom unit $random:\t\tERROR\t	$htm\t$time\x1b[0m"
 	else
-		echo "\x1b[32mRandom unit $random:\t\tOK\t  $htm\t$time\x1b[0m"
+		echo "\x1b[32mRandom unit $random:\t\tOK\t	$htm\t$time\x1b[0m"
 		((solved+=1))
 	fi
 	((count+=1))
@@ -116,7 +116,7 @@ while [ $random -lt 10 ]
 do
 	cmd="./Rubik -r"
 	output=$(eval "$cmd")
-	incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+	incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 	time=$(echo "$output" | tail -n 1)
 	prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 	if [ "$prefix" = "m" ]
@@ -182,7 +182,7 @@ do
 			time_best=$time_cut
 		fi
 	fi
-	htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+	htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 	if [ "$htm" -gt "$htm_worst" ]
 	then
 		htm_worst=$htm
@@ -192,11 +192,11 @@ do
 		htm_best=$htm
 	fi
 	htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-	if [ "$incorrect" == "Error: Solution incorrect :(" ]
+	if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 	then
-		echo "\x1b[31mRandom $random:\t\tERROR\t  $htm\t$time\x1b[0m"
+		echo "\x1b[31mRandom $random:\t\tERROR\t	$htm\t$time\x1b[0m"
 	else
-		echo "\x1b[32mRandom $random:\t\tOK\t  $htm\t$time\x1b[0m"
+		echo "\x1b[32mRandom $random:\t\tOK\t	$htm\t$time\x1b[0m"
 		((solved+=1))
 	fi
 	((count+=1))
@@ -210,21 +210,21 @@ mean_int=$(echo "scale = 0; $htm_cumulative / $count" | bc)
 mean_float=$(echo "scale = 2; $htm_cumulative / $count" | bc)
 if [ "$htm_best" -lt 45 ]
 then
-	echo "\x1b[32mBest:\t$htm_best\x1b[0m"
+	echo "\x1b[32mBest:\t	$htm_best\x1b[0m"
 else
-	echo "\x1b[31mBest:\t$htm_best\x1b[0m"
+	echo "\x1b[31mBest:\t	$htm_best\x1b[0m"
 fi
 if [ "$htm_worst" -lt 45 ]
 then
-	echo "\x1b[32mWorst:\t$htm_worst\x1b[0m"
+	echo "\x1b[32mWorst:\t	$htm_worst\x1b[0m"
 else
-	echo "\x1b[31mWorst:\t$htm_worst\x1b[0m"
+	echo "\x1b[31mWorst:\t	$htm_worst\x1b[0m"
 fi
 if [ "$mean_int" -lt 45 ]
 then
-	echo "\x1b[32mMean:\t      $mean_float\x1b[0m"
+	echo "\x1b[32mMean:\t	$mean_float\x1b[0m"
 else
-	echo "\x1b[31mMean:\t      $mean_float\x1b[0m"
+	echo "\x1b[31mMean:\t	$mean_float\x1b[0m"
 fi
 
 echo "\n\x1b[1mSolve time\x1b[0m"
@@ -232,37 +232,37 @@ time_mean=$(echo "scale = 9; $time_cumulative / $count" | bc)
 best_cut=$(echo $time_best | cut -d "." -f 1)
 if [ "$best_cut" == "" ]
 then
-	echo "\x1b[32mBest:\t      $time_best\x1b[32ms\x1b[0m"
+	echo "\x1b[32mBest:\t	$time_best\x1b[32ms\x1b[0m"
 else
 	if [ "$best_cut" -lt 23 ]
 	then
-		echo "\x1b[32mBest:\t      $time_best\x1b[32ms\x1b[0m"
+		echo "\x1b[32mBest:\t	$time_best\x1b[32ms\x1b[0m"
 	else
-		echo "\x1b[31mBest:\t      $time_best\x1b[31ms\x1b[0m"
+		echo "\x1b[31mBest:\t	$time_best\x1b[31ms\x1b[0m"
 	fi
 fi
 worst_cut=$(echo $time_worst | cut -d "." -f 1)
 if [ "$worst_cut" == "" ]
 then
-	echo "\x1b[32mWorst:\t      $time_worst\x1b[32ms\x1b[0m"
+	echo "\x1b[32mWorst:\t	$time_worst\x1b[32ms\x1b[0m"
 else
 	if [ "$worst_cut" -lt 23 ]
 	then
-		echo "\x1b[32mWorst:\t      $time_worst\x1b[32ms\x1b[0m"
+		echo "\x1b[32mWorst:\t	$time_worst\x1b[32ms\x1b[0m"
 	else
-		echo "\x1b[31mWorst:\t      $time_worst\x1b[31ms\x1b[0m"
+		echo "\x1b[31mWorst:\t	$time_worst\x1b[31ms\x1b[0m"
 	fi
 fi
 mean_cut=$(echo $time_mean | cut -d "." -f 1)
 if [ "$mean_cut" == "" ]
 then
-	echo "\x1b[32mMean:\t      $time_mean\x1b[32ms\x1b[0m"
+	echo "\x1b[32mMean:\t	$time_mean\x1b[32ms\x1b[0m"
 else
 if [ "$mean_cut" -lt 23 ]
 	then
-		echo "\x1b[32mMean:\t      $time_mean\x1b[32ms\x1b[0m"
+		echo "\x1b[32mMean:\t	$time_mean\x1b[32ms\x1b[0m"
 	else
-		echo "\x1b[31mMean:\t      $time_mean\x1b[31ms\x1b[0m"
+		echo "\x1b[31mMean:\t	$time_mean\x1b[31ms\x1b[0m"
 	fi
 fi
 echo
@@ -272,7 +272,7 @@ echo "\x1b[1m#### ---- Unit tests ---- ####\n\x1b[0m"
 #### -- test 1 -- ####
 cmd="./Rubik mix/subject.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -338,7 +338,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -348,11 +348,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31msubject:\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31msubject:\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32msubject:\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32msubject:\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -360,7 +360,7 @@ fi
 #### -- test 2 -- ####
 cmd="./Rubik mix/subject2.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -426,7 +426,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -436,11 +436,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31msubject2:\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31msubject2:\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32msubject2:\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32msubject2:\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -448,7 +448,7 @@ fi
 #### -- test 3 -- ####
 cmd="./Rubik mix/all.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -514,7 +514,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -524,11 +524,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mall:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mall:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mall:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mall:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -536,7 +536,7 @@ fi
 #### -- test 4 -- ####
 cmd="./Rubik mix/only0.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -602,7 +602,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -612,11 +612,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31monly0:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31monly0:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32monly0:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32monly0:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -624,7 +624,7 @@ fi
 #### -- test 5 -- ####
 cmd="./Rubik mix/only1.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -690,7 +690,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -700,11 +700,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31monly1:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31monly1:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32monly1:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32monly1:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -712,7 +712,7 @@ fi
 #### -- test 6 -- ####
 cmd="./Rubik mix/only2.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -778,7 +778,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -788,11 +788,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31monly2:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31monly2:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32monly2:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32monly2:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -800,7 +800,7 @@ fi
 #### -- test 7 -- ####
 cmd="./Rubik mix/spacing.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -866,7 +866,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -876,11 +876,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mspacing:\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mspacing:\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mspacing:\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mspacing:\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -888,7 +888,7 @@ fi
 #### -- test 8 -- ####
 cmd="./Rubik mix/F1.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -954,7 +954,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -964,11 +964,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mF1:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mF1:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mF1:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mF1:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -976,7 +976,7 @@ fi
 #### -- test 9 -- ####
 cmd="./Rubik mix/F2.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1042,7 +1042,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1052,11 +1052,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mF2:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mF2:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mF2:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mF2:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1065,7 +1065,7 @@ fi
 #### -- test 10 -- ####
 cmd="./Rubik mix/F3.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1131,7 +1131,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1141,11 +1141,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mF3:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mF3:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mF3:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mF3:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1154,7 +1154,7 @@ fi
 #### -- test 11 -- ####
 cmd="./Rubik mix/F4.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1220,7 +1220,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1230,11 +1230,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mF4:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mF4:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mF4:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mF4:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1243,7 +1243,7 @@ fi
 #### -- test 12 -- ####
 cmd="./Rubik mix/F5.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1309,7 +1309,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1319,11 +1319,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mF5:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mF5:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mF5:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mF5:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1331,7 +1331,7 @@ fi
 #### -- test 13 -- ####
 cmd="./Rubik mix/U_F.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1397,7 +1397,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1407,11 +1407,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mU_F:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mU_F:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mU_F:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mU_F:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1419,7 +1419,7 @@ fi
 #### -- test 14 -- ####
 cmd="./Rubik mix/empty.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1485,7 +1485,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1495,11 +1495,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mempty:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mempty:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mempty:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mempty:\t\t\tOK\t  	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1507,7 +1507,7 @@ fi
 #### -- test 15 -- ####
 cmd="./Rubik mix/matsValk555WR.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1573,7 +1573,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1583,11 +1583,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mmatsValk555WR:\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mmatsValk555WR:\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mmatsValk555WR:\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mmatsValk555WR:\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1595,7 +1595,7 @@ fi
 #### -- test 16 -- ####
 cmd="./Rubik mix/hard.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1661,7 +1661,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1671,11 +1671,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31mhard:\t\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31mhard:\t\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32mhard:\t\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32mhard:\t\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
@@ -1683,7 +1683,7 @@ fi
 #### -- test 17 -- ####
 cmd="./Rubik mix/superflip.txt"
 output=$(eval "$cmd")
-incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
+incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
 prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 if [ "$prefix" = "m" ]
@@ -1749,7 +1749,7 @@ else
 		time_best=$time_cut
 	fi
 fi
-htm=$(echo "$output" | tail -n 4 | head -n 1 | wc -w)
+htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 if [ "$htm" -gt "$htm_worst" ]
 then
 	htm_worst=$htm
@@ -1759,11 +1759,11 @@ then
 	htm_best=$htm
 fi
 htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
-if [ "$incorrect" == "Error: Solution incorrect :(" ]
+if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 then
-	echo "\x1b[31msuperflip:\t\tERROR\t  $htm\t$time\x1b[0m"
+	echo "\x1b[31msuperflip:\t\tERROR\t	$htm\t$time\x1b[0m"
 else
-	echo "\x1b[32msuperflip:\t\tOK\t  $htm\t$time\x1b[0m"
+	echo "\x1b[32msuperflip:\t\tOK\t	$htm\t$time\x1b[0m"
 	((solved+=1))
 fi
 ((count+=1))
