@@ -21,6 +21,7 @@ func cP2index(cube *cepo) int {
 	return index
 }
 
+// // index2cP8 reverses cP2index // debug tool
 // func index2cP8(index int) [8]int {
 // 	var cP [8]int
 // 	cP[7] = 1
@@ -80,6 +81,8 @@ func tableG2IdxConv(tables *tables) { // make file/read from file?
 	}
 }
 
+// cornersInOrbit returns true if corners 0-3 are in position 0-3, and 4-7 in 4-7
+// (can be solved using only G3 moves, double face turns) 
 func cornersInOrbit(cube *cepo) bool {
 	for i := 0; i < 4; i++ {
 		if cube.cP[i] > 3 {
@@ -89,6 +92,7 @@ func cornersInOrbit(cube *cepo) bool {
 	return true
 }
 
+// cPinList returns true if given cube corner permutation is in list of inital cubes
 func cPinList(cube *cepo, initial []cepo) bool {
 	for _, permuation := range initial {
 		if cP2index(cube) == cP2index(&permuation) {
@@ -98,6 +102,7 @@ func cPinList(cube *cepo, initial []cepo) bool {
 	return false
 }
 
+// initial96cubes returns the 96 cubes with corners in orbit
 func initial96cubes() []cepo {
 	var initial []cepo
 	var parents []cepo
@@ -131,10 +136,8 @@ func tableG2(tables *tables) {
 			for _, move := range listMoves(&parent, 2) {
 				child := newNode(&parent, move)
 				spin(move, child)
-
 				idxCP := cP2index(child)
 				idxEP := eP2index8(child, tables)
-
 				if tables.G2[idxCP][idxEP] == 0 && !(idxCP == 0 && idxEP == 0) {
 					tables.G2[idxCP][idxEP] = depth
 					children = append(children, *child)

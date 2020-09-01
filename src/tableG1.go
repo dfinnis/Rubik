@@ -16,7 +16,7 @@ func cO2index(cO [8]int8) int {
 	return index
 }
 
-// index2cO reverses cO2index, accepting 0-2186 returning [00000000]-[22222221]
+// index2cO reverses cO2index, accepting 0-2186 returning [00000000]-[22222221] // debug tool
 func index2cO(index int) [8]int8 {
 	var s int
 	var or [8]int
