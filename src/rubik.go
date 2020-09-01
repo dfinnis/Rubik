@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"time"
 	"os"
+	"io/ioutil"
 	"strconv"
+	"strings"
 )
 
-// S =	cornerPermutation	edgePermutation
-// 		cornerOrientation	edgeOrientation
-
-// corner[0] is face U top left cubie
-// edge[0] is face U left cubie
+// corner permutation cP[0] is face U top left cubie
+// edge permutation   eP[0] is face U left cubie
 
 type cepo struct {
 	cP 		[8]int8		// cornerPermutation	(0-7)
@@ -21,8 +20,6 @@ type cepo struct {
 	move	string		// last move
 	move2	string		// move before last
 }
-
-// var cepo *cepo
 
 const Reset		= "\x1B[0m"
 // const White		= "\x1B[0m"					// 0 U
@@ -88,6 +85,30 @@ func parseArg() (string, bool, int, bool) {
 	return mix, visualizer, random, group
 }
 
+func makeMix(mix string, length int) string {
+	if mix == "-r" || mix == "--random" {
+		return randomMix(length)
+	} else if len(strings.Fields(mix)) == 1 {
+		allMoves := listMoves(initCube(), 0)
+		for _, move := range allMoves {
+			if strings.Fields(mix)[0] == move {
+				return mix
+			}
+		}
+	}
+	file, err := ioutil.ReadFile(mix)
+	if err != nil {
+		errorExit("failed to read mix file")
+	}
+	if len(file) > 100 {
+		errorExit("file too long")
+	}
+	filepath := mix
+	mix = string(file)
+	fmt.Printf("\nMix read from filepath \"%v\":\n%v\n\n", filepath, mix)
+	return mix
+}
+
 func initCube() *cepo {
 	cepo := &cepo{}
 	for i := range cepo.cP {
@@ -99,24 +120,24 @@ func initCube() *cepo {
 	return cepo
 }
 
-func dumpCube(cube *cepo) {
-	fmt.Printf("\n\n#### -- CUBE -- ####\n")
-	for i, corner := range cube.cP {
-		fmt.Printf("Corner Permutation %v:\t%v\n", i, corner)//
-	}
-	fmt.Println()//
-	for i, corner := range cube.cO {
-		fmt.Printf("Corner Orientation %v:\t%v\n", i, corner)//
-	}
-	fmt.Println()//
-	for i, edge := range cube.eP {
-		fmt.Printf("Edge Permutation %v:\t%v\n", i, edge)//
-	}
-	fmt.Println()//
-	for i, edge := range cube.eO {
-		fmt.Printf("Edge Orientation %v:\t%v\n", i, edge)//
-	}
-}
+// func dumpCube(cube *cepo) {
+// 	fmt.Printf("\n\n#### -- CUBE -- ####\n")
+// 	for i, corner := range cube.cP {
+// 		fmt.Printf("Corner Permutation %v:\t%v\n", i, corner)//
+// 	}
+// 	fmt.Println()//
+// 	for i, corner := range cube.cO {
+// 		fmt.Printf("Corner Orientation %v:\t%v\n", i, corner)//
+// 	}
+// 	fmt.Println()//
+// 	for i, edge := range cube.eP {
+// 		fmt.Printf("Edge Permutation %v:\t%v\n", i, edge)//
+// 	}
+// 	fmt.Println()//
+// 	for i, edge := range cube.eO {
+// 		fmt.Printf("Edge Orientation %v:\t%v\n", i, edge)//
+// 	}
+// }
 
 func isSolved(cube *cepo) bool {
 	for i := range cube.cP {
@@ -142,8 +163,7 @@ func isSolved(cube *cepo) bool {
 	return true
 }
 
-func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
-	// fmt.Printf("\n########################################\n")//
+func printSolution(solution string, elapsed time.Duration, cube *cepo) {
 	if isSolved(cube) == false {
 		fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
 	} else {
@@ -156,15 +176,13 @@ func printSolution2(solution string, elapsed time.Duration, cube *cepo) {
 
 func RunRubik2() {
 	mix, visualizer, length, group := parseArg()
-	if mix == "-r" || mix == "--random" {
-		mix = randomMix(length)
-	}
+	mix = makeMix(mix, length)
 	tables := makeTables()
 	cube := initCube()
 	spin(mix, cube)
 	start := time.Now()
 	solution := solve(cube, tables, group)
 	elapsed := time.Since(start)
-	printSolution2(solution, elapsed, cube)
+	printSolution(solution, elapsed, cube)
 	runGraphic(mix, solution, visualizer)
 }
