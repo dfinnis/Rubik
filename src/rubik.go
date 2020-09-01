@@ -22,14 +22,8 @@ type cepo struct {
 }
 
 const Reset		= "\x1B[0m"
-// const White		= "\x1B[0m"					// 0 U
-// const Orange	= "\x1B[38;2;255;165;0m"	// 1 L
-const Green		= "\x1B[32m"				// 2 F
-const Red		= "\x1B[31m"				// 3 R
-// const Blue		= "\x1B[34m"				// 4 B
-// const Yellow	= "\x1B[33m"				// 5 D
-
-
+const Bright	= "\x1B[1m"
+const Green		= "\x1B[32m"
 
 func errorExit(message string) {
 	fmt.Printf("Error: %s\n", message)
@@ -48,7 +42,7 @@ func printUsage() {
 	os.Exit(1)
 }
 
-
+// parseArg parses arguments, returns mix and flags
 func parseArg() (string, bool, int, bool) {
 	args := os.Args[1:]
 	var random int = -1
@@ -85,16 +79,32 @@ func parseArg() (string, bool, int, bool) {
 	return mix, visualizer, random, group
 }
 
-func makeMix(mix string, length int) string {
-	if mix == "-r" || mix == "--random" {
-		return randomMix(length)
-	} else if len(strings.Fields(mix)) == 1 {
-		allMoves := listMoves(initCube(), 0)
+// mixIsValid returns true if mix only contains valid moves
+func mixIsValid(mix string) (valid bool) {
+	allMoves := listMoves(initCube(), 0)
+	mixList := strings.Fields(mix)
+	for _, mixMove := range mixList {
+		var found bool
 		for _, move := range allMoves {
-			if strings.Fields(mix)[0] == move {
-				return mix
+			if move == mixMove {
+				found = true
+				break
 			}
 		}
+		if !found {
+			return false
+		}
+	}
+	return true
+}
+
+// makeMix checks mix validity, creates random mix, or reads mix file
+func makeMix(mix string, length int) string {
+	if mixIsValid(mix) {
+		return mix
+	}
+	if mix == "-r" || mix == "--random" {
+		return randomMix(length)
 	}
 	file, err := ioutil.ReadFile(mix)
 	if err != nil {
@@ -109,6 +119,7 @@ func makeMix(mix string, length int) string {
 	return mix
 }
 
+// initCube returns a new solved cube
 func initCube() *cepo {
 	cepo := &cepo{}
 	for i := range cepo.cP {
@@ -120,25 +131,27 @@ func initCube() *cepo {
 	return cepo
 }
 
-// func dumpCube(cube *cepo) {
-// 	fmt.Printf("\n\n#### -- CUBE -- ####\n")
-// 	for i, corner := range cube.cP {
-// 		fmt.Printf("Corner Permutation %v:\t%v\n", i, corner)//
-// 	}
-// 	fmt.Println()//
-// 	for i, corner := range cube.cO {
-// 		fmt.Printf("Corner Orientation %v:\t%v\n", i, corner)//
-// 	}
-// 	fmt.Println()//
-// 	for i, edge := range cube.eP {
-// 		fmt.Printf("Edge Permutation %v:\t%v\n", i, edge)//
-// 	}
-// 	fmt.Println()//
-// 	for i, edge := range cube.eO {
-// 		fmt.Printf("Edge Orientation %v:\t%v\n", i, edge)//
-// 	}
-// }
+// dumpCube prints cube state
+func dumpCube(cube *cepo) {
+	fmt.Printf("\n\n#### -- CUBE -- ####\n")
+	for i, corner := range cube.cP {
+		fmt.Printf("Corner Permutation %v:\t%v\n", i, corner)//
+	}
+	fmt.Println()//
+	for i, corner := range cube.cO {
+		fmt.Printf("Corner Orientation %v:\t%v\n", i, corner)//
+	}
+	fmt.Println()//
+	for i, edge := range cube.eP {
+		fmt.Printf("Edge Permutation %v:\t%v\n", i, edge)//
+	}
+	fmt.Println()//
+	for i, edge := range cube.eO {
+		fmt.Printf("Edge Orientation %v:\t%v\n", i, edge)//
+	}
+}
 
+// isSolved returns true if given cube is solved
 func isSolved(cube *cepo) bool {
 	for i := range cube.cP {
 		if cube.cP[i] != int8(i) {
@@ -163,6 +176,7 @@ func isSolved(cube *cepo) bool {
 	return true
 }
 
+// printSolution prints final output
 func printSolution(solution string, elapsed time.Duration, cube *cepo) {
 	if isSolved(cube) == false {
 		// fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
@@ -171,11 +185,12 @@ func printSolution(solution string, elapsed time.Duration, cube *cepo) {
 		fmt.Printf("%v\nSolution Correct, cube solved! :)\n%v", Green, Reset)//
 	}
 	fmt.Printf("\nHalf Turn Metric: %v\n", halfTurnMetric(solution))
-	fmt.Printf("\n%vSolution:\n%v%v\n\n", "\x1B[1m", "\x1B[0m", solution)
+	fmt.Printf("\n%vSolution:\n%v%v\n\n", Bright, Reset, solution)
 	fmt.Printf("Solve time:\n%v\n\n", elapsed)
 }
 
-func RunRubik2() {
+// RunRubik is the main and only exposed function
+func RunRubik() {
 	mix, visualizer, length, group := parseArg()
 	mix = makeMix(mix, length)
 	tables := makeTables()
