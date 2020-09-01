@@ -9,9 +9,6 @@ import (
 	"strings"
 )
 
-// corner permutation cP[0] is face U top left cubie
-// edge permutation   eP[0] is face U left cubie
-
 type cepo struct {
 	cP 		[8]int8		// cornerPermutation	(0-7)
 	cO 		[8]int8		// cornerOrientation	(0-2)	0 = good, 1 = twisted clockwise, 2 = twisted anti-clockwise

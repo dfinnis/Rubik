@@ -17,40 +17,31 @@ func binaryToDecimal(binary [12]int8) int {
 func tableG0() [2048]uint8 {
 	fmt.Printf("\nGenerating pruning table for G0")
 	var table [2048]uint8
-	var depth uint8
 	var parents []cepo
 	parents = append(parents, *initCube())
-	
+	var depth uint8
 	for depth < 6 {
 		var children []cepo
-		// var count int//
 		depth++
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 0) {
-				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
-				// dumpCube(child)//
 				index := binaryToDecimal(child.eO)
 				if index != 0 && table[index] == 0 {
 					table[index] = depth
-					// count++//
 				}
 				children = append(children, *child)
 			}
 		}
 		parents = children
 		fmt.Printf(".")
-		// fmt.Printf("depth: %v\n", depth)//
-		// fmt.Printf("count: %v\n", count)//
-		// fmt.Printf("len(parents): %v\n", len(parents))//
 	}
 	for i, depth := range table {
 		if i > 0 && depth == 0 {
 			table[i] = 7
 		}
 	}
-	// fmt.Printf("table: %v\n", table)//
 	return table
 }
 

@@ -124,10 +124,8 @@ func tableG2(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G2")
 	parents := initial96cubes()
 	var depth uint8
-	// cumulative := len(parents)//
 	for depth < 13 {
 		depth++
-		// var count int//
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 2) {
@@ -139,18 +137,12 @@ func tableG2(tables *tables) {
 
 				if tables.G2[idxCP][idxEP] == 0 && !(idxCP == 0 && idxEP == 0) {
 					tables.G2[idxCP][idxEP] = depth
-					// count++//
-					// cumulative++//
 					children = append(children, *child)
 				}
-				// children = append(children, *child)
 			}
 		}
 		parents = children
 		fmt.Printf(".")
-		// fmt.Printf("depth: %v\n", depth)//
-		// fmt.Printf("count: %v\n", count)//
-		// fmt.Printf("cumulative: %v\n\n", cumulative)//
 	}
 }
 

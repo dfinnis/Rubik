@@ -123,7 +123,6 @@ func cPtableIndex(tables *tables) {
 	}
 }
 
-
 func tableG3(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G3")
 	var parents []cepo

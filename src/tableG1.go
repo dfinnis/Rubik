@@ -153,7 +153,7 @@ func tableG1(tables *tables) {
 					// fmt.Printf("child.move2: %v\n", child.move2)//
 					// fmt.Printf("OH MYYYY!!!\n")//
 					// dumpCube(child)
-				} else if !(idxEP == 0 && idxCO == 0) {//
+				// } else if !(idxEP == 0 && idxCO == 0) {//
 					// fmt.Printf("idxCO: %v\n", idxCO)//
 					// fmt.Printf("idxEP: %v\n", idxEP)//
 					// fmt.Printf("tables.G1[idxEP][idxCO]: %v\n", tables.G1[idxEP][idxCO])//
@@ -163,9 +163,9 @@ func tableG1(tables *tables) {
 		}
 		parents = children
 		fmt.Printf(".")
-		fmt.Printf("depth: %v\n", depth)//
-		fmt.Printf("count: %v\n", count)//
-		fmt.Printf("cumulative: %v\n\n", cumulative)//
+		// fmt.Printf("depth: %v\n", depth)//
+		// fmt.Printf("count: %v\n", count)//
+		// fmt.Printf("cumulative: %v\n\n", cumulative)//
 		// fmt.Printf("len(parents): %v\n", len(parents))//
 	}
 
