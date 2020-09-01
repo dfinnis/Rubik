@@ -40,8 +40,8 @@ func printUsage() {
 	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-r [length]] [-v] [-g] [-h]\n\n")
 	fmt.Printf("    mix should be valid sequence string e.g.\n")
 	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
-	fmt.Printf("    or mix \"$(< mix/superflip.txt)\" reads a file\n")
-	fmt.Printf("    or mix \"-r\" or \"--random\" mixes randomly\n\n")
+	fmt.Printf("    or mix \"filepath\" e.g. \"mix/superflip.txt\" reads a file\n")
+	fmt.Printf("    or mix \"-r [len]\" or \"--random [len]\" mixes randomly\n\n")
 	fmt.Printf("    [-v] (--visualizer) show visual of mix and solution\n")
 	fmt.Printf("    [-g] (--group) show solution breakdown by subgroup\n")
 	fmt.Printf("    [-h] (--help) show usage\n\n")
@@ -100,7 +100,7 @@ func makeMix(mix string, length int) string {
 	if err != nil {
 		errorExit("failed to read mix file")
 	}
-	if len(file) > 100 {
+	if len(file) > 200 {
 		errorExit("file too long")
 	}
 	filepath := mix

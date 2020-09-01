@@ -20,7 +20,7 @@ echo "Mix\t\t\tSolved\t\tHTM\tsolve time\x1b[0m"
 random=0
 while [ $random -lt 10 ]
 do
-	cmd="./Rubik \"$(< mix/random$random.txt)\""
+	cmd="./Rubik mix/random$random.txt"
 	output=$(eval "$cmd")
 	incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 	time=$(echo "$output" | tail -n 1)
@@ -270,7 +270,7 @@ echo
 #### -- UNIT TESTS -- ####
 echo "\x1b[1m#### ---- Unit tests ---- ####\n\x1b[0m"
 #### -- test 1 -- ####
-cmd="./Rubik \"$(< mix/subject.txt)\""
+cmd="./Rubik mix/subject.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -358,7 +358,7 @@ fi
 ((count+=1))
 
 #### -- test 2 -- ####
-cmd="./Rubik \"$(< mix/subject2.txt)\""
+cmd="./Rubik mix/subject2.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -446,7 +446,7 @@ fi
 ((count+=1))
 
 #### -- test 3 -- ####
-cmd="./Rubik \"$(< mix/all.txt)\""
+cmd="./Rubik mix/all.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -534,7 +534,7 @@ fi
 ((count+=1))
 
 #### -- test 4 -- ####
-cmd="./Rubik \"$(< mix/only0.txt)\""
+cmd="./Rubik mix/only0.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -622,7 +622,7 @@ fi
 ((count+=1))
 
 #### -- test 5 -- ####
-cmd="./Rubik \"$(< mix/only1.txt)\""
+cmd="./Rubik mix/only1.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -710,7 +710,7 @@ fi
 ((count+=1))
 
 #### -- test 6 -- ####
-cmd="./Rubik \"$(< mix/only2.txt)\""
+cmd="./Rubik mix/only2.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -798,7 +798,7 @@ fi
 ((count+=1))
 
 #### -- test 7 -- ####
-cmd="./Rubik \"$(< mix/spacing.txt)\""
+cmd="./Rubik mix/spacing.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -886,7 +886,7 @@ fi
 ((count+=1))
 
 #### -- test 8 -- ####
-cmd="./Rubik \"$(< mix/F1.txt)\""
+cmd="./Rubik mix/F1.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -974,7 +974,7 @@ fi
 ((count+=1))
 
 #### -- test 9 -- ####
-cmd="./Rubik \"$(< mix/F2.txt)\""
+cmd="./Rubik mix/F2.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1063,7 +1063,7 @@ fi
 
 
 #### -- test 10 -- ####
-cmd="./Rubik \"$(< mix/F3.txt)\""
+cmd="./Rubik mix/F3.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1152,7 +1152,7 @@ fi
 
 
 #### -- test 11 -- ####
-cmd="./Rubik \"$(< mix/F4.txt)\""
+cmd="./Rubik mix/F4.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1241,7 +1241,7 @@ fi
 
 
 #### -- test 12 -- ####
-cmd="./Rubik \"$(< mix/F5.txt)\""
+cmd="./Rubik mix/F5.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1329,7 +1329,7 @@ fi
 ((count+=1))
 
 #### -- test 13 -- ####
-cmd="./Rubik \"$(< mix/U_F.txt)\""
+cmd="./Rubik mix/U_F.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1417,7 +1417,7 @@ fi
 ((count+=1))
 
 #### -- test 14 -- ####
-cmd="./Rubik \"$(< mix/empty.txt)\""
+cmd="./Rubik mix/empty.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1505,7 +1505,7 @@ fi
 ((count+=1))
 
 #### -- test 15 -- ####
-cmd="./Rubik \"$(< mix/matsValk555WR.txt)\""
+cmd="./Rubik mix/matsValk555WR.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1593,7 +1593,7 @@ fi
 ((count+=1))
 
 #### -- test 16 -- ####
-cmd="./Rubik \"$(< mix/hard.txt)\""
+cmd="./Rubik mix/hard.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
@@ -1681,7 +1681,7 @@ fi
 ((count+=1))
 
 #### -- test 17 -- ####
-cmd="./Rubik \"$(< mix/superflip.txt)\""
+cmd="./Rubik mix/superflip.txt"
 output=$(eval "$cmd")
 incorrect=$(echo "$output" | tail -n 7 | head -n 1 )
 time=$(echo "$output" | tail -n 1)
