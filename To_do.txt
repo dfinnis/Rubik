@@ -1,5 +1,4 @@
 redo tablesG1
-test.sh HTM shows 1 when actually 0
 compress tableG3 by half, omitting empty
 
 better than 23.8 seconds
