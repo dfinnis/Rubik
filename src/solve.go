@@ -6,10 +6,12 @@ import (
 	"time"
 )
 
+// halfTurnMetric returns wc -w for given solution
 func halfTurnMetric(sequence string) int {
 	return len(strings.Fields(sequence))
 }
 
+// isSubgroup returns subgroup for given cube
 func isSubgroup(cube *cepo) int8 {
 	for i := range cube.eO { // edges not oriented -> 0
 		if cube.eO[i] != 0 {
@@ -61,6 +63,7 @@ func isSubgroup(cube *cepo) int8 {
 	return 4
 }
 
+// inPath returns true if given cube is already in the search path
 func inPath(node *cepo, path []cepo) bool {
 	for idx := range path {
 		var different bool
@@ -104,6 +107,7 @@ func inPath(node *cepo, path []cepo) bool {
 	return false
 }
 
+// heuristic returns pruning table depth for given cube and subgroup
 func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
 	if subgroup == 0 {
 		return tables.G0[binaryToDecimal(cube.eO)]
@@ -118,6 +122,7 @@ func heuristic(cube *cepo, subgroup int8, tables *tables) uint8 {
 	}
 }
 
+// search recursively follows the pruning table heuristic until solved
 func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, tables *tables) (uint8, string) {
 	node := path[len(path) - 1]
 	f := g + heuristic(&node, subgroup, tables)
@@ -151,6 +156,7 @@ func search(path []cepo, g uint8, bound uint8, subgroup int8, depth uint8, table
 	return min, ""
 }
 
+// idaStar searches for a solution to the subgroup
 func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 	bound := heuristic(cube, subgroup, tables)
 	var path []cepo
@@ -164,7 +170,9 @@ func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 	}
 }
 
+// solve calls idaStar search for each subgroup
 func solve(cube *cepo, tables *tables, group bool) string {
+	fmt.Printf("\nSolving")
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		cube.move = ""
@@ -174,10 +182,12 @@ func solve(cube *cepo, tables *tables, group bool) string {
 		if group {
 			elapsed := time.Since(start)
 			// dumpCube(cube)//
-			fmt.Printf("\n%vSubgroup: %v%v\n", "\x1B[1m", subgroup, "\x1B[0m")
+			fmt.Printf("\n%vSubgroup: %v%v\n", Bright, subgroup, Reset)
 			fmt.Printf("Solution: %v\n", solutionPart)
 			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))
 			fmt.Printf("Time:     %v\n", elapsed)
+		} else {
+			fmt.Printf(".")
 		}
 		spin(solutionPart, cube)
 		solution += solutionPart

@@ -1,5 +1,6 @@
 package rubik
 
+// listMoves returns all possible moves for given cube in subgroup
 func listMoves(cube *cepo, subgroup int8) []string {
 	moves := []string{}
 	if subgroup == 0 {

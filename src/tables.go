@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 )
 
+// tables contains pruning tables, and index converters, for all 4 subgroups
 type tables struct {
 	G0 [2048]uint8
 	G1ePindex [4096]int16
@@ -15,6 +16,7 @@ type tables struct {
 	G3cPindex [40320]uint8
 }
 
+// newNode copies an existing cube
 func newNode(parent *cepo, move string) *cepo {
 	return &cepo{
 		cP:   	parent.cP,
@@ -42,6 +44,7 @@ func readFile(filepath string) []byte {
 	return file
 }
 
+// makeTables initializes tables, and creates or reads tables from file
 func makeTables() *tables {
 	tables := &tables{}
 	makeTableG0(tables)

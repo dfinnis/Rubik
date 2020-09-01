@@ -129,10 +129,8 @@ func tableG3(tables *tables) {
 	var parents []cepo
 	parents = append(parents, *initCube())
 	var depth uint8
-	// var cumulative int//
 	for depth < 15  {
 		depth++
-		// var count int//
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 3) {
@@ -142,17 +140,12 @@ func tableG3(tables *tables) {
 				idxEP := ePindexConverter(child)
 				if tables.G3[idxCP][idxEP[0]][idxEP[1]][idxEP[2]] == 0 {
 					tables.G3[idxCP][idxEP[0]][idxEP[1]][idxEP[2]] = depth
-					// count++//
-					// cumulative++//
 					children = append(children, *child)
 				}
 			}
 		}
 		parents = children
 		fmt.Printf(".")
-		// fmt.Printf("depth: %v\n", depth)//
-		// fmt.Printf("count: %v\n", count)//
-		// fmt.Printf("cumulative: %v\n\n", cumulative)//
 	}
 }
 

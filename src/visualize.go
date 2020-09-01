@@ -37,9 +37,6 @@ func runGraphic(mix string, solution string, visualizer bool) {
 		robotgo.Sleep(1)
 		robotgo.KeyTap("enter")
 		robotgo.Sleep(5)
-		// // orientate cube to default. white up, green front
-		// robotgo.KeyTap("up")	// comment for demo
-		// robotgo.KeyTap("left")	// comment for demo
 
 		robotgo.TypeStr(formatNotation(mix))
 		spinCube("right")

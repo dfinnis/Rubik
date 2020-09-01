@@ -2,7 +2,6 @@ package rubik
 
 import (
 	"strings"
-	// "fmt"
 )
 
 func modulo3(n int8) int8 {
@@ -133,6 +132,7 @@ func spinR(cube *cepo) {
 	cube.eP[3] = tmp
 }
 
+// move2nul returns move before last if last move opposite face, else nul
 func move2nul(move string, move2 string) string {
 	if move != "" && move2 != "" {
 		if move[0] == 'U' && move2[0] != 'D' ||
@@ -147,17 +147,17 @@ func move2nul(move string, move2 string) string {
 	return move2
 }
 
+// updateMove records the last move, avoiding repetition with move2nul
 func updateMove(cube *cepo, move string) {
 	cube.move2 = cube.move
 	cube.move = move
 	cube.move2 = move2nul(cube.move, cube.move2)
 }
 
+// spin executes given sequence of spins on cube
 func spin(mix string, cube *cepo) {
 	sequence := strings.Fields(mix)
-	// fmt.Printf("\nsequence: %v, len: %d\n", sequence, len(sequence))	//	debug tool
 	for spin := 0; spin < len(sequence); spin++ {
-		// fmt.Printf("\nspin %v: %v\n", spin, sequence[spin])	//	debug tool
 		if sequence[spin] == "U" {
 			spinU(cube)
 			updateMove(cube, "U")
