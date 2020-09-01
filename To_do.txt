@@ -10,6 +10,7 @@ This will also be acceptable: 23.196 seconds
 1. -v --visualizer
 2. -r --random [length] mix generator
 3. test.sh
-4. example mixes inc. superflip - handle filepath??
+4. unit tests, example mixes inc. superflip - handle filepath??
 5. -g --group
-6. human solver algo?
+6. integrated table maker
+7. human solver algo?
