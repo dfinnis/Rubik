@@ -36,9 +36,9 @@ func index2cO(index int) [8]int8 {
 	return or8
 }
 
-func eP2Binary(cube *cepo) [12]bool {
-	var binary [12]bool
-	for i := 0; i < 12; i++ {
+func eP2Binary(cube *cepo) [11]bool {
+	var binary [11]bool
+	for i := 0; i < 11; i++ {
 		if cube.eP[i] > 7 {
 			binary[i] = true
 		}
@@ -46,11 +46,11 @@ func eP2Binary(cube *cepo) [12]bool {
 	return binary
 }
 
-func binaryBool2Decimal(binary [12]bool) int {
+func binaryBool2Decimal(binary [11]bool) int {
 	var decimal int
-	for i := 0; i < 12; i++ {
+	for i := 0; i < 11; i++ {
 		if binary[i] == true {
-			decimal += int(math.Pow(2, float64(11-i)))
+			decimal += int(math.Pow(2, float64(10-i)))
 		}
 	}
 	return decimal
@@ -59,11 +59,10 @@ func binaryBool2Decimal(binary [12]bool) int {
 func eP2index(cube *cepo, tables *tables) int16 {
 	ePbinary := eP2Binary(cube)
 	idxEP := binaryBool2Decimal(ePbinary)
-	// fmt.Printf("idxEP pre-convert: %v\n", idxEP)//
-	// fmt.Printf("tables.G1ePindex[idxEP]: %v\n", tables.G1ePindex[idxEP])//
 	return tables.G1ePindex[idxEP]
 }
 
+// debug tool
 func index2eP(index int16, tables *tables) [12]bool {
 	var eP [12]bool
 	for i, entry := range tables.G1ePindex {
@@ -80,7 +79,7 @@ func index2eP(index int16, tables *tables) [12]bool {
 func tableG1IdxConv(tables *tables) { // make file/read from file?
 	var converted int16// = 1
 	var idx int64
-	for idx = 0; idx <4096; idx++ {
+	for idx = 0; idx < 2048; idx++ {
 		var count uint8
 		binary := strconv.FormatInt(idx, 2)
 		for _, bit := range binary {
@@ -88,7 +87,7 @@ func tableG1IdxConv(tables *tables) { // make file/read from file?
 				count++
 			}
 		}
-		if count == 4 {
+		if count == 4 || count == 3 {
 				tables.G1ePindex[idx] = converted
 				converted++
 		}
@@ -141,6 +140,9 @@ func tableG1(tables *tables) {
 				idxCO := cO2index(child.cO)
 				idxEP := eP2index(child, tables)
 
+				// if tables.G1[idxEP][idxCO] != 0 {
+				// 	fmt.Printf("tables.G1[%v][%v]: %v\n", idxEP, idxCO, tables.G1[idxEP][idxCO])//
+				// }
 				if tables.G1[idxEP][idxCO] == 0 && !(idxEP == 0 && idxCO == 0) {
 					tables.G1[idxEP][idxCO] = depth
 					// children = append(children, *child)//!!!!!!!
@@ -154,9 +156,7 @@ func tableG1(tables *tables) {
 					// fmt.Printf("OH MYYYY!!!\n")//
 					// dumpCube(child)
 				// } else if !(idxEP == 0 && idxCO == 0) {//
-					// fmt.Printf("idxCO: %v\n", idxCO)//
-					// fmt.Printf("idxEP: %v\n", idxEP)//
-					// fmt.Printf("tables.G1[idxEP][idxCO]: %v\n", tables.G1[idxEP][idxCO])//
+					// fmt.Printf("tables.G1[%v][%v]: %v\n", idxEP, idxCO, tables.G1[idxEP][idxCO])//
 				}
 				children = append(children, *child)//
 			}
