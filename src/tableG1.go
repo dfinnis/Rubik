@@ -110,41 +110,23 @@ func tableG1(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G1")
 	var parents []cepo
 	parents = append(parents, *initCube())
-	var cumulative int//
+	// var cumulative int//
 	var depth uint8
-	for depth < 8 {// 9 !!!!
+	for depth < 8 {// 9
 		depth++
-		var count int//
+		// var count int//
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 1) {
-				// fmt.Printf("\nmove %v: %v\n", i, move)//
 				child := newNode(&parent, move)
 				spin(move, child)
-				// dumpCube(child)//
 
 				idxCO := cO2index(child.cO)
 				idxEP := eP2index(child, tables)
-
-				// if tables.G1[idxEP][idxCO] != 0 {
-				// 	fmt.Printf("tables.G1[%v][%v]: %v\n", idxEP, idxCO, tables.G1[idxEP][idxCO])//
-				// }
 				if tables.G1[idxEP][idxCO] == 0 && !(idxEP == 0 && idxCO == 0) {
 					tables.G1[idxEP][idxCO] = depth
-					// if depth < 2 {
-					// 	children = append(children, *child)//!!!!!!!
-					// }
-					count++//
-					cumulative++//
-				// } else if tables.G1[idxEP][idxCO] != 0 {
-				// // } else if (idxEP == 0 && idxCO == 0) && isSolved(child) == false {//
-				// 	children = append(children, *child)
-					// fmt.Printf("child.move: %v\n", child.move)//
-					// fmt.Printf("child.move2: %v\n", child.move2)//
-					// fmt.Printf("OH MYYYY!!!\n")//
-					// dumpCube(child)
-				// } else if !(idxEP == 0 && idxCO == 0) {//
-					// fmt.Printf("tables.G1[%v][%v]: %v\n", idxEP, idxCO, tables.G1[idxEP][idxCO])//
+					// count++//
+					// cumulative++//
 				}
 				children = append(children, *child)//
 			}
@@ -157,20 +139,19 @@ func tableG1(tables *tables) {
 		// fmt.Printf("len(parents): %v\n\n", len(parents))//
 	}
 
-	var count int//
+	// var count int//
 	for ePidx := 0; ePidx < 495; ePidx++ {
 		for cOidx := 0; cOidx < 2187; cOidx++ {
 			if tables.G1[ePidx][cOidx] == 0 && !(ePidx == 0 && cOidx == 0) {
-				tables.G1[ePidx][cOidx] = 9 // 10 !!!??
-				count++//
-				cumulative++//
+				tables.G1[ePidx][cOidx] = 9 // 10
+				// count++//
+				// cumulative++//
 			}
 		}
 	}
 	// fmt.Printf("depth: %v\n", 9)//
 	// fmt.Printf("count: %v\n", count)//
 	// fmt.Printf("cumulative: %v\n\n", cumulative)//
-	// fmt.Printf("\n###########################################################################\n")//
 }
 
 func makeTableG1(tables *tables) {
