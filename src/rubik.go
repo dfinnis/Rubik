@@ -13,7 +13,7 @@ type cepo struct {
 	cP 		[8]int8		// cornerPermutation	(0-7)
 	cO 		[8]int8		// cornerOrientation	(0-2)	0 = good, 1 = twisted clockwise, 2 = twisted anti-clockwise
 	eP 		[12]int8	// edgePermutation		(0-11)
-	eO 		[12]int8	// edgeOrientation		(0-1)	0 = good, 1 = bad // bool?
+	eO 		[12]int8	// edgeOrientation		(0-1)	0 = good, 1 = bad
 	move	string		// last move
 	move2	string		// move before last
 }
@@ -126,26 +126,6 @@ func initCube() *cepo {
 		cepo.eP[i] = int8(i)
 	}
 	return cepo
-}
-
-// dumpCube prints cube state
-func dumpCube(cube *cepo) {
-	fmt.Printf("\n\n#### -- CUBE -- ####\n")
-	for i, corner := range cube.cP {
-		fmt.Printf("Corner Permutation %v:\t%v\n", i, corner)//
-	}
-	fmt.Println()//
-	for i, corner := range cube.cO {
-		fmt.Printf("Corner Orientation %v:\t%v\n", i, corner)//
-	}
-	fmt.Println()//
-	for i, edge := range cube.eP {
-		fmt.Printf("Edge Permutation %v:\t%v\n", i, edge)//
-	}
-	fmt.Println()//
-	for i, edge := range cube.eO {
-		fmt.Printf("Edge Orientation %v:\t%v\n", i, edge)//
-	}
 }
 
 // isSolved returns true if given cube is solved

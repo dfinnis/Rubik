@@ -63,7 +63,7 @@ func eP2index8(cube *cepo, tables *tables) uint8 {
 	return tables.G2ePindex[idxEP]
 }
 
-func tableG2IdxConv(tables *tables) { // make file/read from file?
+func tableG2IdxConv(tables *tables) {
 	var converted uint8
 	var idx int64
 	for idx = 0; idx <255; idx++ {

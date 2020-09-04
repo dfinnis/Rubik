@@ -37,7 +37,6 @@ func runGraphic(mix string, solution string, visualizer bool) {
 		robotgo.Sleep(1)
 		robotgo.KeyTap("enter")
 		robotgo.Sleep(5)
-
 		robotgo.TypeStr(formatNotation(mix))
 		spinCube("right")
 		robotgo.TypeStr(formatNotation(solution))

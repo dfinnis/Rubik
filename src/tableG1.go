@@ -16,25 +16,37 @@ func cO2index(cO [8]int8) int {
 	return index
 }
 
-// index2cO reverses cO2index, accepting 0-2186 returning [00000000]-[22222221] // debug tool
-func index2cO(index int) [8]int8 {
-	var s int
-	var or [8]int
-	for i := 6; i >= 0; i-- {
-		or[i] = index % 3
-		s = s - or[i]
-		if s < 0 {
-			s = s + 3
-		}
-		index = (index - or[i]) / 3
-	}
-	or[7] = s
-	var or8 [8]int8
-	for i := range or8 {
-		or8[i] = int8(or[i])
-	}
-	return or8
-}
+// // index2cO reverses cO2index, accepting 0-2186 returning [00000000]-[22222221] // debug tool
+// func index2cO(index int) [8]int8 {
+// 	var s int
+// 	var or [8]int
+// 	for i := 6; i >= 0; i-- {
+// 		or[i] = index % 3
+// 		s = s - or[i]
+// 		if s < 0 {
+// 			s = s + 3
+// 		}
+// 		index = (index - or[i]) / 3
+// 	}
+// 	or[7] = s
+// 	var or8 [8]int8
+// 	for i := range or8 {
+// 		or8[i] = int8(or[i])
+// 	}
+// 	return or8
+// }
+
+// func testcO2index() {
+// 	for i := 0; i <= 2186; i++{
+// 		cO := index2cO(i)
+// 		index := cO2index(cO)
+// 		fmt.Printf("cO: %v: %v\n", i, cO)
+// 		fmt.Printf("index: %v\n", index)
+// 		if index != i {
+// 			fmt.Printf("Error cO2index function\n")
+// 		}
+// 	}
+// }
 
 func eP2Binary(cube *cepo) [11]bool {
 	var binary [11]bool
@@ -76,8 +88,8 @@ func index2eP(index int16, tables *tables) [12]bool {
 	return eP
 }
 
-func tableG1IdxConv(tables *tables) { // make file/read from file?
-	var converted int16// = 1
+func tableG1IdxConv(tables *tables) {
+	var converted int16
 	var idx int64
 	for idx = 0; idx < 2048; idx++ {
 		var count uint8
@@ -92,38 +104,12 @@ func tableG1IdxConv(tables *tables) { // make file/read from file?
 				converted++
 		}
 	}
-	// fmt.Printf("converted: %v\n", converted)//
 }
-
-// func initial24cubes(tables *tables) []cepo {
-// 	var initial []cepo
-// 	var parents []cepo
-// 	initial = append(initial, *initCube())
-// 	parents = append(parents, *initCube())
-// 	for depth := 0; depth < 3; depth++ {
-// 		var children []cepo
-// 		for _, parent := range parents {
-// 			for _, move := range listMoves(&parent, 3) {
-// 				child := newNode(&parent, move)
-// 				spin(move, child)
-// 				if /*isSubgroup(child) == 2 && */eP2index(child, tables) == 0 && cO2index(child) == 0 && inPath(child, initial) == false {
-// 					initial = append(initial, *child)
-// 					// dumpCube(child)//
-// 				}
-// 				children = append(children, *child)
-// 			}
-// 		}
-// 		parents = children
-// 	}
-// 	fmt.Printf("len(initial): %v\n", len(initial))
-// 	return initial
-// }
 
 func tableG1(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G1")
 	var parents []cepo
 	parents = append(parents, *initCube())
-	// parents = initial24cubes(tables)
 	var cumulative int//
 	var depth uint8
 	for depth < 8 {// 9 !!!!
@@ -145,7 +131,9 @@ func tableG1(tables *tables) {
 				// }
 				if tables.G1[idxEP][idxCO] == 0 && !(idxEP == 0 && idxCO == 0) {
 					tables.G1[idxEP][idxCO] = depth
-					// children = append(children, *child)//!!!!!!!
+					// if depth < 2 {
+					// 	children = append(children, *child)//!!!!!!!
+					// }
 					count++//
 					cumulative++//
 				// } else if tables.G1[idxEP][idxCO] != 0 {
@@ -165,8 +153,8 @@ func tableG1(tables *tables) {
 		fmt.Printf(".")
 		// fmt.Printf("depth: %v\n", depth)//
 		// fmt.Printf("count: %v\n", count)//
-		// fmt.Printf("cumulative: %v\n\n", cumulative)//
-		// fmt.Printf("len(parents): %v\n", len(parents))//
+		// fmt.Printf("cumulative: %v\n", cumulative)//
+		// fmt.Printf("len(parents): %v\n\n", len(parents))//
 	}
 
 	var count int//
@@ -187,38 +175,7 @@ func tableG1(tables *tables) {
 
 func makeTableG1(tables *tables) {
 	tableG1IdxConv(tables)
-
-	// for i := 0; i <= 2186; i++{
-	// 	cO := index2cO(i)
-	// 	fmt.Printf("cO %v: %v\n", i, cO)//
-	// 	index := cO2index(cO)
-	// 	if index != i {
-	// 		fmt.Printf("WTF!!!!!!!!!!!!!!!!!!!!!\n")//
-	// 	}
-	// 	fmt.Printf("index: %v\n", index)//
-	// }
-
-	// cube := initCube()//
-	// // dumpCube(cube)//
-	// spin("R L2 U2 F B U2 D2 F B", cube)
-	// dumpCube(cube)//
-	// fmt.Println()//
-	// // binary := eP2Binary(cube)
-	// var binary [12]bool
-	// binary[0] = true
-	// binary[1] = true
-	// binary[2] = true
-	// binary[6] = true
-	// fmt.Printf("binary: %v\n", binary)//
-	// idxEPpre := binaryBool2Decimal(binary)
-	// fmt.Printf("idxEP pre-convert: %v\n", idxEPpre)//
-	// fmt.Printf("tables.G1ePindex[idxEP]: %v\n", tables.G1ePindex[idxEPpre])//
-
-	// idxEP := eP2index(cube, tables)//
-	// fmt.Printf("idxEP: %v\n", idxEP)//
-	// index2eP(idxEP, tables)
-	// // fmt.Printf("index2eP(idxEP): %v\n", index2eP(idxEP, tables))//
-
+	// testcO2index()
 	if _, err := os.Stat("tables/G1.txt"); os.IsNotExist(err) {
 		tableG1(tables)
 		file := createFile("tables/G1.txt")
