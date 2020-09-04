@@ -1,7 +1,7 @@
 package rubik
 
 import (
-	"fmt"//
+	"fmt"
 	"strings"
 	"time"
 )
@@ -121,28 +121,27 @@ func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 // solve calls idaStar search for each subgroup
 func solve(cube *cepo, tables *tables, group bool) string {
 	fmt.Printf("\nSolving")
+	if group {
+		dumpCube(cube)
+	}
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
 		cube.move = ""
 		cube.move2 = ""
 		start := time.Now()
 		solutionPart := idaStar(cube, subgroup, tables)
+		spin(solutionPart, cube)
+		solution += solutionPart
 		if group {
 			elapsed := time.Since(start)
-			dumpCube(cube)//
 			fmt.Printf("\n%vSubgroup: %v%v\n", Bright, subgroup, Reset)
 			fmt.Printf("Solution: %v\n", solutionPart)
 			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))
 			fmt.Printf("Time:     %v\n", elapsed)
+			dumpCube(cube)
 		} else {
 			fmt.Printf(".")
 		}
-		spin(solutionPart, cube)
-		solution += solutionPart
-	}
-	if group {
-		dumpCube(cube)//
-		fmt.Println()
 	}
 	solution = trim(solution)
 	return solution
