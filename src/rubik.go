@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"time"
 	"os"
-	"io/ioutil"
 	"strconv"
-	"strings"
 )
 
 type cepo struct {
@@ -16,27 +14,6 @@ type cepo struct {
 	eO 		[12]int8	// edgeOrientation		(0-1)	0 = good, 1 = bad
 	move	string		// last move
 	move2	string		// move before last
-}
-
-const Reset		= "\x1B[0m"
-const Bright	= "\x1B[1m"
-const Green		= "\x1B[32m"
-
-func errorExit(message string) {
-	fmt.Printf("Error: %s\n", message)
-	printUsage()
-}
-
-func printUsage() {
-	fmt.Printf("\nUsage:\tgo build; ./Rubik \"mix\" [-r [length]] [-v] [-g] [-h]\n\n")
-	fmt.Printf("    mix should be valid sequence string e.g.\n")
-	fmt.Printf("    \"U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2\"\n")
-	fmt.Printf("    or mix \"filepath\" e.g. \"mix/superflip.txt\" reads a file\n")
-	fmt.Printf("    or mix \"-r [len]\" or \"--random [len]\" mixes randomly\n\n")
-	fmt.Printf("    [-v] (--visualizer) show visual of mix and solution\n")
-	fmt.Printf("    [-g] (--group) show solution breakdown by subgroup\n")
-	fmt.Printf("    [-h] (--help) show usage\n\n")
-	os.Exit(1)
 }
 
 // parseArg parses arguments, returns mix and flags
@@ -76,46 +53,6 @@ func parseArg() (string, bool, int, bool) {
 	return mix, visualizer, random, group
 }
 
-// mixIsValid returns true if mix only contains valid moves
-func mixIsValid(mix string) (valid bool) {
-	allMoves := listMoves(initCube(), 0)
-	mixList := strings.Fields(mix)
-	for _, mixMove := range mixList {
-		var found bool
-		for _, move := range allMoves {
-			if move == mixMove {
-				found = true
-				break
-			}
-		}
-		if !found {
-			return false
-		}
-	}
-	return true
-}
-
-// makeMix checks mix validity, creates random mix, or reads mix file
-func makeMix(mix string, length int) string {
-	if mixIsValid(mix) {
-		return mix
-	}
-	if mix == "-r" || mix == "--random" {
-		return randomMix(length)
-	}
-	file, err := ioutil.ReadFile(mix)
-	if err != nil {
-		errorExit("failed to read mix file")
-	}
-	if len(file) > 200 {
-		errorExit("file too long")
-	}
-	filepath := mix
-	mix = string(file)
-	fmt.Printf("\nMix read from filepath \"%v\":\n%v\n\n", filepath, mix)
-	return mix
-}
-
 // initCube returns a new solved cube
 func initCube() *cepo {
 	cepo := &cepo{}
@@ -126,44 +63,6 @@ func initCube() *cepo {
 		cepo.eP[i] = int8(i)
 	}
 	return cepo
-}
-
-// isSolved returns true if given cube is solved
-func isSolved(cube *cepo) bool {
-	for i := range cube.cP {
-		if cube.cP[i] != int8(i) {
-			return false
-		}
-	}
-	for i := range cube.cO {
-		if cube.cO[i] != 0 {
-			return false
-		}
-	}
-	for i := range cube.eP {
-		if cube.eP[i] != int8(i) {
-			return false
-		}
-	}
-	for i := range cube.eO {
-		if cube.eO[i] != 0 {
-			return false
-		}
-	}
-	return true
-}
-
-// printSolution prints final output
-func printSolution(solution string, elapsed time.Duration, cube *cepo) {
-	if isSolved(cube) == false {
-		// fmt.Printf("%v\nError: Solution Incorrect :(%v\n", Red, Reset)
-		fmt.Printf("\nError: Solution Incorrect :(\n")
-	} else {
-		fmt.Printf("%v\nSolution Correct, cube solved! :)\n%v", Green, Reset)//
-	}
-	fmt.Printf("\nHalf Turn Metric: %v\n", halfTurnMetric(solution))
-	fmt.Printf("\n%vSolution:\n%v%v\n\n", Bright, Reset, solution)
-	fmt.Printf("Solve time:\n%v\n\n", elapsed)
 }
 
 // RunRubik is the main and only exposed function

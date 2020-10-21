@@ -36,6 +36,7 @@ func cO2index(cO [8]int8) int {
 // 	return or8
 // }
 
+// // debug tool
 // func testcO2index() {
 // 	for i := 0; i <= 2186; i++{
 // 		cO := index2cO(i)
@@ -74,19 +75,19 @@ func eP2index(cube *cepo, tables *tables) int16 {
 	return tables.G1ePindex[idxEP]
 }
 
-// debug tool
-func index2eP(index int16, tables *tables) [12]bool {
-	var eP [12]bool
-	for i, entry := range tables.G1ePindex {
-		if entry == index && entry != 0 {
-			fmt.Printf("entry: %v\n", entry)
-			fmt.Printf("i: %v\n", i)
-			binary := strconv.FormatInt(int64(i), 2)
-			fmt.Printf("binary: %v\n", binary)
-		}
-	}
-	return eP
-}
+// // debug tool
+// func index2eP(index int16, tables *tables) [12]bool {
+// 	var eP [12]bool
+// 	for i, entry := range tables.G1ePindex {
+// 		if entry == index && entry != 0 {
+// 			fmt.Printf("entry: %v\n", entry)
+// 			fmt.Printf("i: %v\n", i)
+// 			binary := strconv.FormatInt(int64(i), 2)
+// 			fmt.Printf("binary: %v\n", binary)
+// 		}
+// 	}
+// 	return eP
+// }
 
 func tableG1IdxConv(tables *tables) {
 	var converted int16
@@ -110,11 +111,9 @@ func tableG1(tables *tables) {
 	fmt.Printf("\nGenerating pruning table for G1")
 	var parents []cepo
 	parents = append(parents, *initCube())
-	// var cumulative int//
 	var depth uint8
-	for depth < 8 {// 9
+	for depth < 8 {
 		depth++
-		// var count int//
 		var children []cepo
 		for _, parent := range parents {
 			for _, move := range listMoves(&parent, 1) {
@@ -125,38 +124,24 @@ func tableG1(tables *tables) {
 				idxEP := eP2index(child, tables)
 				if tables.G1[idxEP][idxCO] == 0 && !(idxEP == 0 && idxCO == 0) {
 					tables.G1[idxEP][idxCO] = depth
-					// count++//
-					// cumulative++//
 				}
-				children = append(children, *child)//
+				children = append(children, *child)
 			}
 		}
 		parents = children
 		fmt.Printf(".")
-		// fmt.Printf("depth: %v\n", depth)//
-		// fmt.Printf("count: %v\n", count)//
-		// fmt.Printf("cumulative: %v\n", cumulative)//
-		// fmt.Printf("len(parents): %v\n\n", len(parents))//
 	}
-
-	// var count int//
 	for ePidx := 0; ePidx < 495; ePidx++ {
 		for cOidx := 0; cOidx < 2187; cOidx++ {
 			if tables.G1[ePidx][cOidx] == 0 && !(ePidx == 0 && cOidx == 0) {
-				tables.G1[ePidx][cOidx] = 9 // 10
-				// count++//
-				// cumulative++//
+				tables.G1[ePidx][cOidx] = 9
 			}
 		}
 	}
-	// fmt.Printf("depth: %v\n", 9)//
-	// fmt.Printf("count: %v\n", count)//
-	// fmt.Printf("cumulative: %v\n\n", cumulative)//
 }
 
 func makeTableG1(tables *tables) {
 	tableG1IdxConv(tables)
-	// testcO2index()
 	if _, err := os.Stat("tables/G1.txt"); os.IsNotExist(err) {
 		tableG1(tables)
 		file := createFile("tables/G1.txt")
