@@ -7,6 +7,7 @@ import (
 	"strconv"
 )
 
+// cepo struct describes a cube state. Corner, Edge, Permutation, Orientation
 type cepo struct {
 	cP 		[8]int8		// cornerPermutation	(0-7)
 	cO 		[8]int8		// cornerOrientation	(0-2)	0 = good, 1 = twisted clockwise, 2 = twisted anti-clockwise
