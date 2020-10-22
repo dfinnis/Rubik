@@ -8,10 +8,10 @@ import (
 // tables contains pruning tables, and index converters, for all 4 subgroups
 type tables struct {
 	G0 [2048]uint8
-	G1ePindex [4096]int16
 	G1 [495][2187]uint8
-	G2ePindex [255]uint8
+	G1ePindex [4096]int16
 	G2 [40320][70]uint8
+	G2ePindex [255]uint8
 	G3 [96][24][24][24]uint8
 	G3cPindex [40320]uint8
 }
