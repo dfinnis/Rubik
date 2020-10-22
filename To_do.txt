@@ -1,8 +1,0 @@
-#### BONUS ####
-1. -v --visualizer
-2. -r --random [length] mix generator
-3. test.sh
-4. unit tests, example mixes inc. superflip. handle filepath
-5. -g --group
-6. integrated table maker
-7. -h --help usage
