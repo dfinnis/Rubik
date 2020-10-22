@@ -10,31 +10,6 @@ const Reset		= "\x1B[0m"
 const Bright	= "\x1B[1m"
 const Green		= "\x1B[32m"
 
-// isSolved returns true if given cube is solved
-func isSolved(cube *cepo) bool {
-	for i := range cube.cP {
-		if cube.cP[i] != int8(i) {
-			return false
-		}
-	}
-	for i := range cube.cO {
-		if cube.cO[i] != 0 {
-			return false
-		}
-	}
-	for i := range cube.eP {
-		if cube.eP[i] != int8(i) {
-			return false
-		}
-	}
-	for i := range cube.eO {
-		if cube.eO[i] != 0 {
-			return false
-		}
-	}
-	return true
-}
-
 // printSolution prints final output
 func printSolution(solution string, elapsed time.Duration, cube *cepo) {
 	if isSolved(cube) == false {

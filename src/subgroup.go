@@ -1,5 +1,30 @@
 package rubik
 
+// isSolved returns true if given cube is solved
+func isSolved(cube *cepo) bool {
+	for i := range cube.cP {
+		if cube.cP[i] != int8(i) {
+			return false
+		}
+	}
+	for i := range cube.cO {
+		if cube.cO[i] != 0 {
+			return false
+		}
+	}
+	for i := range cube.eP {
+		if cube.eP[i] != int8(i) {
+			return false
+		}
+	}
+	for i := range cube.eO {
+		if cube.eO[i] != 0 {
+			return false
+		}
+	}
+	return true
+}
+
 // isSubgroup returns subgroup for given cube
 func isSubgroup(cube *cepo) int8 {
 	for i := range cube.eO { // edges not oriented -> 0
