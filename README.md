@@ -54,12 +54,15 @@ An optional following ```len``` argument specifies mix length, i.e. ```-r 5``` w
 ### Examples
 
 Here is a basic example with a valid sequence string as argument:
+
 ![String](https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png?raw=true)
 
 Here is an example with a mix filepath as argument:
+
 ![Filepath](https://github.com/dfinnis/rubik/blob/master/img/filepath.png?raw=true)
 
 Finally is an example with -r ---random argument:
+
 ![Random](https://github.com/dfinnis/rubik/blob/master/img/--random.png?raw=true)
 
 ### Prerequisites
@@ -84,23 +87,22 @@ Finally it runs some unit tests from the ```mix``` folder, to make sure it deals
 ### Group
 
 ```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's groups](#thistlethwaites-groups) for explanation). Here is an example:
+
 ![Group](https://github.com/dfinnis/rubik/blob/master/img/group.png?raw=true)
 
 We start at the top with the mixed cube, described by corner and edge permutation and orientation.
 
-We see the solution broken down into Thistlethwaite's 4 subgroups.
-For each subgroup we see the solution, half-turn metric, and solve time. Followed by the state of the cube
+We then see the solution broken down into Thistlethwaite's 4 subgroups.
+For each subgroup we see the solution, half-turn metric, and solve time. Followed by the state of the cube after applying the subgroup solution.
+
+At the bottom we should arrive at subgroup 4, a solved cube.
+The orientation is all correct (0), and each corner and edge permutation is in its right place (e.g. edge 1 is in permutation 1).
 
 ### Visualizer
 
+```-v``` or ```--visualizer``` shows visual of mix and solution. Here is a simple example with a random mix of length 5:
 
-
-The following flags are suported:
-
-* ```-r``` or ```--random``` mixes randomly
-* ```-v``` or ```--visualizer``` show visual of mix and solution
-* ```-g``` or ```--group``` show solution breakdown by subgroup
-* ```-h``` or ```--help``` show usage
+![Visualizer](https://github.com/dfinnis/rubik/blob/master/img/visualizer.gif)
 
 # Thistlethwaite's groups
 
