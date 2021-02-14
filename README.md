@@ -83,7 +83,7 @@ Finally it runs some unit tests from the ```mix``` folder, to make sure it deals
 
 ### Group
 
-```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's groups](##-Thistlethwaite's-groups) for explanation). Here is an example:
+```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's groups](#thistlethwaites-groups) for explanation). Here is an example:
 ![Group](https://github.com/dfinnis/rubik/blob/master/img/group.png?raw=true)
 
 We start at the top with the mixed cube, described by corner and edge permutation and orientation.
@@ -102,6 +102,6 @@ The following flags are suported:
 * ```-g``` or ```--group``` show solution breakdown by subgroup
 * ```-h``` or ```--help``` show usage
 
-## Thistlethwaite's groups
+# Thistlethwaite's groups
 
 ## References
