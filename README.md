@@ -65,7 +65,7 @@ Finally is an example with -r ---random argument:
 
 ![Random](https://github.com/dfinnis/rubik/blob/master/img/--random.png?raw=true)
 
-### Prerequisites
+### Dependencies
 
 Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
 
@@ -104,6 +104,35 @@ The orientation is all correct (0), and each corner and edge permutation is in i
 
 ![Visualizer](https://github.com/dfinnis/rubik/blob/master/img/visualizer.gif)
 
+We start with a solved cube, it shows the mix then spins once to show the mixed cube state.
+Then it shows the solution, finally spining twice to show the cube is back in its solved state.
+
 # Thistlethwaite's groups
 
+### Cube representation
+
+The sensible way to represent the cube for this style of solution is corner and edge permutation and orientation.
+
+A cube is made up of 26 cubelets. 6 of these are center cubies (one for each face) which cannot move, so we do not need to include these in our model.
+
+There are 12 edge cubies, these have 2 colors, rotate on 2 axes, and so can be orientated correctly (0) or incorrectly (1).
+
+There are 8 corner cubies, these have 3 colors, rotate on 3 axes, and so can be orientated correctly (0) or incorrectly (1) or (2).
+
+For a solved cube (Thistlethwaite's group 4) all the orientations are 0 (correct) and each corner and edge is in its correct permutation (e.g. edge 1 is in permutation 1):
+
+![Solved](https://github.com/dfinnis/rubik/blob/master/img/Solved_cube.png?raw=true)
+
+Here is an image to clarify cubie notation:
+
+![Notation](https://github.com/dfinnis/rubik/blob/master/img/Rubik_notation.png?raw=true)
+
+Check out [this demo](https://iamthecu.be/) for a visual clarification.
+
+### 4 groups
+
+
+
 ## References
+
+
