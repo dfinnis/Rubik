@@ -3,7 +3,7 @@
 A Rubik’s cube solver based on Thistlethwaite's 4 groups using IDA-star path search, written in golang.
 
 The general aim is to minimize both solve time and solution length, as measured by Half-turn metric.
-Half-turn metric counts both ```F``` and ```F2``` as one move.
+Half-turn metric counts both ```F``` (90° turn of front face) and ```F2``` (180° turn of front face) as one move.
 
 On average this project solves randomly mixed cubes in 30 something moves in under 2 seconds.
 
@@ -83,10 +83,13 @@ Finally it runs some unit tests from the ```mix``` folder, to make sure it deals
 
 ### Group
 
-```-g``` or ```--group``` shows solution breakdown by subgroup. Here is an example:
+```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's groups](##-Thistlethwaite's-groups) for explanation). Here is an example:
 ![Group](https://github.com/dfinnis/rubik/blob/master/img/group.png?raw=true)
 
+We start at the top with the mixed cube, described by corner and edge permutation and orientation.
 
+We see the solution broken down into Thistlethwaite's 4 subgroups.
+For each subgroup we see the solution, half-turn metric, and solve time. Followed by the state of the cube
 
 ### Visualizer
 
@@ -98,5 +101,7 @@ The following flags are suported:
 * ```-v``` or ```--visualizer``` show visual of mix and solution
 * ```-g``` or ```--group``` show solution breakdown by subgroup
 * ```-h``` or ```--help``` show usage
+
+## Thistlethwaite's groups
 
 ## References
