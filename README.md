@@ -4,6 +4,7 @@ A Rubik’s cube solver based on Thistlethwaite's 4 groups using IDA-star path s
 
 The general aim is to minimize both solve time and solution length, as measured by Half-turn metric.
 Half-turn metric counts both ```F``` and ```F2``` as one move.
+
 On average this project solves randomly mixed cubes in 30 something moves in under 2 seconds.
 
 ## Getting Started
@@ -15,6 +16,7 @@ Move into the Rubik folder then download dependencies with ```go get -d ./...```
 
 Finally, to run, go run main.go directly:
 ```go run main.go mix/subject.txt```
+
 Alternatively build and run the binary:
 ```go build; ./Rubik mix/subject.txt```
 
@@ -78,6 +80,17 @@ Finally it runs some unit tests from the ```mix``` folder, to make sure it deals
 ![Rubik test output](https://github.com/dfinnis/rubik/blob/master/img/test.png?raw=true)
 
 ## Flags
+
+### Group
+
+```-g``` or ```--group``` shows solution breakdown by subgroup. Here is an example:
+![Group](https://github.com/dfinnis/rubik/blob/master/img/group.png?raw=true)
+
+
+
+### Visualizer
+
+
 
 The following flags are suported:
 
