@@ -138,8 +138,9 @@ This is not computationally viable.
 Thistlethwaite's algorithm breaks down the problem of solving the cube into 4 groups.
 This means a much smaller space has to be searched than trying to find the whole solution in one go.
 In each group only some aspects of the cube are solved, and only certain moves are allowed.
+As we progress through the groups we reduce the moves available, starting with all moves (group 0), and finishing with only 180° moves (group 3).
 
-Furthermore, pre-computed pruning tables allow us to look up how many moves until we reach the next group.
+In addition, pre-computed pruning tables allow us to look up how many moves until we reach the next group.
 This means we can try all possible moves for a given cube, look in the pruning table if we are closer to reaching the next group, and simply follow the shortest path.
 
 #### group 0
@@ -154,7 +155,7 @@ Start with a solved cube, apply all 18 possible moves.
 For each new cube we can now record the edge orientation combination is 1 move away from being solved.
 This process continues, applying all possible moves and filling out the pruning table until full.
 We now have a complete pruning table which associates edge orientation combination with how many moves until group 1 (edge orientation solved)
-We reach all possible edge orientation combinations within 7 moves.
+We reach all possible edge orientation combinations within 7 moves, i.e. maximum 7 moves to group 1.
 
 Hopefully now it becomes clear why it would be unreasonable for us to simply create a pruning table for all 43 quintillion possible cube states.
 With Thistlethwaite's groups we can create a much smaller pruning table for this small group.
@@ -181,7 +182,40 @@ There are 2,822,400 possible combinations, and we reach all possible combination
 
 #### group 3
 
+In group 3 we are reduced to only 180° moves (U2, D2, R2, L2, F2, B2).
+
+There are 663,552 possible combinations, and we reach all possible combinations after 15 moves.
+
+#### group 4
+
+Solved cube! Only 1 possible combination!
+
+#### IDA-star search
+
+We use iterative deepening A-star search to find the shortest path through each group. It uses the pruning table distance to next group as heuristic.
+
+IDA* concentrates on exploring the most promising nodes and thus does not go to the same depth everywhere in the search tree.
+
+Unlike A* search, IDA* does not remember where it has already searched to avoid repeating itself. This is obviously more suited to Rubik's cubes with 43 quintillion possible states. However because of this, unlike A* search, IDA* may end up exploring the same nodes many times.
+
+#### Integrated pruning table maker
+
+When this project is launched, it attempts to read the pre-computed pruning tables from the ```tables``` folder. If these files have been deleted, it creates them (can take a few minutes).
+
+## Alternative solutions
+
+
 
 ## References
 
+[Rubik's cube explorer - visualizer](https://iamthecu.be/)
 
+[Wikipedia Optimal_solutions_for_Rubik](https://en.wikipedia.org/wiki/Optimal_solutions_for_Rubik%27s_Cube#Kociemba's%20algorithm)
+
+[Jaap's puzzle page](https://www.jaapsch.net/puzzles/cube3.htm)
+
+[Stanford computer cubing](https://cube.stanford.edu/class/files/rokicki_cubecomp.pdf)
+
+[IDA-star algo in general](https://algorithmsinsight.wordpress.com/graph-theory-2/ida-star-algorithm-in-general/)
+
+[Pruning table indexing functions](http://joren.ralphdesign.nl/projects/rubiks_cube/cube.pdf)
