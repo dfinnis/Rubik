@@ -204,6 +204,19 @@ When this project is launched, it attempts to read the pre-computed pruning tabl
 
 ## Alternative solutions
 
+### Kociemba's algorithm
+
+Herbert Kociemba improved Thistlethwaite's algorithm by reducing the number of groups from 4 to 2. Each group is a much larger search space, requiring larger pruning tables, but the resulting path length is shorter.
+
+### Korf's algorithm
+
+Thistlethwaite and Kociemba's solutions will find solutions quickly, however they will rarely be the shortest solution.
+Korf created an optimal solution, one that finds the shortest path, but may take a long time to calculate.
+Korf broke down the cube into subproblems: corners, 6 edges, and the other 6 edges.
+Using IDA* search to explore all options, and eliminate 
+
+### Human solver
+
 
 
 ## References
