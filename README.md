@@ -131,6 +131,55 @@ Check out [this demo](https://iamthecu.be/) for a visual clarification.
 
 ### 4 groups
 
+If we wanted to find the shortest solution to a mixed cube, we could simply try all possible move combinations until it is solved.
+Being that any cube can be solved in 20 moves, and there are only 18 different moves, a stupid brute force solution would mean trying 18 to the power of 20 moves.
+This is not computationally viable.
+
+Thistlethwaite's algorithm breaks down the problem of solving the cube into 4 groups.
+This means a much smaller space has to be searched than trying to find the whole solution in one go.
+In each group only some aspects of the cube are solved, and only certain moves are allowed.
+
+Furthermore, pre-computed pruning tables allow us to look up how many moves until we reach the next group.
+This means we can try all possible moves for a given cube, look in the pruning table if we are closer to reaching the next group, and simply follow the shortest path.
+
+#### group 0
+
+First only the edge orientation is solved. All moves are allowed.
+
+There are 12 edges, each can be oriented correctly (0) or incorrectly (1).
+So there are only 2 to the power of 11 (2048) possible edge orientation combinations.
+
+We can pre-compute a pruning table of how many moves until we reach group 1.
+Start with a solved cube, apply all 18 possible moves.
+For each new cube we can now record the edge orientation combination is 1 move away from being solved.
+This process continues, applying all possible moves and filling out the pruning table until full.
+We now have a complete pruning table which associates edge orientation combination with how many moves until group 1 (edge orientation solved)
+We reach all possible edge orientation combinations within 7 moves.
+
+Hopefully now it becomes clear why it would be unreasonable for us to simply create a pruning table for all 43 quintillion possible cube states.
+With Thistlethwaite's groups we can create a much smaller pruning table for this small group.
+While this pre-computation can take a few minutes, with the pruning table an IDA* search can very quickly find the shortest path to group 1.
+
+#### group 1
+
+Only ```U``` and ```D``` moves effect edge orientation (```U2``` and ```D2``` do not effect edge orientation).
+So in group 1 now the edge orientation is solved, we remove ```U``` and ```D``` moves from our allowed moves. Thus the solved edge orientation is locked.
+
+In group 1 we fix the orientation of the corners, and place the middle layer edges into their slice (edges 8 - 11 in permutation 8 - 11).
+
+There are 1,082,565 possible combinations, and we reach all possible combinations after 10 moves.
+We can create a pruning table for these combinations in a similar process to group 0, associating each corner orientation and middle layer edge permutations with how many moves until group 2.
+
+#### group 2
+
+Only ```F``` and ```B``` moves effect corner orientation and can move middle layer edges from their slice (```F2``` and ```B2``` do not effect this).
+So in group 2 we remove ```F``` and ```B``` moves from our allowed moves. Thus the solved corner orientation is locked, and the middle layer edges cannot leave their slice.
+
+In group 2 edges in the L and R faces are placed in their correct slices, the corners are put into their correct tetrads, the parity of the edge permutation (and hence the corners too) is made even, and the total twist of each tetrad is fixed.
+
+There are 2,822,400 possible combinations, and we reach all possible combinations after 13 moves.
+
+#### group 3
 
 
 ## References
