@@ -204,20 +204,20 @@ When this project is launched, it attempts to read the pre-computed pruning tabl
 
 ## Alternative solutions
 
-### Kociemba's algorithm
+### Human solver - short solve time, very long solutions
 
-Herbert Kociemba improved Thistlethwaite's algorithm by reducing the number of groups from 4 to 2. Each group is a much larger search space, requiring larger pruning tables, but the resulting path length is shorter.
+The [beginners method for solving cubes](https://ruwix.com/the-rubiks-cube/how-to-solve-the-rubiks-cube-beginners-method/) involves progressively solving parts of the cube from the top down. There are specific sequences of moves which will fix parts of the cube at each step. Once you have memorized these sequences then you can use this method to solve any cube! You could write a program to emulate this method, the solve time is almost instant, but produces solutions more than 100 moves long.
 
-### Korf's algorithm
+### Kociemba's algorithm - medium solve time, short-ish solutions
+
+Herbert Kociemba improved Thistlethwaite's algorithm by reducing the number of groups from 4 to 2. Each group is a much larger search space, requiring larger pruning tables, but the resulting path length is shorter. Thistlethwaite should solve any cube in max 45 moves, Kociemba reduces this to max 30 moves.
+
+### Korf's algorithm - long solve time, shortest solutions
 
 Thistlethwaite and Kociemba's solutions will find solutions quickly, however they will rarely be the shortest solution.
 Korf created an optimal solution, one that finds the shortest path, but may take a long time to calculate.
 Korf broke down the cube into subproblems: corners, 6 edges, and the other 6 edges.
-Using IDA* search to explore all options, and eliminate 
-
-### Human solver
-
-
+Korf uses IDA* search to explore all options, and eliminate options which are not optimal.
 
 ## References
 
