@@ -190,7 +190,7 @@ There are 663,552 possible combinations, and we reach all possible combinations 
 
 Solved cube! Only 1 possible combination!
 
-#### IDA-star search
+### IDA-star search
 
 We use iterative deepening A-star search to find the shortest path through each group. It uses the pruning table distance to next group as heuristic.
 
@@ -198,7 +198,7 @@ IDA* concentrates on exploring the most promising nodes and thus does not go to 
 
 Unlike A* search, IDA* does not remember where it has already searched to avoid repeating itself. This is obviously more suited to Rubik's cubes with 43 quintillion possible states. However because of this, unlike A* search, IDA* may end up exploring the same nodes many times.
 
-#### Integrated pruning table maker
+### Integrated pruning table maker
 
 When this project is launched, it attempts to read the pre-computed pruning tables from the ```tables``` folder. If these files have been deleted, it creates them (can take a few minutes).
 
