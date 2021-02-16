@@ -218,6 +218,7 @@ Thistlethwaite and Kociemba's solutions will find solutions quickly, however the
 Korf created an optimal solution, one that finds the shortest path, but may take a long time to calculate.
 Korf broke down the cube into subproblems: corners, 6 edges, and the other 6 edges.
 Korf uses IDA* search to explore all options, and eliminate options which are not optimal.
+All possible cube states can be solved in 20 moves maximum (God's number).
 
 ## References
 
