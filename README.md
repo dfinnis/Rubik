@@ -32,24 +32,24 @@ Valid moves are 90° clockwise twists of the 6 sides (Up, Down, Right, Left, Fro
 90° anti-clockwise twists are denoted with ```'``` -> U', D', R', L', F', B'
 180° twists are denoted with ```2``` -> U2, D2, R2, L2, F2, B2
 
-### String
+### Argument String
 
 A sequence of moves can be provided as argument as a string. e.g. "U' F'".
 
-![String](https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png?raw=true)
+<img src="https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png" width="800">
 
-### Filepath
+### Argument Filepath
 
 Alternatively, give a filepath containing a valid sequence as argument, there are some example mixes in the ```mix``` folder.
 
-![Filepath](https://github.com/dfinnis/rubik/blob/master/img/filepath.png?raw=true)
+<img src="https://github.com/dfinnis/rubik/blob/master/img/filepath.png" width="800">
 
-### -r --random
+### Argument -r --random
 
 -r (--random) will create and run a random mix.
 An optional following ```len``` argument specifies mix length, i.e. ```-r 5``` will create a random 5 move sequence.
 
-![Random](https://github.com/dfinnis/rubik/blob/master/img/--random.png?raw=true)
+<img src="https://github.com/dfinnis/rubik/blob/master/img/--random.png" width="800">
 
 ## Flags
 
@@ -66,7 +66,8 @@ Then it shows the solution, finally spining twice to show the cube is back in it
 
 ```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's groups](#thistlethwaites-groups) for explanation). Here is an example:
 
-![Group](https://github.com/dfinnis/rubik/blob/master/img/group.png?raw=true)
+
+<img src="https://github.com/dfinnis/rubik/blob/master/img/group.png" width="640">
 
 We start at the top with the mixed cube, described by corner and edge permutation and orientation.
 
@@ -85,7 +86,7 @@ It then displays best, worst and mean for Half-turn metric and solve time.
 
 Finally it runs some unit tests from the ```mix``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
 
-![Rubik test output](https://github.com/dfinnis/rubik/blob/master/img/test.png?raw=true)
+<img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="640">
 
 ## Thistlethwaite's groups
 
@@ -101,11 +102,11 @@ There are 8 corner cubies, these have 3 colors, rotate on 3 axes, and so can be 
 
 For a solved cube (Thistlethwaite's group 4) all the orientations are 0 (correct) and each corner and edge is in its correct permutation (e.g. edge 1 is in permutation 1):
 
-![Solved](https://github.com/dfinnis/rubik/blob/master/img/Solved_cube.png?raw=true)
+<img src="https://github.com/dfinnis/rubik/blob/master/img/Solved_cube.png" width="640">
 
 Here is an image to clarify cubie notation:
 
-![Notation](https://github.com/dfinnis/rubik/blob/master/img/Rubik_notation.png?raw=true)
+<img src="https://github.com/dfinnis/rubik/blob/master/img/Rubik_notation.png" width="640">
 
 Check out [this demo](https://iamthecu.be/) for a visual clarification.
 
