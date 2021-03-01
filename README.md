@@ -7,6 +7,8 @@ Half-turn metric counts both ```F``` (90° turn of front face) and ```F2``` (180
 
 On average this project solves randomly mixed cubes in 30 something moves in under 2 seconds.
 
+#### Final Score 124/100
+
 ## Getting Started
 
 First you need to have your golang workspace set up on your machine.
