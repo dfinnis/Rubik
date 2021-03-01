@@ -67,7 +67,7 @@ Then it shows the solution, finally spining twice to show the cube is back in it
 
 ### Group
 
-```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's groups](#thistlethwaites-groups) for explanation). Here is an example:
+```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's 4 groups](#thistlethwaites-4-groups) for explanation). Here is an example:
 
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/group.png" width="640">
