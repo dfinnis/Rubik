@@ -13,6 +13,7 @@ On average this project solves randomly mixed cubes in 30 something moves in und
 
 First you need to have your golang workspace set up on your machine.
 Then clone this repo into your go-workspace/src/ folder.
+```git clone https://github.com/dfinnis/Rubik.git```
 
 Move into the Rubik folder then download dependencies with ```go get -d ./...```
 
@@ -28,13 +29,15 @@ Alternatively, build and run the binary with a mix:
 
 ### Notation - 18 valid moves
 
-Valid moves are 90° clockwise twists of the 6 sides (Up, Down, Right, Left, Front, Back) -> U, D, R, L, F, B
+90° clockwise twists of the 6 sides (Up, Down, Right, Left, Front, Back) -> U, D, R, L, F, B
+
 90° anti-clockwise twists are denoted with ```'``` -> U', D', R', L', F', B'
+
 180° twists are denoted with ```2``` -> U2, D2, R2, L2, F2, B2
 
 ### Argument String
 
-A sequence of moves can be provided as argument as a string. e.g. "U' F'".
+A sequence of moves can be provided as argument as a string. e.g. "F U".
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png" width="800">
 
