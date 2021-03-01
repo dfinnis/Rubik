@@ -16,75 +16,51 @@ Then clone this repo into your go-workspace/src/ folder.
 
 Move into the Rubik folder then download dependencies with ```go get -d ./...```
 
-Finally, to run, go run main.go directly:
+To run, go run main.go with a mix:
 ```go run main.go mix/subject.txt```
 
-Alternatively build and run the binary:
+Alternatively, build and run the binary with a mix:
 ```go build; ./Rubik mix/subject.txt```
 
 ### Usage
 
-```
-➜  Rubik git:(master) ✗ go run main.go -h
+<img src="https://github.com/dfinnis/rubik/blob/master/img/usage.png" width="500">
 
-Usage:	go build; ./Rubik "mix" [-r [length]] [-v] [-g] [-h]
-
-    mix should be valid sequence string e.g.
-    "U U' U2 D D' D2 R R' R2 L L' L2 F F' F2 B B' B2"
-    or mix "filepath" e.g. "mix/superflip.txt" reads a file
-    or mix "-r [len]" or "--random [len]" mixes randomly
-
-    [-v] (--visualizer) show visual of mix and solution
-    [-g] (--group) show solution breakdown by subgroup
-    [-h] (--help) show usage
-```
-
-### 18 valid moves - notation
+### Notation - 18 valid moves
 
 Valid moves are 90° clockwise twists of the 6 sides (Up, Down, Right, Left, Front, Back) -> U, D, R, L, F, B
 90° anti-clockwise twists are denoted with ```'``` -> U', D', R', L', F', B'
 180° twists are denoted with ```2``` -> U2, D2, R2, L2, F2, B2
 
-### valid arguments => string, filepath, or -r --random
+### String
 
 A sequence of moves can be provided as argument as a string. e.g. "U' F'".
+
+![String](https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png?raw=true)
+
+### Filepath
+
 Alternatively, give a filepath containing a valid sequence as argument, there are some example mixes in the ```mix``` folder.
+
+![Filepath](https://github.com/dfinnis/rubik/blob/master/img/filepath.png?raw=true)
+
+### -r --random
 
 -r (--random) will create and run a random mix.
 An optional following ```len``` argument specifies mix length, i.e. ```-r 5``` will create a random 5 move sequence.
 
-### Examples
-
-Here is a basic example with a valid sequence string as argument:
-
-![String](https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png?raw=true)
-
-Here is an example with a mix filepath as argument:
-
-![Filepath](https://github.com/dfinnis/rubik/blob/master/img/filepath.png?raw=true)
-
-Finally is an example with -r ---random argument:
-
 ![Random](https://github.com/dfinnis/rubik/blob/master/img/--random.png?raw=true)
 
-### Dependencies
-
-Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
-
-robotgo -> to type the solution into the visualizer website.
-
-## Tests
-
-Run the test script ```./test.sh``` .
-
-The test script will run 10 static random unit tests, followed by 10 dynamic random tests.
-It then displays best, worst and mean for Half-turn metric and solve time.
-
-Finally it runs some unit tests from the ```mix``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
-
-![Rubik test output](https://github.com/dfinnis/rubik/blob/master/img/test.png?raw=true)
-
 ## Flags
+
+### Visualizer
+
+```-v``` or ```--visualizer``` shows visual of mix and solution. Here is a simple example with a random mix of length 5:
+
+![Visualizer](https://github.com/dfinnis/rubik/blob/master/img/visualizer.gif)
+
+We start with a solved cube, it shows the mix then spins once to show the mixed cube state.
+Then it shows the solution, finally spining twice to show the cube is back in its solved state.
 
 ### Group
 
@@ -100,16 +76,18 @@ For each subgroup we see the solution, half-turn metric, and solve time. Followe
 At the bottom we should arrive at subgroup 4, a solved cube.
 The orientation is all correct (0), and each corner and edge permutation is in its right place (e.g. edge 1 is in permutation 1).
 
-### Visualizer
+## Tests
 
-```-v``` or ```--visualizer``` shows visual of mix and solution. Here is a simple example with a random mix of length 5:
+Run the test script ```./test.sh``` .
 
-![Visualizer](https://github.com/dfinnis/rubik/blob/master/img/visualizer.gif)
+The test script will run 10 static random unit tests, followed by 10 dynamic random tests.
+It then displays best, worst and mean for Half-turn metric and solve time.
 
-We start with a solved cube, it shows the mix then spins once to show the mixed cube state.
-Then it shows the solution, finally spining twice to show the cube is back in its solved state.
+Finally it runs some unit tests from the ```mix``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
 
-# Thistlethwaite's groups
+![Rubik test output](https://github.com/dfinnis/rubik/blob/master/img/test.png?raw=true)
+
+## Thistlethwaite's groups
 
 ### Cube representation
 
@@ -206,11 +184,11 @@ When this project is launched, it attempts to read the pre-computed pruning tabl
 
 ## Alternative solutions
 
-### Human solver - short solve time, very long solutions
+### Human solver - short solve time, long solutions
 
 The [beginners method for solving cubes](https://ruwix.com/the-rubiks-cube/how-to-solve-the-rubiks-cube-beginners-method/) involves progressively solving parts of the cube from the top down. There are specific sequences of moves which will fix parts of the cube at each step. Once you have memorized these sequences then you can use this method to solve any cube! You could write a program to emulate this method, the solve time is almost instant, but produces solutions more than 100 moves long.
 
-### Kociemba's algorithm - medium solve time, short-ish solutions
+### Kociemba's algorithm - medium solve time, shorter solutions
 
 Herbert Kociemba improved Thistlethwaite's algorithm by reducing the number of groups from 4 to 2. Each group is a much larger search space, requiring larger pruning tables, but the resulting path length is shorter. Thistlethwaite should solve any cube in max 45 moves, Kociemba reduces this to max 30 moves.
 
@@ -221,6 +199,12 @@ Korf created an optimal solution, one that finds the shortest path, but may take
 Korf broke down the cube into subproblems: corners, 6 edges, and the other 6 edges.
 Korf uses IDA* search to explore all options, and eliminate options which are not optimal.
 All possible cube states can be solved in 20 moves maximum (God's number).
+
+## Dependencies
+
+Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
+
+robotgo -> to type the solution into the visualizer website.
 
 ## References
 
