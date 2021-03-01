@@ -91,9 +91,7 @@ Finally it runs some unit tests from the ```mix``` folder, to make sure it deals
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="640">
 
-## Thistlethwaite's groups
-
-### Cube representation
+## Cube representation
 
 The sensible way to represent the cube for this style of solution is corner and edge permutation and orientation.
 
@@ -113,7 +111,7 @@ Here is an image to clarify cubie notation:
 
 Check out [this demo](https://iamthecu.be/) for a visual clarification.
 
-### 4 groups
+## Thistlethwaite's 4 groups
 
 If we wanted to find the shortest solution to a mixed cube, we could simply try all possible move combinations until it is solved.
 Being that any cube can be solved in 20 moves, and there are only 18 different moves, a stupid brute force solution would mean trying 18 to the power of 20 moves.
