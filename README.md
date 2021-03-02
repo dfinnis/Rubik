@@ -13,14 +13,19 @@ On average this project solves randomly mixed cubes in 30 something moves in und
 
 First you need to have your golang workspace set up on your machine.
 Then clone this repo into your go-workspace/src/ folder.
-```git clone https://github.com/dfinnis/Rubik.git```
 
-Move into the Rubik folder then download dependencies with ```go get -d ./...```
+```git clone https://github.com/dfinnis/Rubik.git; cd Rubik```
 
-To run, go run main.go with a mix:
+Download dependencies.
+
+```go get -d ./...```
+
+To run, go run main.go with a mix.
+
 ```go run main.go mix/subject.txt```
 
-Alternatively, build and run the binary with a mix:
+Alternatively, build and run the binary with a mix.
+
 ```go build; ./Rubik mix/subject.txt```
 
 ### Usage
@@ -82,12 +87,14 @@ The orientation is all correct (0), and each corner and edge permutation is in i
 
 ## Tests
 
-Run the test script ```./test.sh``` .
+Run the test script.
+
+```./test.sh```
 
 The test script will run 10 static random unit tests, followed by 10 dynamic random tests.
 It then displays best, worst and mean for Half-turn metric and solve time.
 
-Finally it runs some unit tests from the ```mix``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
+Finally it runs some unit tests from the ```mix/``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="640">
 
@@ -182,7 +189,7 @@ Unlike A* search, IDA* does not remember where it has already searched to avoid 
 
 ### Integrated pruning table maker
 
-When this project is launched, it attempts to read the pre-computed pruning tables from the ```tables``` folder. If these files have been deleted, it creates them (can take a few minutes).
+When this project is launched, it attempts to read the pre-computed pruning tables from the ```tables/``` folder. If these files have been deleted, it creates them (can take a few minutes).
 
 ## Alternative solutions
 
@@ -206,7 +213,7 @@ All possible cube states can be solved in 20 moves maximum (God's number).
 
 Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
 
-robotgo -> to type the solution into the visualizer website.
+robotgo -> to type moves into the visualizer website.
 
 ## References
 
