@@ -2,9 +2,7 @@
 
 A Rubik’s cube solver based on Thistlethwaite's 4 groups using IDA-star path search, written in golang.
 
-The general aim is to minimize both solve time and solution length, as measured by Half-turn metric.
-Half-turn metric counts both ```F``` (90° turn of front face) and ```F2``` (180° turn of front face) as one move.
-
+The goal is to minimize both solve time and solution length.
 On average this project solves randomly mixed cubes in 30 something moves in under 2 seconds.
 
 #### Final Score 124/100
@@ -34,11 +32,13 @@ Alternatively, build and run the binary with a mix.
 
 ### Notation - 18 valid moves
 
-90° clockwise twists of the 6 sides (Up, Down, Right, Left, Front, Back) -> U, D, R, L, F, B
+* 90° clockwise twists of the 6 sides (Up, Down, Right, Left, Front, Back) -> U, D, R, L, F, B
 
-90° anti-clockwise twists are denoted with ```'``` -> U', D', R', L', F', B'
+* 90° anti-clockwise twists are denoted with ```'``` -> U', D', R', L', F', B'
 
-180° twists are denoted with ```2``` -> U2, D2, R2, L2, F2, B2
+* 180° twists are denoted with ```2``` -> U2, D2, R2, L2, F2, B2
+
+Solution length is measured by Half-turn metric (both ```F``` (90° twist) & ```F2``` (180° twist) count as one move).
 
 ### Argument String
 
