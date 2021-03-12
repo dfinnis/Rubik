@@ -96,7 +96,7 @@ It then displays best, worst and mean for Half-turn metric and solve time.
 
 Finally it runs some unit tests from the ```mix/``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
 
-<img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="640">
+<img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="580">
 
 ## Cube representation
 
