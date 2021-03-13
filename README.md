@@ -26,9 +26,11 @@ Alternatively, build and run the binary with a mix.
 
 ```go build; ./Rubik mix/subject.txt```
 
+
 ### Usage
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/usage.png" width="500">
+
 
 ### Notation - 18 valid moves
 
@@ -40,40 +42,52 @@ Alternatively, build and run the binary with a mix.
 
 Solution length is measured by Half-turn metric (both ```F``` (90° twist) & ```F2``` (180° twist) count as one move).
 
+
 ### Argument String
 
 A sequence of moves can be provided as argument as a string. e.g. "F U".
+
+```go run main.go "F U"```
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/sequence_string.png" width="800">
 
 ### Argument Filepath
 
-Alternatively, give a filepath containing a valid sequence as argument, there are some example mixes in the ```mix``` folder.
+Alternatively, give a filepath containing a valid sequence as argument, there are some example mixes in the *mix/* folder.
+
+```go run main.go mix/U_F.txt```
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/filepath.png" width="800">
 
 ### Argument -r --random
 
 -r (--random) will create and run a random mix.
-An optional following ```len``` argument specifies mix length, i.e. ```-r 5``` will create a random 5 move sequence.
+An optional following *len* argument specifies mix length, i.e. *-r 5* will create a random 5 move sequence.
+
+```go run main.go -r```
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/--random.png" width="800">
+
 
 ## Flags
 
 ### Visualizer
 
-```-v``` or ```--visualizer``` shows visual of mix and solution. Here is a simple example with a random mix of length 5:
+*-v* (*--visualizer*) shows visual of mix and solution. Here is a simple example with a random mix of length 5:
+
+```go run main.go -r 5 -v```
 
 ![Visualizer](https://github.com/dfinnis/rubik/blob/master/img/visualizer.gif)
 
 We start with a solved cube, it shows the mix then spins once to show the mixed cube state.
 Then it shows the solution, finally spining twice to show the cube is back in its solved state.
 
+
 ### Group
 
-```-g``` or ```--group``` shows solution breakdown by subgroup (see [Thistlethwaite's 4 groups](#thistlethwaites-4-groups) for explanation). Here is an example:
+*-g* (*--group*) shows solution breakdown by subgroup (see [Thistlethwaite's 4 groups](#thistlethwaites-4-groups) for explanation).
 
+```go run main.go -r -g```
 
 <img src="https://github.com/dfinnis/rubik/blob/master/img/group.png" width="640">
 
@@ -87,16 +101,15 @@ The orientation is all correct (0), and each corner and edge permutation is in i
 
 ## Tests
 
-Run the test script.
-
-```./test.sh```
-
-The test script will run 10 static random unit tests, followed by 10 dynamic random tests.
+The test script runs 10 static random unit tests, followed by 10 dynamic random tests.
 It then displays best, worst and mean for Half-turn metric and solve time.
 
 Finally it runs some unit tests from the ```mix/``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
 
+```./test.sh```
+
 <img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="580">
+
 
 ## Cube representation
 
@@ -117,6 +130,7 @@ Here is an image to clarify cubie notation:
 <img src="https://github.com/dfinnis/rubik/blob/master/img/Rubik_notation.png" width="640">
 
 Check out [this demo](https://iamthecu.be/) for a visual clarification.
+
 
 ## Thistlethwaite's 4 groups
 
@@ -179,6 +193,7 @@ There are 663,552 possible combinations, and we reach all possible combinations 
 
 Solved cube! Only 1 possible combination!
 
+
 ### IDA-star search
 
 We use iterative deepening A-star search to find the shortest path through each group. It uses the pruning table distance to next group as heuristic.
@@ -190,6 +205,7 @@ Unlike A* search, IDA* does not remember where it has already searched to avoid 
 ### Integrated pruning table maker
 
 When this project is launched, it attempts to read the pre-computed pruning tables from the ```tables/``` folder. If these files have been deleted, it creates them (can take a few minutes).
+
 
 ## Alternative solutions
 
@@ -209,11 +225,13 @@ Korf broke down the cube into subproblems: corners, 6 edges, and the other 6 edg
 Korf uses IDA* search to explore all options, and eliminate options which are not optimal.
 All possible cube states can be solved in 20 moves maximum (God's number).
 
+
 ## Dependencies
 
 Thankfully, running ```go get -d ./...``` should take care of all dependencies for you.
 
 robotgo -> to type moves into the visualizer website.
+
 
 ## References
 
