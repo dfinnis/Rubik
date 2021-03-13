@@ -61,7 +61,7 @@ Alternatively, give a filepath containing a valid sequence as argument, there ar
 
 ### Argument -r --random
 
--r (--random) will create and run a random mix.
+Create and run a random mix.
 An optional following *len* argument specifies mix length, i.e. *-r 5* will create a random 5 move sequence.
 
 ```go run main.go -r```
