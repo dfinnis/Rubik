@@ -40,79 +40,49 @@ func printUsage() {
 	os.Exit(1)
 }
 
-// dumpCube prints cube state
-func dumpCube(cube *cepo) {
-	fmt.Printf("\n+-------------+-----------------+-------------------------------------+")
-	fmt.Printf("\n|             | Corner          |  Edge                               |\n")
-	fmt.Printf("|      Number | ")
-	for i := range cube.cP {
-		fmt.Printf("%v ", i)
-	}
-	fmt.Printf("| ")
-	for i := range cube.eP {
-		fmt.Printf("%2v ", i)
-	}
-	fmt.Printf("|")
-	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
-	fmt.Printf("| Permutation | ")
-	for _, cP := range cube.cP {
-		fmt.Printf("%v ", cP)
-	}
-	fmt.Printf("| ")
-	for _, eP := range cube.eP {
-		fmt.Printf("%2v ", eP)
-	}
-	fmt.Printf("|")
-
-	fmt.Printf("\n| Orientation | ")
-	for _, cO := range cube.cO {
-		fmt.Printf("%v ", cO)
-	}
-	fmt.Printf("| ")
-	for _, eO := range cube.eO {
-		fmt.Printf("%2v ", eO)
-	}
-	fmt.Printf("|")
-	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
-}
-
-// dumpCubeGroup prints cube state for group
-func dumpCubeGroup(cube *cepo, group int8) {
-	fmt.Printf("\n+-------------+-----------------+-------------------------------------+")
-	fmt.Printf("\n|             | Corner          |  Edge                               |\n")
-	fmt.Printf("|      Number | ")
-	for i := range cube.cP {
-		fmt.Printf("%v ", i)
-	}
-	fmt.Printf("| ")
-	for i := range cube.eP {
-		fmt.Printf("%2v ", i)
-	}
-	fmt.Printf("|")
-	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
+// dumpCube prints cube state, & highlights features solved in given subgroup (-1 = no group)
+func dumpCube(cube *cepo, group int8) {
+	fmt.Printf("\n")
+	fmt.Printf("+-------------+-----------------+---------------------------------------+\n")
+	fmt.Printf("|             | Corner          |  Edge                                 |\n")
+	fmt.Printf("|      Number | 0 1 2 3 4 5 6 7 |  0  1  2  3   4  5  6  7   8  9 10 11 |\n")
+	fmt.Printf("+-------------+-----------------+-------------+------------+------------+\n")
 	fmt.Printf("| Permutation | ")
 	// Corner Permutation
 	if group == 2 {
+		fmt.Printf("%v", Bright)
+	}
+	if group >= 2 {
 		fmt.Printf("%v", Green)
 	}
 	for _, cP := range cube.cP {
 		fmt.Printf("%v ", cP)
 	}
 	fmt.Printf("%v| ", Reset)
+
 	// Edge Permutation
 	for i, eP := range cube.eP {
+		if i == 4 || i == 8 {
+			fmt.Printf(" ")
+		}
+		if group == 1 && i == 8 {
+			fmt.Printf("%v", Bright)
+		}
 		if group == 1 && i == 8 {
 			fmt.Printf("%v", Yellow)
 		}
 		if group == 2 {
 			if i == 0 {
+				fmt.Printf("%v", Bright)
 				fmt.Printf("%v", Yellow)
 			}
 			if i == 8 {
 				fmt.Printf("%v", Reset)
+				fmt.Printf("%v", Yellow)
 			}
 		}
 		if group == 3 && i == 0 {
+			fmt.Printf("%v", Bright)
 			fmt.Printf("%v", Green)
 		}
 		fmt.Printf("%2v ", eP)
@@ -122,19 +92,29 @@ func dumpCubeGroup(cube *cepo, group int8) {
 	fmt.Printf("\n| Orientation | ")
 	// Corner Orientation
 	if group == 1 {
+		fmt.Printf("%v", Bright)
+	}
+	if group >= 1 {
 		fmt.Printf("%v", Green)
 	}
 	for _, cO := range cube.cO {
 		fmt.Printf("%v ", cO)
 	}
 	fmt.Printf("%v| ", Reset)
+
 	// Edge Orientation
 	if group == 0 {
+		fmt.Printf("%v", Bright)
+	}
+	if group >= 0 {
 		fmt.Printf("%v", Green)
 	}
-	for _, eO := range cube.eO {
+	for i, eO := range cube.eO {
+		if i == 4 || i == 8 {
+			fmt.Printf(" ")
+		}
 		fmt.Printf("%2v ", eO)
 	}
 	fmt.Printf("%v|", Reset)
-	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
+	fmt.Printf("\n+-------------+-----------------+---------------------------------------+\n")
 }

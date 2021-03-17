@@ -233,6 +233,6 @@ func spin(mix string, cube *cepo) {
 		} else {
 			errorExit("bad input")
 		}
-		// dumpCube(cube)	//	debug tool
+		// dumpCube(cube, -1)	//	debug tool
 	}
 }

@@ -122,7 +122,7 @@ func idaStar(cube *cepo, subgroup int8, tables *tables) string {
 func solve(cube *cepo, tables *tables, group bool) string {
 	fmt.Printf("\nSolving")
 	if group {
-		dumpCube(cube)
+		dumpCube(cube, -1)
 	}
 	var solution string
 	for subgroup := isSubgroup(cube); subgroup < 4; subgroup++ {
@@ -138,7 +138,7 @@ func solve(cube *cepo, tables *tables, group bool) string {
 			fmt.Printf("Solution: %v\n", solutionPart)
 			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))
 			fmt.Printf("Time:     %v\n", elapsed)
-			dumpCubeGroup(cube, subgroup)
+			dumpCube(cube, subgroup)
 		} else {
 			fmt.Printf(".")
 		}
