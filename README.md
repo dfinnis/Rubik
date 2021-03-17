@@ -157,7 +157,7 @@ We can pre-compute a pruning table of how many moves until we reach group 1.
 Start with a solved cube, apply all 18 possible moves.
 For each new cube we can now record the edge orientation combination is 1 move away from being solved.
 This process continues, applying all possible moves and filling out the pruning table until full.
-We now have a complete pruning table which associates edge orientation combination with how many moves until group 1 (edge orientation solved)
+We now have a complete pruning table which associates edge orientation combination with how many moves until group 1 (edge orientation solved).
 We reach all possible edge orientation combinations within 7 moves, i.e. maximum 7 moves to group 1.
 
 Hopefully now it becomes clear why it would be unreasonable for us to simply create a pruning table for all 43 quintillion possible cube states.
