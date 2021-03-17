@@ -138,7 +138,7 @@ func solve(cube *cepo, tables *tables, group bool) string {
 			fmt.Printf("Solution: %v\n", solutionPart)
 			fmt.Printf("HTM:      %v\n", halfTurnMetric(solutionPart))
 			fmt.Printf("Time:     %v\n", elapsed)
-			dumpCube(cube)
+			dumpCubeGroup(cube, subgroup)
 		} else {
 			fmt.Printf(".")
 		}

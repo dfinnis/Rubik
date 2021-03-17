@@ -9,6 +9,7 @@ import (
 const Reset		= "\x1B[0m"
 const Bright	= "\x1B[1m"
 const Green		= "\x1B[32m"
+const Yellow	= "\x1B[33m"
 
 // printSolution prints final output
 func printSolution(solution string, elapsed time.Duration, cube *cepo) {
@@ -72,5 +73,68 @@ func dumpCube(cube *cepo) {
 		fmt.Printf("%2v ", eO)
 	}
 	fmt.Printf("|")
+	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
+}
+
+// dumpCubeGroup prints cube state for group
+func dumpCubeGroup(cube *cepo, group int8) {
+	fmt.Printf("\n+-------------+-----------------+-------------------------------------+")
+	fmt.Printf("\n|             | Corner          |  Edge                               |\n")
+	fmt.Printf("|      Number | ")
+	for i := range cube.cP {
+		fmt.Printf("%v ", i)
+	}
+	fmt.Printf("| ")
+	for i := range cube.eP {
+		fmt.Printf("%2v ", i)
+	}
+	fmt.Printf("|")
+	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
+	fmt.Printf("| Permutation | ")
+	// Corner Permutation
+	if group == 2 {
+		fmt.Printf("%v", Green)
+	}
+	for _, cP := range cube.cP {
+		fmt.Printf("%v ", cP)
+	}
+	fmt.Printf("%v| ", Reset)
+	// Edge Permutation
+	for i, eP := range cube.eP {
+		if group == 1 && i == 8 {
+			fmt.Printf("%v", Yellow)
+		}
+		if group == 2 {
+			if i == 0 {
+				fmt.Printf("%v", Yellow)
+			}
+			if i == 8 {
+				fmt.Printf("%v", Reset)
+			}
+		}
+		if group == 3 && i == 0 {
+			fmt.Printf("%v", Green)
+		}
+		fmt.Printf("%2v ", eP)
+	}
+	fmt.Printf("%v|", Reset)
+
+	fmt.Printf("\n| Orientation | ")
+	// Corner Orientation
+	if group == 1 {
+		fmt.Printf("%v", Green)
+	}
+	for _, cO := range cube.cO {
+		fmt.Printf("%v ", cO)
+	}
+	fmt.Printf("%v| ", Reset)
+	// Edge Orientation
+	if group == 0 {
+		fmt.Printf("%v", Green)
+	}
+	for _, eO := range cube.eO {
+		fmt.Printf("%2v ", eO)
+	}
+	fmt.Printf("%v|", Reset)
 	fmt.Printf("\n+-------------+-----------------+-------------------------------------+\n")
 }
