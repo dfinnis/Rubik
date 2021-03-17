@@ -172,7 +172,7 @@ So in group 1 now the edge orientation is solved, we remove ```U``` and ```D``` 
 In group 1 we fix the orientation of the corners, and place the middle layer edges into their slice (edges 8 - 11 in permutation 8 - 11).
 
 There are 1,082,565 possible combinations, and we reach all possible combinations after 10 moves.
-We can create a pruning table for these combinations in a similar process to group 0, associating each corner orientation and middle layer edge permutations with how many moves until group 2.
+We can create a pruning table for these combinations in a similar process to group 0, associating each corner orientation and middle layer edge permutation with how many moves until group 2.
 
 #### group 2
 
