@@ -85,7 +85,7 @@ Then it shows the solution, finally spining twice to show the cube is back in it
 
 ### Group
 
-*-g* (*--group*) shows solution breakdown by subgroup (see [Thistlethwaite's 4 groups](#thistlethwaites-4-groups) for explanation).
+*-g* (*--group*) shows solution breakdown by subgroup (see [Cube representation](#cube-representation) & [Thistlethwaite's 4 groups](#thistlethwaites-4-groups) for explanation).
 
 ```go run main.go -r -g```
 
@@ -104,7 +104,7 @@ The orientation is all correct (0), and each corner and edge permutation is in i
 The test script runs 10 static random unit tests, followed by 10 dynamic random tests.
 It then displays best, worst and mean for Half-turn metric and solve time.
 
-Finally it runs some unit tests from the ```mix/``` folder, to make sure it deals with edge cases, and the mightily hard superflip.
+Finally it runs some unit tests from the *mix/* folder, to make sure it deals with edge cases, and the mightily hard superflip.
 
 ```./test.sh```
 
