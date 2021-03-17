@@ -94,7 +94,7 @@ Then it shows the solution, finally spining twice to show the cube is back in it
 We start at the top with the mixed cube, described by corner and edge permutation and orientation.
 
 We then see the solution broken down into Thistlethwaite's 4 subgroups.
-For each subgroup we see the solution, half-turn metric, and solve time. Followed by the state of the cube after applying the subgroup solution.
+For each subgroup we see the solution, half-turn metric, and solve time. Then the state of the cube after applying the subgroup solution, highlighting elements solved in the subgroup.
 
 At the bottom we should arrive at subgroup 4, a solved cube.
 The orientation is all correct (0), and each corner and edge permutation is in its right place (e.g. edge 1 is in permutation 1).
