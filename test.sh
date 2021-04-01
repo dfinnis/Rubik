@@ -5,7 +5,7 @@ RED="\x1b[31m"
 GREEN="\x1b[32m"
 
 printf "\E[H\E[2J" ## Clear screen
-echo $BRIGHT
+printf $BRIGHT
 echo "Launching Rubik Performance Test...$RESET\n"
 
 ## Initialize
@@ -26,20 +26,28 @@ unit_test()
 {
 	## Initialize
 	FILEPATH=$1
-	string='My string';
+	NUM=$2
 	if [[ $FILEPATH =~ "." ]]
 	then
-		Filename=$(echo $FILEPATH | cut -d "." -f 1 | cut -d "/" -f 2)
-	elif [[ $FILEPATH == "--random" ]]
+		if [[ $FILEPATH =~ "random" ]]
+		then
+			Filename="static_$NUM"
+		else
+			Filename=$(echo $FILEPATH | cut -d "." -f 1 | cut -d "/" -f 2)
+		fi
+	elif [[ $NUM ]]
 	then
-		Filename="--random"
+		Filename="dynamic_$NUM"
 	else
 		Filename="command_line"
 	fi
 
+	## Run
 	cmd="./Rubik $FILEPATH"
 	output=$(eval "$cmd")
 	incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
+	
+	## Time
 	time=$(echo "$output" | tail -n 1)
 	prefix=$(echo "$time" | rev | cut -c-1-2 | rev | cut -c-1-1)
 	if [ "$prefix" = "m" ]
@@ -105,6 +113,8 @@ unit_test()
 			time_best=$time_cut
 		fi
 	fi
+
+	## Print Result
 	htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 	if [ "$htm" -gt "$htm_worst" ]
 	then
@@ -126,22 +136,22 @@ unit_test()
 }
 
 
-#### -- 10 Random unit tests -- ####
+#### -- 10 Random static unit tests -- ####
 echo "$BRIGHT#### ---- Random mix tests ---- ####\n$RESET"
 printf "%-23s %-15s %-7s %s\n" "Mix" "Solved" "HTM" "Solve Time"
 random=0
 while [ $random -lt 10 ]
 do
-	unit_test mix/random$random.txt
+	unit_test mix/random$random.txt $random
 	random=$(($random + 1))
 done
 
-#### -- 10 --random -- ####
+#### -- 10 --random dynamic tests -- ####
 echo
 random=0
 while [ $random -lt 10 ]
 do
-	unit_test --random
+	unit_test -r $random
 	random=$(($random + 1))
 done
 
@@ -187,10 +197,10 @@ else
 	if [ "$best_cut" -lt 23 ]
 	then
 		printf $GREEN
-	echo "Best:\t	$time_best\x1b[32ms $RESET"
+		echo "Best:\t	$time_best\x1b[32ms $RESET"
 	else
 		printf $RED
-	echo "Best:\t	$time_best\x1b[31ms $RESET"
+		echo "Best:\t	$time_best\x1b[31ms $RESET"
 	fi
 fi
 worst_cut=$(echo $time_worst | cut -d "." -f 1)
@@ -205,7 +215,7 @@ else
 		echo "Worst:\t	$time_worst\x1b[32ms $RESET"
 	else
 		printf $RED
-	echo "Worst:\t	$time_worst\x1b[31ms $RESET"
+		echo "Worst:\t	$time_worst\x1b[31ms $RESET"
 	fi
 fi
 mean_cut=$(echo $time_mean | cut -d "." -f 1)
@@ -220,7 +230,7 @@ if [ "$mean_cut" -lt 23 ]
 		echo "Mean:\t	$time_mean\x1b[32ms $RESET"
 	else
 		printf $RED
-	echo "Mean:\t	$time_mean\x1b[31ms $RESET"
+		echo "Mean:\t	$time_mean\x1b[31ms $RESET"
 	fi
 fi
 
