@@ -45,7 +45,7 @@ unit_test()
 	## Run
 	cmd="./Rubik $FILEPATH"
 	output=$(eval "$cmd")
-	incorrect=$(echo "$output" | tail -n 9 | head -n 1 )
+	correct=$(echo "$output" | tail -n 9 | head -n 1 )
 	
 	## Time
 	time=$(echo "$output" | tail -n 1)
@@ -92,12 +92,12 @@ unit_test()
 	htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
 
 	## Print Result
-	if [ "$incorrect" == "Error: Solution Incorrect :(" ]
+	if [ "$correct" == "Solution Correct, cube solved! :)" ]
 	then
-		printf "$RED%-23s %-15s %-7s %s$RESET\n" $Filename "ERROR" $htm $time
-	else
 		printf "$GREEN%-23s %-15s %-7s %s$RESET\n" $Filename "OK" $htm $time
 		((solved+=1))
+	else
+		printf "$RED%-23s %-15s %-7s %s$RESET\n" $Filename "ERROR" $htm $time
 	fi
 	((count+=1))
 }
