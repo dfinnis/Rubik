@@ -108,7 +108,7 @@ Finally it runs some unit tests from the *mix/* folder, to make sure it deals wi
 
 ```./test.sh```
 
-<img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="580">
+<img src="https://github.com/dfinnis/rubik/blob/master/img/test.png" width="500">
 
 
 ## Cube representation
@@ -219,7 +219,7 @@ Herbert Kociemba improved Thistlethwaite's algorithm by reducing the number of g
 
 ### Korf's algorithm - long solve time, shortest solutions
 
-Thistlethwaite and Kociemba's solutions will find solutions quickly, however they will rarely be the shortest solution.
+Thistlethwaite and Kociemba's algorithms will find solutions quickly, however they will rarely be the shortest solution.
 Korf created an optimal solution, one that finds the shortest path, but may take a long time to calculate.
 Korf broke down the cube into subproblems: corners, 6 edges, and the other 6 edges.
 Korf uses IDA* search to explore all options, and eliminate options which are not optimal.
