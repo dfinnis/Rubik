@@ -54,67 +54,32 @@ unit_test()
 	then
 		time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
 		time_cut=$(echo "scale = 9; ($time_cut / 1000)" | bc)
-		time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
-		time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
-		worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
-		best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
-		if [ "$time_up" -gt "$worst_up" ]
-		then
-			time_worst=$time_cut
-		fi
-		if [ "$time_up" -lt "$best_up" ]
-		then
-			time_best=$time_cut
-		fi
 	elif [ "$prefix" = "µ" ]
 	then
 		time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
 		time_cut=$(echo "scale = 9; ($time_cut / 1000000)" | bc)
-		time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
-		time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
-		worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
-		best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
-		if [ "$time_up" -gt "$worst_up" ]
-		then
-			time_worst=$time_cut
-		fi
-		if [ "$time_up" -lt "$best_up" ]
-		then
-			time_best=$time_cut
-		fi
 	elif [ "$prefix" = "n" ]
 	then
 		time_cut=$(echo "$time" | rev | cut -c3-42 | rev)
 		time_cut=$(echo "scale = 9; ($time_cut / 1000000000)" | bc)
-		time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
-		time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
-		worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
-		best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
-		if [ "$time_up" -gt "$worst_up" ]
-		then
-			time_worst=$time_cut
-		fi
-		if [ "$time_up" -lt "$best_up" ]
-		then
-			time_best=$time_cut
-		fi
 	else
 		time_cut=$(echo "$time" | rev | cut -c2-42 | rev)
-		time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
-		time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
-		worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
-		best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
-		if [ "$time_up" -gt "$worst_up" ]
-		then
-			time_worst=$time_cut
-		fi
-		if [ "$time_up" -lt "$best_up" ]
-		then
-			time_best=$time_cut
-		fi
 	fi
 
-	## Print Result
+	time_cumulative=$(echo "scale = 9; $time_cumulative + $time_cut" | bc)
+	time_up=$(echo "scale = 0; $time_cut * 1000000000" | bc | cut -d "." -f 1)
+	worst_up=$(echo "scale = 0; $time_worst * 1000000000" | bc | cut -d "." -f 1)
+	best_up=$(echo "scale = 0; $time_best * 1000000000" | bc | cut -d "." -f 1)
+	if [ "$time_up" -gt "$worst_up" ]
+	then
+		time_worst=$time_cut
+	fi
+	if [ "$time_up" -lt "$best_up" ]
+	then
+		time_best=$time_cut
+	fi
+
+	## HTM
 	htm=$(echo "$output" | tail -n 7 | head -n 1 | rev | cut -c1-2 | rev )
 	if [ "$htm" -gt "$htm_worst" ]
 	then
@@ -125,6 +90,8 @@ unit_test()
 		htm_best=$htm
 	fi
 	htm_cumulative=$(echo "scale = 9; $htm_cumulative + $htm" | bc)
+
+	## Print Result
 	if [ "$incorrect" == "Error: Solution Incorrect :(" ]
 	then
 		printf "$RED%-23s %-15s %-7s %s$RESET\n" $Filename "ERROR" $htm $time
