@@ -10,20 +10,16 @@ On average this project solves randomly mixed cubes in 30 something moves in und
 ## Getting Started
 
 First you need to have your golang workspace set up on your machine.
-Then clone this repo into your go-workspace/src/ folder.
-
+Then clone this repo into your go-workspace/src/ folder. <br>
 ```git clone https://github.com/dfinnis/Rubik.git; cd Rubik```
 
-Download dependencies.
-
+Download dependencies. <br>
 ```go get -d ./...```
 
-To run, go run main.go with a mix.
-
+To run, go run main.go with a mix. <br>
 ```go run main.go mix/subject.txt```
 
-Alternatively, build and run the binary with a mix.
-
+Alternatively, build and run the binary with a mix. <br>
 ```go build; ./Rubik mix/subject.txt```
 
 
