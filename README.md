@@ -5,7 +5,10 @@ A Rubik’s cube solver based on Thistlethwaite's 4 groups using IDA-star path s
 The goal is to minimize both solve time and solution length.
 On average this project solves randomly mixed cubes in 30 something moves in under 2 seconds.
 
-#### Final Score 124/100
+See the [subject](https://github.com/dfinnis/Rubik/blob/master/subject.pdf) for more details.
+
+*Final Score 124/100*
+
 
 ## Getting Started
 
